@@ -4,6 +4,7 @@ const lbImg = document.getElementById('lb-img');
 const lbCaption = document.getElementById('lb-caption');
 const lbCounter = document.getElementById('lb-counter');
 const lbStage = document.getElementById('lb-stage');
+const lbThumbs = document.getElementById('lb-thumbs');
 const btnClose = document.getElementById('lb-close');
 const btnPrev = document.getElementById('lb-prev');
 const btnNext = document.getElementById('lb-next');
@@ -24,6 +25,7 @@ async function loadPhotos() {
   const res = await fetch('/photos/photos.json');
   photos = await res.json();
   renderGallery();
+  renderThumbs();
 }
 
 function renderGallery() {
@@ -40,6 +42,47 @@ function renderGallery() {
   galleryEl.querySelectorAll('.gallery-item').forEach((btn) => {
     btn.addEventListener('click', () => openLightbox(Number(btn.dataset.index)));
   });
+}
+
+function renderThumbs() {
+  lbThumbs.innerHTML = photos
+    .map(
+      (photo, i) => `
+    <button
+      type="button"
+      class="lb-thumb${i === currentIndex ? ' active' : ''}"
+      data-index="${i}"
+      role="tab"
+      aria-selected="${i === currentIndex}"
+      aria-label="${photo.caption}"
+    >
+      <img src="${photo.src}" alt="" loading="lazy" />
+    </button>`
+    )
+    .join('');
+
+  lbThumbs.querySelectorAll('.lb-thumb').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      goTo(Number(btn.dataset.index));
+    });
+  });
+}
+
+function scrollThumbIntoView() {
+  const active = lbThumbs.querySelector('.lb-thumb.active');
+  if (active) {
+    active.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+  }
+}
+
+function updateThumbSelection() {
+  lbThumbs.querySelectorAll('.lb-thumb').forEach((btn, i) => {
+    const selected = i === currentIndex;
+    btn.classList.toggle('active', selected);
+    btn.setAttribute('aria-selected', String(selected));
+  });
+  scrollThumbIntoView();
 }
 
 async function enterNativeFullscreen() {
@@ -94,9 +137,11 @@ function updateLightbox(direction = 0) {
   lbImg.alt = photo.alt;
   lbCaption.textContent = photo.caption;
   lbCounter.textContent = `${currentIndex + 1} / ${photos.length}`;
+  updateThumbSelection();
 }
 
 function goTo(index) {
+  if (index === currentIndex) return;
   const prev = currentIndex;
   currentIndex = (index + photos.length) % photos.length;
   const direction = index > prev ? 1 : index < prev ? -1 : 0;
