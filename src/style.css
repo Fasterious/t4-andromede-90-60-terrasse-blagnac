@@ -255,6 +255,37 @@ a:hover {
   font-weight: 600;
 }
 
+.contact-whatsapp {
+  margin: 0.75rem 0 0;
+}
+
+.btn-whatsapp {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1rem;
+  background: #25d366;
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 999px;
+  transition: background 0.15s, transform 0.15s;
+}
+
+.btn-whatsapp:hover,
+.btn-whatsapp:focus-visible {
+  background: #1ebe57;
+  outline: none;
+  transform: translateY(-1px);
+}
+
+.icon-whatsapp {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 auto;
+}
+
 /* Lightbox */
 
 .lightbox {
