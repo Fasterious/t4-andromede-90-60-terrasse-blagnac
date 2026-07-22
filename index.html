@@ -10,7 +10,19 @@
   </head>
   <body>
     <header class="header">
-      <h1>90 m² + 60 m² de terrasse</h1>
+      <div class="header-top">
+        <h1>90 m² + 60 m² de terrasse</h1>
+        <button type="button" class="btn-share" id="share-btn" aria-label="Partager cette annonce">
+          <svg class="icon-share" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="18" cy="5" r="3"></circle>
+            <circle cx="6" cy="12" r="3"></circle>
+            <circle cx="18" cy="19" r="3"></circle>
+            <line x1="8.6" y1="13.5" x2="15.4" y2="17.5"></line>
+            <line x1="15.4" y1="6.5" x2="8.6" y2="10.5"></line>
+          </svg>
+          <span>Partager</span>
+        </button>
+      </div>
       <p class="subtitle">T4 de 90 m² avec terrasse de 60 m² — 1er étage, quartier Andromède</p>
       <p class="agency-free">Vendu directement par les propriétaires — sans frais d'agence</p>
       <p class="price">279 000 €</p>
@@ -47,6 +59,15 @@
 
     <div class="lightbox" id="lightbox" hidden aria-hidden="true" role="dialog" aria-label="Visionneuse photos">
       <button type="button" class="lb-close" id="lb-close" aria-label="Fermer">×</button>
+      <button type="button" class="lb-share" id="lb-share-btn" aria-label="Partager cette annonce">
+        <svg class="icon-share" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="18" cy="5" r="3"></circle>
+          <circle cx="6" cy="12" r="3"></circle>
+          <circle cx="18" cy="19" r="3"></circle>
+          <line x1="8.6" y1="13.5" x2="15.4" y2="17.5"></line>
+          <line x1="15.4" y1="6.5" x2="8.6" y2="10.5"></line>
+        </svg>
+      </button>
       <button type="button" class="lb-nav lb-prev" id="lb-prev" aria-label="Photo précédente">‹</button>
       <button type="button" class="lb-nav lb-next" id="lb-next" aria-label="Photo suivante">›</button>
       <div class="lb-stage" id="lb-stage">

@@ -50,12 +50,52 @@ a:hover {
   margin: 0 auto;
 }
 
+.header-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
 .header h1 {
   margin: 0;
   font-size: clamp(1.6rem, 5.5vw, 2.1rem);
   font-weight: 700;
   color: var(--green);
   line-height: 1.15;
+}
+
+.btn-share {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  appearance: none;
+  border: 1.5px solid var(--green);
+  background: transparent;
+  color: var(--green);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  margin-top: 0.2rem;
+  white-space: nowrap;
+}
+
+.btn-share:hover,
+.btn-share:focus-visible {
+  background: var(--green);
+  color: #fff;
+  outline: none;
+}
+
+.icon-share {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
 }
 
 .subtitle {
@@ -241,6 +281,36 @@ a:hover {
   backdrop-filter: blur(4px);
 }
 
+.lb-share {
+  position: absolute;
+  top: calc(var(--safe-top) + 0.5rem);
+  left: 0.75rem;
+  z-index: 30;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  border-radius: 50%;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: background 0.15s;
+}
+
+.lb-share:hover,
+.lb-share:focus-visible {
+  background: rgba(255, 255, 255, 0.22);
+  outline: none;
+}
+
+.lb-share .icon-share {
+  width: 20px;
+  height: 20px;
+}
+
 .lb-nav {
   position: absolute;
   top: 50%;
@@ -416,6 +486,33 @@ a:hover {
     grid-column: 1 / -1;
     aspect-ratio: 16 / 9;
   }
+}
+
+/* Toast */
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(var(--safe-bottom) + 1.5rem);
+  transform: translate(-50%, 12px);
+  z-index: 2000;
+  background: rgba(20, 20, 20, 0.92);
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 0.6rem 1.1rem;
+  border-radius: 999px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  transition: opacity 0.2s, transform 0.2s;
+  pointer-events: none;
+  max-width: 90vw;
+  text-align: center;
+}
+
+.toast.visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
 }
 
 @media (prefers-reduced-motion: reduce) {

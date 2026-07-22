@@ -11,6 +11,8 @@ const btnClose = document.getElementById('lb-close');
 const btnPrev = document.getElementById('lb-prev');
 const btnNext = document.getElementById('lb-next');
 const btnOpenGallery = document.getElementById('open-gallery');
+const btnShare = document.getElementById('share-btn');
+const btnLbShare = document.getElementById('lb-share-btn');
 
 const slides = [slidePrev, slideCurr, slideNext];
 
@@ -29,6 +31,44 @@ const SLIDE_DURATION = 320; // ms — doit matcher la transition CSS .sliding
 
 function wrap(i) {
   return (i + photos.length) % photos.length;
+}
+
+// Partage — Web Share API sur mobile (ouvre le vrai menu de partage natif),
+// copie du lien en fallback sur desktop.
+function showToast(message) {
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.textContent = message;
+  document.body.appendChild(toast);
+  requestAnimationFrame(() => toast.classList.add('visible'));
+  setTimeout(() => {
+    toast.classList.remove('visible');
+    setTimeout(() => toast.remove(), 250);
+  }, 2200);
+}
+
+async function shareListing() {
+  const shareData = {
+    title: document.title,
+    text: 'T4 90 m² + terrasse 60 m² — Andromède, Blagnac. 279 000 € net vendeur.',
+    url: window.location.href,
+  };
+
+  if (navigator.share) {
+    try {
+      await navigator.share(shareData);
+    } catch (err) {
+      // L'utilisateur a annulé le partage — ne rien faire
+    }
+    return;
+  }
+
+  try {
+    await navigator.clipboard.writeText(shareData.url);
+    showToast('Lien copié !');
+  } catch {
+    showToast(shareData.url);
+  }
 }
 
 async function loadPhotos() {
@@ -328,6 +368,12 @@ btnNext.addEventListener('click', (e) => {
   goNext();
 });
 btnOpenGallery.addEventListener('click', () => openLightbox(0));
+
+btnShare.addEventListener('click', shareListing);
+btnLbShare.addEventListener('click', (e) => {
+  e.stopPropagation();
+  shareListing();
+});
 
 lbStage.addEventListener('click', onStageClick);
 lbStage.addEventListener('touchstart', onTouchStart, { passive: true });
