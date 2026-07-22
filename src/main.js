@@ -50,7 +50,7 @@ function showToast(message) {
 async function shareListing() {
   const shareData = {
     title: document.title,
-    text: 'T4 90 m² + terrasse 60 m² — Andromède, Blagnac. 279 000 € net vendeur.',
+    text: 'T4 90,5 m² + terrasse 63 m² — Andromède, Blagnac. 279 000 € net vendeur.',
     url: window.location.href,
   };
 
