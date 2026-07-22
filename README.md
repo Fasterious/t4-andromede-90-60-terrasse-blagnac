@@ -2,7 +2,9 @@
 
 Site minimaliste pour partager les photos du T4 90 m² + terrasse 60 m² à Andromède (Blagnac).
 
-**URL Vercel :** `t4-andromede-90-60-terrasse-blagnac.vercel.app`
+**URL Vercel :** https://t4-andromede-blagnac.vercel.app
+
+**GitHub :** https://github.com/Fasterious/t4-andromede-90-60-terrasse-blagnac
 
 ## Ajouter des photos
 
