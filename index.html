@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="description" content="T4 90 m² + terrasse 60 m² — Andromède, Blagnac. 279 000 € net vendeur." />
+    <meta name="theme-color" content="#1e5631" />
+    <title>T4 90 m² + terrasse 60 m² — Andromède, Blagnac</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <header class="header">
+      <p class="eyebrow">Andromède · Blagnac · 1er étage</p>
+      <h1>90 m² dedans.<br />60 m² dehors.</h1>
+      <p class="price">279 000 €</p>
+      <p class="price-note">Prix net vendeur — sans frais d'agence</p>
+    </header>
+
+    <section class="gallery-section" aria-label="Photos du bien">
+      <div class="gallery-toolbar">
+        <h2>Photos</h2>
+        <button type="button" class="btn-fullscreen" id="open-gallery">
+          Plein écran
+        </button>
+      </div>
+      <div class="gallery" id="gallery"></div>
+    </section>
+
+    <section class="details">
+      <ul class="features">
+        <li>Terrasse 60 m² est/sud-est — plein soleil le matin, ombre l'après-midi</li>
+        <li>Séjour-cuisine 33 m², climatisation réversible</li>
+        <li>3 chambres 13,5 m², dont suite parentale (salle d'eau + dressing)</li>
+        <li>2 pièces d'eau · 2 places parking souterrain · ascenseur · fibre</li>
+        <li>Immeuble 2012 — DPE A à la construction, nouveau diagnostic en cours</li>
+      </ul>
+      <p class="story">
+        Nous vendons pour une maison : notre famille s'agrandit.
+        <strong>Disponible rapidement.</strong>
+      </p>
+      <p class="contact">
+        Corinne &amp; Arnaud — <a href="tel:+33623947977">06 23 94 79 77</a>
+      </p>
+    </section>
+
+    <div class="lightbox" id="lightbox" hidden aria-hidden="true" role="dialog" aria-label="Visionneuse photos">
+      <button type="button" class="lb-close" id="lb-close" aria-label="Fermer">×</button>
+      <button type="button" class="lb-nav lb-prev" id="lb-prev" aria-label="Photo précédente">‹</button>
+      <button type="button" class="lb-nav lb-next" id="lb-next" aria-label="Photo suivante">›</button>
+      <div class="lb-stage" id="lb-stage">
+        <img id="lb-img" alt="" draggable="false" />
+      </div>
+      <div class="lb-footer">
+        <span id="lb-caption"></span>
+        <span id="lb-counter"></span>
+      </div>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
