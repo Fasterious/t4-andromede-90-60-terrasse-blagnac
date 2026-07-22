@@ -135,6 +135,7 @@ function updateLightbox(direction = 0) {
 
   lbImg.src = photo.src;
   lbImg.alt = photo.alt;
+  lbStage.style.setProperty('--lb-bg', `url("${photo.src}")`);
   lbCaption.textContent = photo.caption;
   lbCounter.textContent = `${currentIndex + 1} / ${photos.length}`;
   updateThumbSelection();
