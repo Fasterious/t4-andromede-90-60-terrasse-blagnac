@@ -1,5 +1,10 @@
 [
   {
+    "src": "/photos/01-terrasse.jpg",
+    "alt": "Terrasse de 60 m² avec gazon synthétique, parasol et salon de jardin",
+    "caption": "Terrasse · 60 m²"
+  },
+  {
     "src": "/photos/02-sejour-cuisine.jpg",
     "alt": "Séjour-cuisine ouverte de 33 m² avec accès terrasse",
     "caption": "Séjour-cuisine · 33 m²"
@@ -10,13 +15,28 @@
     "caption": "Entrée"
   },
   {
-    "src": "/photos/04-salle-de-bain.jpg",
-    "alt": "Salle de bains avec baignoire et lave-linge",
-    "caption": "Salle de bains"
+    "src": "/photos/08-chambre.jpg",
+    "alt": "Chambre de 13,5 m²",
+    "caption": "Chambre · 13,5 m²"
+  },
+  {
+    "src": "/photos/07-chambre-enfant.jpg",
+    "alt": "Chambre enfant de 13,5 m²",
+    "caption": "Chambre · 13,5 m²"
+  },
+  {
+    "src": "/photos/06-chambre-bureau.jpg",
+    "alt": "Chambre bureau de 13,5 m²",
+    "caption": "Chambre · 13,5 m²"
   },
   {
     "src": "/photos/05-suite-dressing.jpg",
     "alt": "Suite parentale — dressing et salle d'eau",
     "caption": "Suite parentale · dressing"
+  },
+  {
+    "src": "/photos/04-salle-de-bain.jpg",
+    "alt": "Salle de bains avec baignoire et lave-linge",
+    "caption": "Salle de bains"
   }
 ]

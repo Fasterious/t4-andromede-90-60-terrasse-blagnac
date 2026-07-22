@@ -42,17 +42,40 @@ function renderGallery() {
   });
 }
 
-function openLightbox(index) {
+async function enterNativeFullscreen() {
+  const el = lightbox;
+  try {
+    if (el.requestFullscreen) await el.requestFullscreen();
+    else if (el.webkitRequestFullscreen) await el.webkitRequestFullscreen();
+  } catch {
+    // iOS Safari ne supporte pas requestFullscreen — le lightbox fixed suffit
+  }
+}
+
+async function exitNativeFullscreen() {
+  try {
+    if (document.fullscreenElement || document.webkitFullscreenElement) {
+      if (document.exitFullscreen) await document.exitFullscreen();
+      else if (document.webkitExitFullscreen) await document.webkitExitFullscreen();
+    }
+  } catch {
+    // ignore
+  }
+}
+
+async function openLightbox(index) {
   currentIndex = index;
   isOpen = true;
   lightbox.hidden = false;
   lightbox.setAttribute('aria-hidden', 'false');
   document.body.style.overflow = 'hidden';
   updateLightbox();
+  await enterNativeFullscreen();
 }
 
-function closeLightbox() {
+async function closeLightbox() {
   isOpen = false;
+  await exitNativeFullscreen();
   lightbox.hidden = true;
   lightbox.setAttribute('aria-hidden', 'true');
   document.body.style.overflow = '';
@@ -133,7 +156,7 @@ function onTouchEnd() {
 
 // Click on stage edges (desktop)
 function onStageClick(e) {
-  if (!isOpen || e.target !== lbStage && e.target !== lbImg) return;
+  if (!isOpen || (e.target !== lbStage && e.target !== lbImg)) return;
   const rect = lbStage.getBoundingClientRect();
   const x = e.clientX - rect.left;
   if (x < rect.width * 0.3) goPrev();
@@ -156,6 +179,11 @@ function onKeyDown(e) {
   }
 }
 
+function onFullscreenChange() {
+  const fsEl = document.fullscreenElement || document.webkitFullscreenElement;
+  if (!fsEl && isOpen) closeLightbox();
+}
+
 btnClose.addEventListener('click', closeLightbox);
 btnPrev.addEventListener('click', (e) => {
   e.stopPropagation();
@@ -173,5 +201,7 @@ lbStage.addEventListener('touchmove', onTouchMove, { passive: false });
 lbStage.addEventListener('touchend', onTouchEnd);
 
 document.addEventListener('keydown', onKeyDown);
+document.addEventListener('fullscreenchange', onFullscreenChange);
+document.addEventListener('webkitfullscreenchange', onFullscreenChange);
 
 loadPhotos();
