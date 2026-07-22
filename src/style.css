@@ -378,6 +378,42 @@ a:hover {
   font-variant-numeric: tabular-nums;
 }
 
+/* Mobile plein écran : image entière, vignettes en overlay */
+
+@media (max-width: 767px) {
+  .lb-stage {
+    bottom: 0;
+  }
+
+  .lb-stage img {
+    object-fit: contain;
+  }
+
+  .lb-nav {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .lb-bottom {
+    background: linear-gradient(
+      transparent 0%,
+      rgba(0, 0, 0, 0.35) 25%,
+      rgba(0, 0, 0, 0.82) 100%
+    );
+    pointer-events: none;
+  }
+
+  .lb-thumbs,
+  .lb-thumb {
+    pointer-events: auto;
+    touch-action: pan-x;
+  }
+
+  .lb-footer {
+    padding-top: 1.5rem;
+  }
+}
+
 @media (min-width: 640px) {
   .gallery {
     grid-template-columns: 1fr 1fr;

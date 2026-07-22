@@ -5,12 +5,12 @@
     "caption": "Terrasse · 60 m²"
   },
   {
-    "src": "/photos/02-sejour-cuisine.jpg",
+    "src": "/photos/02-sejour-cuisine.png",
     "alt": "Séjour-cuisine ouverte de 33 m² avec accès terrasse",
     "caption": "Séjour-cuisine · 33 m²"
   },
   {
-    "src": "/photos/03-entree.jpg",
+    "src": "/photos/03-entree.png",
     "alt": "Entrée avec rangements et vestiaire",
     "caption": "Entrée"
   },
@@ -40,7 +40,7 @@
     "caption": "Suite parentale · salle d'eau"
   },
   {
-    "src": "/photos/04-salle-de-bain.jpg",
+    "src": "/photos/04-salle-de-bain.png",
     "alt": "Salle de bains avec baignoire et lave-linge",
     "caption": "Salle de bains"
   }
