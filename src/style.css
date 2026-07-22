@@ -281,11 +281,21 @@ a:hover {
   z-index: 1;
 }
 
-.lb-stage::before {
-  content: '';
+.lb-slide {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  will-change: transform;
+  transition: opacity 0.15s ease;
+}
+
+.lb-slide.sliding {
+  transition: transform 0.32s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.15s ease;
+}
+
+.lb-slide-bg {
   position: absolute;
   inset: -10%;
-  background-image: var(--lb-bg, none);
   background-size: cover;
   background-position: center;
   filter: blur(28px) brightness(0.45);
@@ -293,7 +303,7 @@ a:hover {
   z-index: 0;
 }
 
-.lb-stage img {
+.lb-slide-img {
   position: absolute;
   inset: 0;
   z-index: 1;
@@ -301,12 +311,6 @@ a:hover {
   height: 100%;
   object-fit: contain;
   object-position: center;
-  transition: opacity 0.15s;
-  will-change: transform;
-}
-
-.lb-stage img.swiping {
-  transition: none;
 }
 
 .lb-bottom {
@@ -394,11 +398,11 @@ a:hover {
     bottom: var(--lb-bottom-height);
   }
 
-  .lb-stage::before {
+  .lb-slide-bg {
     display: none;
   }
 
-  .lb-stage img {
+  .lb-slide-img {
     object-fit: cover;
   }
 }
@@ -415,8 +419,12 @@ a:hover {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .gallery-item img,
-  .lb-stage img {
+  .gallery-item img {
+    transition: none;
+  }
+
+  .lb-slide,
+  .lb-slide.sliding {
     transition: none;
   }
 }

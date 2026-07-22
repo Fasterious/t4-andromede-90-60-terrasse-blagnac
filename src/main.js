@@ -1,25 +1,35 @@
 const galleryEl = document.getElementById('gallery');
 const lightbox = document.getElementById('lightbox');
-const lbImg = document.getElementById('lb-img');
+const lbStage = document.getElementById('lb-stage');
+const slidePrev = document.getElementById('lb-slide-prev');
+const slideCurr = document.getElementById('lb-slide-curr');
+const slideNext = document.getElementById('lb-slide-next');
 const lbCaption = document.getElementById('lb-caption');
 const lbCounter = document.getElementById('lb-counter');
-const lbStage = document.getElementById('lb-stage');
 const lbThumbs = document.getElementById('lb-thumbs');
 const btnClose = document.getElementById('lb-close');
 const btnPrev = document.getElementById('lb-prev');
 const btnNext = document.getElementById('lb-next');
 const btnOpenGallery = document.getElementById('open-gallery');
 
+const slides = [slidePrev, slideCurr, slideNext];
+
 let photos = [];
 let currentIndex = 0;
 let isOpen = false;
+let isAnimating = false;
 
-// Swipe state
-let touchStartX = 0;
-let touchStartY = 0;
-let touchDeltaX = 0;
-let isSwiping = false;
-const SWIPE_THRESHOLD = 50;
+// Drag state
+let dragStartX = 0;
+let dragStartY = 0;
+let dragDeltaX = 0;
+let isDragging = false;
+const SWIPE_THRESHOLD_RATIO = 0.22; // fraction de la largeur pour valider le swipe
+const SLIDE_DURATION = 320; // ms — doit matcher la transition CSS .sliding
+
+function wrap(i) {
+  return (i + photos.length) % photos.length;
+}
 
 async function loadPhotos() {
   const res = await fetch('/photos/photos.json');
@@ -64,7 +74,7 @@ function renderThumbs() {
   lbThumbs.querySelectorAll('.lb-thumb').forEach((btn) => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
-      goTo(Number(btn.dataset.index));
+      jumpTo(Number(btn.dataset.index));
     });
   });
 }
@@ -85,13 +95,43 @@ function updateThumbSelection() {
   scrollThumbIntoView();
 }
 
+function setSlideContent(el, photoIndex) {
+  const photo = photos[photoIndex];
+  const img = el.querySelector('.lb-slide-img');
+  const bg = el.querySelector('.lb-slide-bg');
+  img.src = photo.src;
+  img.alt = photo.alt;
+  bg.style.backgroundImage = `url("${photo.src}")`;
+}
+
+// Prépare le trio prev/curr/next autour de l'index courant
+function layoutSlides() {
+  setSlideContent(slidePrev, wrap(currentIndex - 1));
+  setSlideContent(slideCurr, currentIndex);
+  setSlideContent(slideNext, wrap(currentIndex + 1));
+}
+
+// Repositionne les 3 volets à leur place canonique (-100% / 0% / 100%)
+function resetTransforms(withTransition) {
+  slides.forEach((el) => el.classList.toggle('sliding', withTransition));
+  slidePrev.style.transform = 'translateX(-100%)';
+  slideCurr.style.transform = 'translateX(0%)';
+  slideNext.style.transform = 'translateX(100%)';
+}
+
+function updateMeta() {
+  const photo = photos[currentIndex];
+  lbCaption.textContent = photo.caption;
+  lbCounter.textContent = `${currentIndex + 1} / ${photos.length}`;
+  updateThumbSelection();
+}
+
 async function enterNativeFullscreen() {
-  const el = lightbox;
   try {
-    if (el.requestFullscreen) await el.requestFullscreen();
-    else if (el.webkitRequestFullscreen) await el.webkitRequestFullscreen();
+    if (lightbox.requestFullscreen) await lightbox.requestFullscreen();
+    else if (lightbox.webkitRequestFullscreen) await lightbox.webkitRequestFullscreen();
   } catch {
-    // iOS Safari ne supporte pas requestFullscreen — le lightbox fixed suffit
+    // iOS Safari ne supporte pas requestFullscreen — l'overlay fixed suffit
   }
 }
 
@@ -112,7 +152,9 @@ async function openLightbox(index) {
   lightbox.hidden = false;
   lightbox.setAttribute('aria-hidden', 'false');
   document.body.style.overflow = 'hidden';
-  updateLightbox();
+  layoutSlides();
+  resetTransforms(false);
+  updateMeta();
   await enterNativeFullscreen();
 }
 
@@ -124,92 +166,138 @@ async function closeLightbox() {
   document.body.style.overflow = '';
 }
 
-function updateLightbox(direction = 0) {
-  const photo = photos[currentIndex];
-  lbImg.style.opacity = direction ? '0.6' : '1';
-  lbImg.style.transform = 'translateX(0)';
+// Fait glisser tout le bandeau d'un cran (direction +1 = suivante, -1 = précédente),
+// avec une vraie transition d'entraînement façon carrousel.
+function commitSlide(direction) {
+  if (isAnimating || photos.length < 2) return;
+  isAnimating = true;
 
-  lbImg.onload = () => {
-    lbImg.style.opacity = '1';
+  const shift = direction > 0 ? -100 : 100; // % à parcourir
+
+  slides.forEach((el) => el.classList.add('sliding'));
+  slidePrev.style.transform = `translateX(${shift - 100}%)`;
+  slideCurr.style.transform = `translateX(${shift}%)`;
+  slideNext.style.transform = `translateX(${shift + 100}%)`;
+
+  let done = false;
+  const finish = () => {
+    if (done) return;
+    done = true;
+    slideCurr.removeEventListener('transitionend', finish);
+    currentIndex = wrap(currentIndex + direction);
+    layoutSlides();
+    resetTransforms(false);
+    updateMeta();
+    isAnimating = false;
   };
 
-  lbImg.src = photo.src;
-  lbImg.alt = photo.alt;
-  lbStage.style.setProperty('--lb-bg', `url("${photo.src}")`);
-  lbCaption.textContent = photo.caption;
-  lbCounter.textContent = `${currentIndex + 1} / ${photos.length}`;
-  updateThumbSelection();
+  slideCurr.addEventListener('transitionend', finish, { once: true });
+  // Filet de sécurité si transitionend ne se déclenche pas (ex: onglet en arrière-plan)
+  setTimeout(finish, SLIDE_DURATION + 80);
 }
 
-function goTo(index) {
-  if (index === currentIndex) return;
-  const prev = currentIndex;
-  currentIndex = (index + photos.length) % photos.length;
-  const direction = index > prev ? 1 : index < prev ? -1 : 0;
-  updateLightbox(direction);
+// Relâché sous le seuil : retour élastique à la position d'origine, sans changer de photo
+function springBack() {
+  slides.forEach((el) => el.classList.add('sliding'));
+  resetTransforms(true);
+  setTimeout(() => {
+    slides.forEach((el) => el.classList.remove('sliding'));
+  }, SLIDE_DURATION);
 }
 
 function goPrev() {
-  goTo(currentIndex - 1);
+  commitSlide(-1);
 }
 
 function goNext() {
-  goTo(currentIndex + 1);
+  commitSlide(1);
 }
 
-// Touch / swipe handlers
+// Saut depuis une vignette : glissement si adjacent, fondu rapide sinon
+function jumpTo(index) {
+  if (index === currentIndex || isAnimating) return;
+
+  const forwardDist = wrap(index - currentIndex);
+  const backwardDist = wrap(currentIndex - index);
+
+  if (forwardDist === 1) {
+    commitSlide(1);
+    return;
+  }
+  if (backwardDist === 1) {
+    commitSlide(-1);
+    return;
+  }
+
+  isAnimating = true;
+  slideCurr.style.opacity = '0';
+  setTimeout(() => {
+    currentIndex = index;
+    layoutSlides();
+    resetTransforms(false);
+    slideCurr.style.opacity = '1';
+    updateMeta();
+    isAnimating = false;
+  }, 150);
+}
+
+// Glissement tactile
 function onTouchStart(e) {
-  if (!isOpen) return;
+  if (!isOpen || isAnimating) return;
   const touch = e.touches[0];
-  touchStartX = touch.clientX;
-  touchStartY = touch.clientY;
-  touchDeltaX = 0;
-  isSwiping = false;
-  lbImg.classList.add('swiping');
+  dragStartX = touch.clientX;
+  dragStartY = touch.clientY;
+  dragDeltaX = 0;
+  isDragging = false;
 }
 
 function onTouchMove(e) {
-  if (!isOpen) return;
+  if (!isOpen || isAnimating) return;
   const touch = e.touches[0];
-  const dx = touch.clientX - touchStartX;
-  const dy = touch.clientY - touchStartY;
+  const dx = touch.clientX - dragStartX;
+  const dy = touch.clientY - dragStartY;
 
-  if (!isSwiping && Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 10) {
-    isSwiping = true;
+  if (!isDragging && Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 8) {
+    isDragging = true;
   }
 
-  if (isSwiping) {
+  if (isDragging) {
     e.preventDefault();
-    touchDeltaX = dx;
-    lbImg.style.transform = `translateX(${dx}px)`;
+    dragDeltaX = dx;
+    const px = `${dx}px`;
+    slidePrev.style.transform = `translateX(calc(-100% + ${px}))`;
+    slideCurr.style.transform = `translateX(${px})`;
+    slideNext.style.transform = `translateX(calc(100% + ${px}))`;
   }
 }
 
 function onTouchEnd() {
-  if (!isOpen) return;
-  lbImg.classList.remove('swiping');
+  if (!isOpen || !isDragging) return;
 
-  if (isSwiping && Math.abs(touchDeltaX) > SWIPE_THRESHOLD) {
-    if (touchDeltaX < 0) goNext();
-    else goPrev();
+  const stageWidth = lbStage.getBoundingClientRect().width || 1;
+  const ratio = dragDeltaX / stageWidth;
+
+  if (Math.abs(ratio) > SWIPE_THRESHOLD_RATIO) {
+    commitSlide(dragDeltaX < 0 ? 1 : -1);
   } else {
-    lbImg.style.transform = 'translateX(0)';
+    springBack();
   }
 
-  touchDeltaX = 0;
-  isSwiping = false;
+  isDragging = false;
+  dragDeltaX = 0;
 }
 
-// Click on stage edges (desktop)
+// Clic sur les bords (desktop, sans tactile)
 function onStageClick(e) {
-  if (!isOpen || (e.target !== lbStage && e.target !== lbImg)) return;
+  if (!isOpen || isAnimating || isDragging) return;
+  if (!e.target.closest('.lb-slide')) return;
   const rect = lbStage.getBoundingClientRect();
   const x = e.clientX - rect.left;
   if (x < rect.width * 0.3) goPrev();
   else if (x > rect.width * 0.7) goNext();
 }
 
-// Keyboard
+// Clavier
 function onKeyDown(e) {
   if (!isOpen) return;
   switch (e.key) {
