@@ -10,16 +10,6 @@
     "caption": "Séjour-cuisine · 33 m²"
   },
   {
-    "src": "/photos/03-entree.png",
-    "alt": "Entrée avec rangements et vestiaire",
-    "caption": "Entrée"
-  },
-  {
-    "src": "/photos/08-chambre.png",
-    "alt": "Suite parentale",
-    "caption": "Suite parentale"
-  },
-  {
     "src": "/photos/07-chambre-enfant.png",
     "alt": "Chambre enfant de 13,5 m²",
     "caption": "Chambre · 13,5 m²"
@@ -28,6 +18,11 @@
     "src": "/photos/06-chambre-bureau.png",
     "alt": "Chambre bureau de 13,5 m²",
     "caption": "Chambre · 13,5 m²"
+  },
+  {
+    "src": "/photos/08-chambre.png",
+    "alt": "Suite parentale",
+    "caption": "Suite parentale"
   },
   {
     "src": "/photos/05-suite-dressing.png",
@@ -43,5 +38,10 @@
     "src": "/photos/04-salle-de-bain.png",
     "alt": "Salle de bains avec baignoire et lave-linge",
     "caption": "Salle de bains"
+  },
+  {
+    "src": "/photos/03-entree.png",
+    "alt": "Entrée avec rangements et vestiaire",
+    "caption": "Entrée"
   }
 ]
