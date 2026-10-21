@@ -25,7 +25,11 @@ const ICONS = {
   close: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>',
   send: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>',
   chat: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>',
+  save: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg>',
+  info: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>',
 };
+
+const NOTICE = 'Conversation avec une IA : elle peut se tromper. Pour une réponse sûre, voyez avec Corinne et Arnaud.';
 
 const reducedMotion = () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
 const isTouch = () => window.matchMedia?.('(pointer: coarse)').matches;
@@ -192,12 +196,12 @@ export function initChat() {
     panel.querySelector('.chat-send').disabled = !input.value.trim() || busy;
   }
 
-  // Sur mobile, le panneau épouse la zone visible au-dessus du clavier :
+  // Le panneau occupe tout l'écran et épouse la zone visible au-dessus du clavier :
   // l'en-tête, les suggestions et la saisie restent à l'écran.
   function fit() {
     if (!panel?.classList.contains('open')) return;
     const vv = window.visualViewport;
-    if (vv && window.innerWidth <= 560) {
+    if (vv) {
       panel.style.top = `${vv.offsetTop}px`;
       panel.style.height = `${vv.height}px`;
     } else {
@@ -219,10 +223,13 @@ export function initChat() {
           <strong>Assistant de l’annonce</strong>
           <span>IA · vente en direct par ${annonce.contact.noms}</span>
         </div>
+        <button type="button" class="chat-save" aria-label="Enregistrer la conversation" title="Enregistrer la conversation">${ICONS.save}<span>Enregistrer</span></button>
         <button type="button" class="chat-icon-btn chat-close" aria-label="Fermer">${ICONS.close}</button>
       </header>
       <div class="chat-scroll">
-        <div class="chat-thread" aria-live="polite"></div>
+        <div class="chat-thread" aria-live="polite">
+          <p class="chat-notice">${ICONS.info}<span>${NOTICE} Échanges enregistrés (<a href="#confidentialite">confidentialité</a>).</span></p>
+        </div>
       </div>
       <div class="chat-bottom">
         <div class="chat-chips" aria-label="Suggestions de questions"></div>
@@ -234,7 +241,6 @@ export function initChat() {
           <span class="chat-remaining"></span>
           <a href="${waLink()}" target="_blank" rel="noopener noreferrer" data-track="chat_whatsapp_click">Parler aux propriétaires</a>
         </div>
-        <p class="chat-disclaimer">IA : peut se tromper ; seuls les documents officiels et nos réponses écrites font foi. Échanges enregistrés (<a href="#confidentialite">confidentialité</a>).</p>
       </div>`;
     document.body.appendChild(panel);
 
@@ -242,8 +248,9 @@ export function initChat() {
     scroller = panel.querySelector('.chat-scroll');
     input = panel.querySelector('textarea');
 
-    panel.querySelector('.chat-close').onclick = close;
-    panel.querySelector('a[href="#confidentialite"]').onclick = close;
+    panel.querySelector('.chat-close').onclick = () => close();
+    panel.querySelector('.chat-save').onclick = saveConversation;
+    panel.querySelector('a[href="#confidentialite"]').onclick = () => close();
     panel.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') close();
     });
@@ -310,6 +317,7 @@ export function initChat() {
       else if (data.limitReached || data.suggestWhatsApp || !res.ok) addWhatsAppCta();
       if (data.limitReached) panel.querySelector('.chat-composer').hidden = true;
       save(history);
+      panel.querySelector('.chat-save').disabled = !history.length;
     } catch {
       typing.remove();
       history.pop();
@@ -321,11 +329,64 @@ export function initChat() {
     }
   }
 
+  // Enregistre la conversation dans un fichier texte (partage natif sur mobile),
+  // avec l'avertissement IA en tête.
+  async function saveConversation() {
+    if (!history.length) return;
+    const date = new Date();
+    const lines = [
+      `Conversation avec l’assistant de l’annonce : ${annonce.titre}, ${annonce.adresse}`,
+      `Enregistrée le ${date.toLocaleString('fr-FR')}`,
+      '',
+      `AVERTISSEMENT. ${NOTICE} Seuls les documents officiels (diagnostics, procès-verbaux, compromis) et les réponses écrites des propriétaires font foi.`,
+      '',
+      ...history.map((m) => `${m.role === 'user' ? 'Vous' : 'Assistant (IA)'} : ${m.content}\n`),
+      `Contact : ${annonce.contact.noms}, ${annonce.contact.telephone} (WhatsApp)`,
+      `Annonce : ${window.location.origin}`,
+    ];
+    const name = `conversation-T4-Andromede-${date.toISOString().slice(0, 10)}.txt`;
+    const file = new File([lines.join('\n')], name, { type: 'text/plain' });
+    track('chat_save');
+    try {
+      if (isTouch() && navigator.canShare?.({ files: [file] })) {
+        await navigator.share({ files: [file], title: 'Conversation T4 Andromède' });
+        return;
+      }
+    } catch {
+      return; // partage annulé
+    }
+    const url = URL.createObjectURL(file);
+    const a = el('a');
+    a.href = url;
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
+  // La page derrière ne bouge plus tant que l'assistant est ouvert
+  let savedScroll = 0;
+  function lockPage() {
+    savedScroll = window.scrollY;
+    Object.assign(document.body.style, { position: 'fixed', top: `-${savedScroll}px`, left: '0', right: '0', width: '100%' });
+    document.documentElement.classList.add('chat-open');
+  }
+  function unlockPage() {
+    Object.assign(document.body.style, { position: '', top: '', left: '', right: '', width: '' });
+    document.documentElement.classList.remove('chat-open');
+    window.scrollTo(0, savedScroll);
+  }
+
   function open() {
     if (!panel) build();
+    if (panel.classList.contains('open')) return;
+    lockPage();
     panel.classList.add('open');
-    document.documentElement.classList.add('chat-open');
     fab.hidden = true;
+    panel.querySelector('.chat-save').disabled = !history.length;
+    // Le bouton « retour » du téléphone ferme l'assistant au lieu de quitter la page
+    window.history.pushState({ chat: true }, '');
     track('chat_open');
     fit();
     scrollToEnd(false);
@@ -333,12 +394,15 @@ export function initChat() {
     if (!isTouch()) input.focus();
   }
 
-  function close() {
+  function close(fromHistory = false) {
+    if (!panel?.classList.contains('open')) return;
     panel.classList.remove('open');
-    document.documentElement.classList.remove('chat-open');
+    unlockPage();
     fab.hidden = false;
-    fab.focus();
+    if (!fromHistory && window.history.state?.chat) window.history.back();
   }
+
+  window.addEventListener('popstate', () => close(true));
 
   // Seule entrée vers l'assistant : la bulle, toujours visible
   fab.onclick = open;

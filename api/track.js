@@ -15,6 +15,7 @@ const EVENTS = new Set([
   'maps_click',
   'chat_open',
   'chat_whatsapp_click',
+  'chat_save',
   'details_open',
 ]);
 const SOURCES = new Set(['seloger', 'pap', 'leboncoin', 'lbc', 'facebook', 'fb', 'qr', 'affiche', 'whatsapp', 'direct']);
