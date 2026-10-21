@@ -100,6 +100,7 @@ export const annonce = {
   // Distances : estimations à pied/en voiture depuis l'adresse.
   // `aConfirmer` = estimation des propriétaires, à vérifier sur carte.
   proximites: [
+    { categorie: 'Enfants', icone: 'ToyBrick', lieu: 'Aire de jeux pour les petits, au pied de l’immeuble', distance: 'en bas de chez vous' },
     { categorie: 'Enfants', icone: 'Baby', lieu: 'Crèche municipale Cassiopée', distance: '1 à 2 min à pied' },
     { categorie: 'Enfants', icone: 'School', lieu: 'Groupe scolaire Les Perséides (maternelle et élémentaire)', distance: '10 à 15 min à pied' },
     { categorie: 'Enfants', icone: 'School', lieu: 'Le Ferradou (établissement privé : élémentaire, collège, lycée)', distance: '≈ 15 min à pied', aConfirmer: true },
@@ -112,7 +113,8 @@ export const annonce = {
     { categorie: 'Quotidien', icone: 'Clapperboard', lieu: 'Cinéma Méga CGR', distance: '≈ 5 min en voiture' },
     { categorie: 'Sport et nature', icone: 'Dumbbell', lieu: 'Sporting Village (salle de sport), face au lycée', distance: '≈ 5 min à pied' },
     { categorie: 'Sport et nature', icone: 'Dumbbell', lieu: 'On Air, salle de sport moderne et abordable (près de Leclerc)', distance: '≈ 5 min en voiture' },
-    { categorie: 'Sport et nature', icone: 'Trees', lieu: 'Parc et coulée verte d’Andromède, vers les bords de Garonne', distance: 'quelques minutes à pied' },
+    { categorie: 'Sport et nature', icone: 'Trees', lieu: 'Grand parc : allées vertes, petit bois, grande aire de jeux avec deux espaces balançoires', distance: 'quelques minutes à pied' },
+    { categorie: 'Sport et nature', icone: 'TreeDeciduous', lieu: 'Coulée verte d’Andromède, vers les bords de Garonne', distance: 'quelques minutes à pied' },
     { categorie: 'Sport et nature', icone: 'Building2', lieu: 'Complexe sportif Andromède (stade, gymnase, dojo)', distance: 'à pied' },
     { categorie: 'Se déplacer', icone: 'TramFront', lieu: 'Tram T1, station Andromède-Lycée', distance: '5 à 8 min à pied' },
     { categorie: 'Se déplacer', icone: 'Bus', lieu: 'Bus, arrêt Giusta', distance: '≈ 4 min à pied', aConfirmer: true },
