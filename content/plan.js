@@ -67,7 +67,8 @@ const BAIES = [
 const MOBILIER = [
   { x: 0.3, y: 1.08, w: 0.9, h: 0.9, type: 'douche' },
   { x: 7.42, y: 0.4, w: 0.7, h: 1.6, type: 'baignoire' },
-  { x: 8.4, y: 0.38, w: 3.0, h: 0.6, type: 'plan' },
+  { x: 9.25, y: 0.38, w: 2.82, h: 0.6, type: 'plan' }, // évier, plaques, four : côté droit
+  { x: 8.4, y: 0.38, w: 0.75, h: 0.7, type: 'frigo', label: 'frigo' }, // emplacement du réfrigérateur, au fond à gauche
   { x: 9.3, y: 1.45, w: 1.9, h: 0.95, type: 'ilot' },
   { x: 0.3, y: 2.45, w: 0.6, h: 2.6, type: 'dressing' },
 ];
@@ -95,6 +96,10 @@ export function planSvg({ portrait = false, standalone = false, titre = 'Plan de
   // Équipements
   for (const m of MOBILIER) {
     out.push(rect(m.x, m.y, m.w, m.h, `pl-meuble pl-${m.type}`));
+    if (m.label) {
+      const [lx, ly] = P([m.x + m.w / 2, m.y + m.h / 2]);
+      out.push(`<text class="pl-note" x="${fmt(lx)}" y="${fmt(ly + 0.05)}" font-size="0.15">${esc(m.label)}</text>`);
+    }
   }
 
   // Murs
@@ -174,7 +179,7 @@ const STYLE_AUTONOME = `
 .pl-battant{stroke:#1f2a24}
 .pl-arc{fill:none;stroke:#9aa39d;stroke-width:0.02;stroke-dasharray:0.06 0.05}
 .pl-meuble{fill:none;stroke:#b9c0bb;stroke-width:0.02}
-.pl-dressing{stroke-dasharray:0.08 0.06}
+.pl-dressing,.pl-frigo{stroke-dasharray:0.08 0.06}
 .pl-nom{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-weight:700;fill:#1e5631;text-anchor:middle}
 .pl-surface{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-weight:600;fill:#1a1a1a;text-anchor:middle}
 .pl-cote,.pl-note{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;fill:#666;text-anchor:middle}

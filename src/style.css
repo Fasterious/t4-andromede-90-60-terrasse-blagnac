@@ -1664,7 +1664,7 @@ html.chat-open body {
 .pl-battant { stroke: #1f2a24; }
 .pl-arc { fill: none; stroke: #9aa39d; stroke-width: 0.02; stroke-dasharray: 0.06 0.05; }
 .pl-meuble { fill: none; stroke: #b9c0bb; stroke-width: 0.02; }
-.pl-dressing { stroke-dasharray: 0.08 0.06; }
+.pl-dressing, .pl-frigo { stroke-dasharray: 0.08 0.06; }
 .pl-nom, .pl-surface, .pl-cote, .pl-note, .pl-terrasse { text-anchor: middle; font-family: inherit; }
 .pl-nom { font-weight: 700; fill: var(--green); }
 .pl-surface { font-weight: 600; fill: var(--text); }
