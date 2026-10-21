@@ -115,6 +115,19 @@ a:hover {
   color: var(--muted);
 }
 
+.en-direct {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0.8rem 0 0;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  background: var(--green-soft);
+  color: var(--green);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
 .price {
   margin: 1.25rem 0 0.25rem;
   font-size: clamp(1.75rem, 5vw, 2rem);

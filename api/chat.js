@@ -2,10 +2,11 @@
 // avec quotas par visiteur, par IP, par jour et un budget mensuel.
 // Au-delà : réponse fixe qui renvoie vers WhatsApp, sans appel à l'API.
 
-import crypto from 'node:crypto';
 import Anthropic from '@anthropic-ai/sdk';
 import { SYSTEM_PROMPT } from './_lib/knowledge.js';
 import { pipeline, today, month } from './_lib/store.js';
+import { identify } from './_lib/visitor.js';
+import { recordTurn, validId, newId } from './_lib/conversations.js';
 
 const MODEL = 'claude-haiku-5-5';
 
@@ -32,11 +33,6 @@ const WHATSAPP_REPLY =
   'Vous avez posé beaucoup de questions, c’est bon signe ! Pour aller plus loin, le plus simple est d’échanger directement avec Corinne & Arnaud sur WhatsApp : ils vous répondront personnellement.';
 const UNAVAILABLE_REPLY =
   'L’assistant fait une pause. Corinne & Arnaud vous répondent directement sur WhatsApp ou au téléphone.';
-
-function hash(value) {
-  const salt = process.env.HASH_SALT || 't4a';
-  return crypto.createHash('sha256').update(`${salt}:${value}`).digest('hex').slice(0, 16);
-}
 
 // Ne garde que des échanges texte user/assistant valides, en alternance,
 // commençant et finissant par une question de l'utilisateur.
@@ -68,20 +64,31 @@ function costUsd(usage) {
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'POST uniquement' });
+  const receivedAt = new Date();
 
   const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : req.body || {};
   const messages = sanitize(body.messages);
   if (!messages) return res.status(400).json({ error: 'Question manquante' });
   const question = messages[messages.length - 1].content;
   const src = String(body.src || 'direct').slice(0, 20);
+  const conversationId = validId(body.conversationId) ? body.conversationId : newId();
 
+  const who = identify(req);
   const day = today();
-  const ip = String(req.headers['x-forwarded-for'] || '').split(',')[0].trim() || 'unknown';
-  const visitor = String(req.headers['x-visitor'] || '').slice(0, 64) || ip;
-  const kVisitor = `chat:v:${day}:${hash(visitor)}`;
-  const kIp = `chat:ip:${day}:${hash(ip)}`;
+  const kVisitor = `chat:v:${day}:${who.visitorHash}`;
+  const kIp = `chat:ip:${day}:${who.ipHash}`;
   const kDay = `chat:day:${day}`;
   const kCost = `chat:cost:${month()}`; // en micro-dollars
+
+  // Enregistre l'échange (même refusé) puis répond
+  const reply = async (payload, extra = {}) => {
+    try {
+      await recordTurn({ id: conversationId, who, src, question, reply: payload.reply, receivedAt, ...extra });
+    } catch (err) {
+      console.error('conversation', err);
+    }
+    return res.status(200).json({ ...payload, conversationId });
+  };
 
   let counts;
   try {
@@ -96,7 +103,7 @@ export default async function handler(req, res) {
     ]);
   } catch (err) {
     console.error('store', err);
-    return res.status(200).json({ reply: UNAVAILABLE_REPLY, limitReached: true });
+    return res.status(200).json({ reply: UNAVAILABLE_REPLY, limitReached: true, conversationId });
   }
   const [nVisitor, , nIp, , nDay, , microUsd] = counts;
   const remaining = Math.max(0, LIMITS.perVisitorPerDay - nVisitor);
@@ -104,10 +111,12 @@ export default async function handler(req, res) {
   const overQuota = nVisitor > LIMITS.perVisitorPerDay || nIp > LIMITS.perIpPerDay;
   const overBudget = nDay > LIMITS.globalPerDay || Number(microUsd || 0) / 1e6 >= LIMITS.monthlyBudgetUsd;
 
-  if (overQuota) return res.status(200).json({ reply: WHATSAPP_REPLY, remaining: 0, limitReached: true });
-  if (overBudget || !client) return res.status(200).json({ reply: UNAVAILABLE_REPLY, remaining, limitReached: true });
+  if (overQuota) return reply({ reply: WHATSAPP_REPLY, remaining: 0, limitReached: true }, { limited: 'quota' });
+  if (overBudget || !client) {
+    return reply({ reply: UNAVAILABLE_REPLY, remaining, limitReached: true }, { limited: client ? 'budget' : 'indisponible' });
+  }
 
-  let reply;
+  let text;
   let usage;
   try {
     const response = await client.messages.create({
@@ -120,9 +129,9 @@ export default async function handler(req, res) {
     });
     usage = response.usage;
     if (response.stop_reason === 'refusal') {
-      reply = 'Je ne peux pas répondre à cette question. Corinne & Arnaud peuvent vous répondre directement sur WhatsApp.';
+      text = 'Je ne peux pas répondre à cette question. Corinne & Arnaud peuvent vous répondre directement sur WhatsApp.';
     } else {
-      reply = response.content
+      text = response.content
         .filter((b) => b.type === 'text')
         .map((b) => b.text)
         .join('\n')
@@ -132,26 +141,29 @@ export default async function handler(req, res) {
     if (err instanceof Anthropic.RateLimitError) console.warn('anthropic rate limit');
     else if (err instanceof Anthropic.APIError) console.error('anthropic', err.status, err.message);
     else console.error('chat', err);
-    return res.status(200).json({ reply: UNAVAILABLE_REPLY, remaining, suggestWhatsApp: true });
+    return reply({ reply: UNAVAILABLE_REPLY, remaining, suggestWhatsApp: true }, { limited: 'erreur' });
   }
 
-  // Journal anonyme des questions (pour améliorer la FAQ) + suivi du coût
-  const micro = Math.round(costUsd(usage) * 1e6);
+  // Suivi du coût et journal anonyme des questions (statistiques agrégées)
+  const cost = costUsd(usage);
   const kLog = `chat:q:${month()}`;
-  pipeline([
-    ['INCRBY', kCost, micro],
-    ['EXPIRE', kCost, TTL_LOG],
-    ['HINCRBY', `chat:tokens:${day}`, 'input', (usage?.input_tokens || 0) + (usage?.cache_read_input_tokens || 0)],
-    ['HINCRBY', `chat:tokens:${day}`, 'output', usage?.output_tokens || 0],
-    ['EXPIRE', `chat:tokens:${day}`, TTL_LOG],
-    ['LPUSH', kLog, JSON.stringify({ t: new Date().toISOString(), src, n: nVisitor, q: question })],
-    ['LTRIM', kLog, 0, 1999],
-    ['EXPIRE', kLog, TTL_LOG],
-  ]).catch((err) => console.error('store log', err));
+  try {
+    await pipeline([
+      ['INCRBY', kCost, Math.round(cost * 1e6)],
+      ['EXPIRE', kCost, TTL_LOG],
+      ['HINCRBY', `chat:tokens:${day}`, 'input', (usage?.input_tokens || 0) + (usage?.cache_read_input_tokens || 0)],
+      ['HINCRBY', `chat:tokens:${day}`, 'output', usage?.output_tokens || 0],
+      ['EXPIRE', `chat:tokens:${day}`, TTL_LOG],
+      ['LPUSH', kLog, JSON.stringify({ t: receivedAt.toISOString(), src, n: nVisitor, q: question })],
+      ['LTRIM', kLog, 0, 1999],
+      ['EXPIRE', kLog, TTL_LOG],
+    ]);
+  } catch (err) {
+    console.error('store log', err);
+  }
 
-  return res.status(200).json({
-    reply: reply || UNAVAILABLE_REPLY,
-    remaining,
-    suggestWhatsApp: nVisitor >= LIMITS.suggestWhatsAppAfter,
-  });
+  return reply(
+    { reply: text || UNAVAILABLE_REPLY, remaining, suggestWhatsApp: nVisitor >= LIMITS.suggestWhatsAppAfter },
+    { usage, costUsd: cost }
+  );
 }

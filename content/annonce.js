@@ -24,6 +24,16 @@ export const annonce = {
   messageDuree:
     'Vente à durée limitée : nous emménageons dans une maison. Si l’appartement n’a pas trouvé preneur au 31 janvier 2027, nous le mettrons en location. Nous préférons vous le dire dès maintenant.',
 
+  // Badge mis en avant près du prix
+  enDirect: 'Vente en direct · 0 € de frais d’agence',
+
+  // Données personnelles (section « Confidentialité » en bas de page)
+  confidentialite: [
+    'Le site ne dépose aucun cookie publicitaire. La fréquentation est mesurée de façon agrégée (pages vues, source, ville approximative, type d’appareil).',
+    'Si vous utilisez l’assistant, vos messages, leur heure, la ville approximative de connexion et le type d’appareil sont enregistrés et lus par Corinne & Arnaud, pour vous répondre et améliorer cette page. Votre adresse IP n’est pas conservée en clair. Évitez d’y écrire des informations personnelles sensibles.',
+    'Ces données sont conservées 6 mois au plus et supprimées après la vente. Pour y accéder ou les faire effacer, écrivez-nous sur WhatsApp ou appelez-nous.',
+  ],
+
   contact: {
     noms: 'Corinne & Arnaud',
     telephone: '06 23 94 79 77',
@@ -175,7 +185,7 @@ export const annonce = {
     },
     {
       q: 'Et le DPE ?',
-      r: 'Les résultats détaillés du diagnostic de performance énergétique (classes énergie et climat, estimation des dépenses annuelles) sont indiqués dans la section « Informations réglementaires » dès qu’ils sont confirmés. Le chauffage collectif est inclus dans les charges.',
+      r: 'Le diagnostic de performance énergétique est à jour : classe énergie C. Le chauffage collectif est inclus dans les charges. Le rapport complet est transmis aux acquéreurs qui le demandent.',
     },
     {
       q: 'Qu’est-ce qui reste dans l’appartement ?',
@@ -190,7 +200,7 @@ export const annonce = {
   // Mentions obligatoires d'une annonce de vente (DPE, copropriété, Géorisques).
   // `null` = information pas encore confirmée : affichée « en cours de mise à jour ».
   reglementaire: {
-    dpeEnergie: null, // ex. 'C'
+    dpeEnergie: 'C',
     dpeClimat: null,
     depensesEnergie: null, // ex. 'entre 700 € et 1 000 € par an (prix moyens des énergies indexés au 1er janvier 2025)'
     copropriete: true,

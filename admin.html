@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#1e5631" />
+    <title>Admin · T4 Andromède</title>
+    <link rel="stylesheet" href="/src/admin.css" />
+  </head>
+  <body>
+    <main class="admin" id="app">
+      <section class="login" id="login" hidden>
+        <h1>Espace vendeurs</h1>
+        <p class="muted">Statistiques du site et conversations avec l’assistant.</p>
+        <form id="login-form">
+          <label for="password">Mot de passe</label>
+          <input id="password" type="password" autocomplete="current-password" required />
+          <button type="submit">Se connecter</button>
+          <p class="error" id="login-error" role="alert"></p>
+        </form>
+      </section>
+
+      <section id="dashboard" hidden>
+        <header class="bar">
+          <h1>Tableau de bord</h1>
+          <div class="bar-actions">
+            <label>Période
+              <select id="days">
+                <option value="7">7 jours</option>
+                <option value="30" selected>30 jours</option>
+                <option value="90">90 jours</option>
+                <option value="180">180 jours</option>
+              </select>
+            </label>
+            <a id="export" class="btn-ghost" href="/api/admin/export?days=180">Exporter (CSV)</a>
+            <button type="button" id="logout" class="btn-ghost">Déconnexion</button>
+          </div>
+        </header>
+        <p class="muted small" id="storage-note"></p>
+
+        <h2>Le site</h2>
+        <div class="tiles" id="site-tiles"></div>
+
+        <h2>L’assistant</h2>
+        <div class="tiles" id="chat-tiles"></div>
+
+        <div class="grid">
+          <figure class="panel">
+            <figcaption>Questions par heure (heure de Paris)</figcaption>
+            <div class="hours" id="hours"></div>
+          </figure>
+          <figure class="panel">
+            <figcaption>Visites du site par source</figcaption>
+            <div class="rows" id="sources"></div>
+          </figure>
+          <figure class="panel">
+            <figcaption>Visites par ville (approximative)</figcaption>
+            <div class="rows" id="villes"></div>
+          </figure>
+          <figure class="panel">
+            <figcaption>Points d’attention et FAQ les plus ouverts</figcaption>
+            <div class="rows" id="details"></div>
+          </figure>
+        </div>
+
+        <h2>Conversations</h2>
+        <div class="table-wrap">
+          <table class="convs">
+            <thead>
+              <tr>
+                <th>Début</th>
+                <th>Questions</th>
+                <th>Durée</th>
+                <th>Ville</th>
+                <th>Source</th>
+                <th>Appareil</th>
+                <th>Première question</th>
+              </tr>
+            </thead>
+            <tbody id="convs"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <dialog class="transcript" id="transcript">
+        <div class="transcript-head">
+          <div id="transcript-meta"></div>
+          <button type="button" id="transcript-close" aria-label="Fermer">×</button>
+        </div>
+        <div class="transcript-body" id="transcript-body"></div>
+      </dialog>
+      <div class="tip" id="tip" role="tooltip" hidden></div>
+    </main>
+    <script type="module" src="/src/admin.js"></script>
+  </body>
+</html>

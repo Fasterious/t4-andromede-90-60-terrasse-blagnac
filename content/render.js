@@ -144,6 +144,15 @@ function renderVisite() {
   );
 }
 
+function renderConfidentialite() {
+  return section(
+    'confidentialite',
+    'Confidentialité',
+    annonce.confidentialite.map((p) => `<p class="small muted">${esc(p)}</p>`).join(''),
+    'block-reg'
+  );
+}
+
 function renderReglementaire() {
   const r = annonce.reglementaire;
   const val = (v) => (v == null ? '<span class="muted">en cours de mise à jour</span>' : esc(v));
@@ -174,6 +183,7 @@ export function renderSections() {
     renderFaq(),
     renderVisite(),
     renderReglementaire(),
+    renderConfidentialite(),
   ].join('\n');
 }
 
@@ -194,6 +204,10 @@ const SEP = '<span class="sep" aria-hidden="true">·</span>';
 // Sous-titre : éléments séparés par des points médians gris
 export function renderSousTitre() {
   return [...annonce.sousTitre, `quartier ${annonce.quartier}`].map(esc).join(` ${SEP} `);
+}
+
+export function renderEnDirect() {
+  return `<p class="en-direct">${icon('Handshake', 'ico ico-sm')}<span>${esc(annonce.enDirect)}</span></p>`;
 }
 
 export function renderHeaderExtras() {

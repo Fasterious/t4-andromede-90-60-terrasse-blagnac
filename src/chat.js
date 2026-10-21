@@ -44,6 +44,22 @@ function visitorId() {
   }
 }
 
+function conversationId() {
+  try {
+    return window.sessionStorage.getItem('chat-conversation') || null;
+  } catch {
+    return null;
+  }
+}
+
+function saveConversationId(id) {
+  try {
+    if (id) window.sessionStorage.setItem('chat-conversation', id);
+  } catch {
+    // ignore
+  }
+}
+
 const waLink = () =>
   `https://wa.me/${annonce.contact.whatsapp}?text=${encodeURIComponent(
     `Bonjour, j’ai échangé avec l’assistant du site au sujet du T4 avec terrasse à Andromède et j’aimerais vous poser quelques questions. [réf. T4A-${sourceCode}]`
@@ -110,7 +126,7 @@ export function initChat() {
         <input type="text" name="q" maxlength="500" placeholder="Votre question…" autocomplete="off" aria-label="Votre question" />
         <button type="submit" class="btn-primary">Envoyer</button>
       </form>
-      <p class="chat-disclaimer">* Réponses générées par une intelligence artificielle : elles peuvent comporter des erreurs. Seuls les documents officiels (diagnostics, procès-verbaux, compromis) et les réponses écrites de Corinne & Arnaud font foi.</p>
+      <p class="chat-disclaimer">* Réponses générées par une intelligence artificielle : elles peuvent comporter des erreurs. Seuls les documents officiels (diagnostics, procès-verbaux, compromis) et les réponses écrites de Corinne & Arnaud font foi. Vos échanges sont enregistrés et lus par Corinne & Arnaud (voir <a href="#confidentialite">confidentialité</a>).</p>
       <div class="chat-foot"><span class="chat-remaining small muted"></span>
         <a class="small" href="${waLink()}" target="_blank" rel="noopener noreferrer" data-track="chat_whatsapp_click">Parler aux propriétaires</a></div>`;
     document.body.appendChild(panel);
@@ -120,7 +136,7 @@ export function initChat() {
     if (history.length === 0) {
       addBubble(
         'assistant',
-        `Bonjour ! Je suis un assistant automatique (IA) : je réponds à vos questions sur l’appartement et le quartier à partir des informations données par ${annonce.contact.noms}. Pour une visite ou une question pointue, je vous mets en relation avec eux.`
+        `Bonjour ! Je suis un assistant automatique (IA) : je réponds à vos questions sur l’appartement, vendu en direct par ${annonce.contact.noms} sans frais d’agence, et sur le quartier. Pour une visite ou une question pointue, je vous mets en relation avec eux.`
       );
     } else {
       history.forEach((m) => addBubble(m.role, m.content));
@@ -157,9 +173,10 @@ export function initChat() {
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'X-Visitor': visitorId() },
-        body: JSON.stringify({ messages: history.slice(-MAX_KEPT), src: source }),
+        body: JSON.stringify({ messages: history.slice(-MAX_KEPT), src: source, conversationId: conversationId() }),
       });
       const data = await res.json().catch(() => ({}));
+      saveConversationId(data.conversationId);
       pending.remove();
       const reply =
         data.reply ||

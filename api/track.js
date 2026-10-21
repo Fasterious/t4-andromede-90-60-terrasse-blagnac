@@ -2,6 +2,7 @@
 // un hash par jour, champ « événement|source ».
 
 import { pipeline, today } from './_lib/store.js';
+import { identify } from './_lib/visitor.js';
 
 const EVENTS = new Set([
   'pageview',
@@ -42,6 +43,16 @@ export default async function handler(req, res) {
   // et points d'attention / questions FAQ les plus ouverts
   if (event === 'visit_request' && body.financement) {
     commands.push(['HINCRBY', `${key}:financement`, String(body.financement).slice(0, 60), 1], ['EXPIRE', `${key}:financement`, TTL]);
+  }
+  if (event === 'pageview') {
+    const who = identify(req);
+    const ville = [who.geo.ville, who.geo.pays].filter(Boolean).join(', ') || 'inconnue';
+    commands.push(
+      ['HINCRBY', `${key}:villes`, ville.slice(0, 60), 1],
+      ['EXPIRE', `${key}:villes`, TTL],
+      ['HINCRBY', `${key}:appareils`, `${who.appareil.type} · ${who.appareil.os}`, 1],
+      ['EXPIRE', `${key}:appareils`, TTL]
+    );
   }
   if (event === 'details_open' && body.label) {
     commands.push(['HINCRBY', `${key}:details`, String(body.label).slice(0, 60), 1], ['EXPIRE', `${key}:details`, TTL]);

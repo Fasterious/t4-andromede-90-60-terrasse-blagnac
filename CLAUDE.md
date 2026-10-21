@@ -24,7 +24,11 @@ Si `coulisses/` est présent, lire `coulisses/CLAUDE.md` avant toute modificatio
 - `api/` : fonctions serverless Vercel :
   - `chat.js` : assistant (Claude Haiku 5.5), quotas par visiteur/IP/jour + budget mensuel ;
   - `track.js` : compteurs agrégés par jour, événement et source (`?src=seloger|pap|leboncoin|facebook|qr`) ;
-  - `stats.js` : tableau de bord JSON protégé par `ADMIN_TOKEN`.
+  - `stats.js` : statistiques JSON (session admin ou `ADMIN_TOKEN`) ;
+  - `admin/*` : connexion, données du tableau de bord, transcription, export CSV ;
+  - `_lib/conversations.js` : journal complet des conversations (6 mois), `_lib/visitor.js` : identification
+    (identifiant navigateur + IP hachée, jamais en clair), ville approximative et appareil.
+- `admin.html` + `src/admin.js` : page `/admin` (mot de passe, non indexée).
   - `_lib/knowledge.js` construit le prompt de l'assistant **uniquement** depuis `content/annonce.js`.
 
 ## Variables d'environnement (Vercel)
@@ -33,7 +37,9 @@ Si `coulisses/` est présent, lire `coulisses/CLAUDE.md` avant toute modificatio
 |---|---|
 | `ANTHROPIC_API_KEY` | clé API (idéalement un workspace dédié avec plafond de dépense) |
 | `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` (ou `KV_REST_API_*`) | quotas et compteurs persistants |
-| `ADMIN_TOKEN` | accès à `/api/stats` |
+| `ADMIN_PASSWORD` | mot de passe de la page `/admin` (tableau de bord + conversations) |
+| `ADMIN_SECRET` | facultatif : clé de signature du cookie admin (sinon dérivée du mot de passe) |
+| `ADMIN_TOKEN` | accès en ligne de commande à `/api/stats` (`Authorization: Bearer …`) |
 | `HASH_SALT` | sel du hachage des IP/visiteurs |
 | `CHAT_MAX_PER_VISITOR` (12), `CHAT_MAX_PER_IP` (30), `CHAT_MAX_PER_DAY` (800), `CHAT_MONTHLY_BUDGET_USD` (15) | limites de l'assistant |
 

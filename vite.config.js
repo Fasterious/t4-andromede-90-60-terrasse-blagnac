@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite';
-import { renderSections, renderHeaderExtras, renderSousTitre, htmlVars } from './content/render.js';
+import { renderSections, renderHeaderExtras, renderSousTitre, renderEnDirect, htmlVars } from './content/render.js';
 
 const escAttr = (s) =>
   String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -14,6 +14,7 @@ function annoncePlugin() {
         .replace('<!-- SECTIONS -->', renderSections())
         .replace('<!-- HEADER_EXTRAS -->', renderHeaderExtras())
         .replace('<!-- SOUS_TITRE -->', renderSousTitre())
+        .replace('<!-- EN_DIRECT -->', renderEnDirect())
         .replace(/\{\{(\w+)\}\}/g, (m, key) => (key in vars ? escAttr(vars[key]) : m));
     },
   };
@@ -22,6 +23,11 @@ function annoncePlugin() {
 export default defineConfig({
   base: '/',
   plugins: [annoncePlugin()],
+  build: {
+    rollupOptions: {
+      input: { main: 'index.html', admin: 'admin.html' },
+    },
+  },
   server: {
     watch: { ignored: ['**/coulisses/**'] },
   },

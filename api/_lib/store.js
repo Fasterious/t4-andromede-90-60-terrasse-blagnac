@@ -48,6 +48,38 @@ function memExec([cmd, key, ...args]) {
     }
     case 'EXPIRE':
       return 1;
+    case 'SET':
+      memory.set(key, args[0]);
+      return 'OK';
+    case 'DEL':
+      return memory.delete(key) ? 1 : 0;
+    case 'MGET':
+      return [key, ...args].map((k) => (memory.has(k) ? String(memory.get(k)) : null));
+    case 'SADD': {
+      const set = memory.get(key) || new Set();
+      const before = set.size;
+      args.forEach((m) => set.add(String(m)));
+      memory.set(key, set);
+      return set.size - before;
+    }
+    case 'SCARD':
+      return (memory.get(key) || new Set()).size;
+    case 'ZADD': {
+      const z = memory.get(key) || new Map();
+      for (let i = 0; i < args.length; i += 2) z.set(String(args[i + 1]), Number(args[i]));
+      memory.set(key, z);
+      return 1;
+    }
+    case 'ZREVRANGEBYSCORE': {
+      // ZREVRANGEBYSCORE key max min LIMIT 0 n
+      const z = memory.get(key) || new Map();
+      const [max, min, , offset, count] = args;
+      return [...z.entries()]
+        .filter(([, sc]) => sc <= Number(max === '+inf' ? Infinity : max) && sc >= Number(min === '-inf' ? -Infinity : min))
+        .sort((x, y) => y[1] - x[1])
+        .slice(Number(offset || 0), Number(offset || 0) + Number(count || 1e9))
+        .map(([m]) => m);
+    }
     default:
       throw new Error(`Commande non gérée en mémoire : ${cmd}`);
   }
