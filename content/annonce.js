@@ -34,9 +34,12 @@ export const annonce = {
 
   contact: {
     noms: 'Corinne & Arnaud',
+    // Appels et SMS : Corinne, qui répond le plus vite
     telephone: '06 23 94 79 77',
     telephoneIntl: '+33623947977',
-    whatsapp: '33623947977',
+    // WhatsApp Business : le 06 d'Arnaud (Corinne y est reliée)
+    whatsapp: '33677981780',
+    whatsappAffiche: '06 77 98 17 80',
   },
 
   // Courte vidéo de visite commentée (YouTube « non répertoriée »).
