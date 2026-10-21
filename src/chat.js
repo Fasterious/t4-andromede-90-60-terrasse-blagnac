@@ -100,7 +100,7 @@ export function initChat() {
       <div class="chat-head">
         <div>
           <strong>Assistant de l’annonce</strong>
-          <span class="muted small">Répond à partir des informations de cette page</span>
+          <span class="muted small">Assistant automatique (IA) — répond à partir de cette page</span>
         </div>
         <button type="button" class="chat-close" aria-label="Fermer">×</button>
       </div>
@@ -110,6 +110,7 @@ export function initChat() {
         <input type="text" name="q" maxlength="500" placeholder="Votre question…" autocomplete="off" aria-label="Votre question" />
         <button type="submit" class="btn-primary">Envoyer</button>
       </form>
+      <p class="chat-disclaimer">* Réponses générées par une intelligence artificielle : elles peuvent comporter des erreurs. Seuls les documents officiels (diagnostics, procès-verbaux, compromis) et les réponses écrites de Corinne & Arnaud font foi.</p>
       <div class="chat-foot"><span class="chat-remaining small muted"></span>
         <a class="small" href="${waLink()}" target="_blank" rel="noopener noreferrer" data-track="chat_whatsapp_click">Parler aux propriétaires</a></div>`;
     document.body.appendChild(panel);
@@ -119,7 +120,7 @@ export function initChat() {
     if (history.length === 0) {
       addBubble(
         'assistant',
-        `Bonjour ! Je réponds à vos questions sur l’appartement et le quartier, à partir des informations données par ${annonce.contact.noms}. Pour une visite ou une question pointue, je vous mettrai en relation avec eux.`
+        `Bonjour ! Je suis un assistant automatique (IA) : je réponds à vos questions sur l’appartement et le quartier à partir des informations données par ${annonce.contact.noms}. Pour une visite ou une question pointue, je vous mets en relation avec eux.`
       );
     } else {
       history.forEach((m) => addBubble(m.role, m.content));
@@ -194,6 +195,14 @@ export function initChat() {
   }
 
   fab.onclick = open;
+
+  // Pas de bulle flottante tant que les boutons du haut de page sont visibles
+  const headerCtas = document.querySelector('.header-ctas');
+  if (headerCtas && 'IntersectionObserver' in window) {
+    new IntersectionObserver(([entry]) => {
+      fab.classList.toggle('chat-fab-hidden', entry.isIntersecting);
+    }).observe(headerCtas);
+  }
   document.addEventListener('click', (e) => {
     if (e.target.closest('[data-open-chat]')) open();
   });

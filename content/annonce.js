@@ -35,6 +35,16 @@ export const annonce = {
   // Laisser null tant qu'elle n'est pas tournée : la section est alors masquée.
   video: { youtubeId: null, duree: null },
 
+  // Bandeau de chiffres clés sous le prix (pictos Lucide : content/icons.js)
+  chiffresCles: [
+    { icone: 'Ruler', valeur: '90,5 m²', label: 'Loi Carrez' },
+    { icone: 'Sun', valeur: '63 m²', label: 'de terrasse' },
+    { icone: 'BedDouble', valeur: '3 chambres', label: 'dont une suite' },
+    { icone: 'SquareParking', valeur: '2 parkings', label: 'en sous-sol' },
+    { icone: 'Building2', valeur: '1er étage', label: 'avec ascenseur' },
+    { icone: 'TramFront', valeur: 'Tram T1', label: 'à 5-8 min à pied' },
+  ],
+
   histoire: [
     'Arnaud est Blagnacais depuis longtemps et a habité plusieurs quartiers de la ville. Ses deux préférés : le centre-ville, pour son charme, quand on en a les moyens… et Andromède.',
     'Quartier jeune aux équipements modernes, Andromède a tout pour une vie de famille à pied : crèche, écoles, lycée, commerces, restaurants. Et la rocade à deux minutes en voiture, sans en entendre le bruit.',
@@ -43,34 +53,42 @@ export const annonce = {
 
   pointsForts: [
     {
+      icone: 'Sun',
       titre: 'Une terrasse de 63 m²',
       texte: 'Exposée est/sud-est : soleil le matin, ombre naturelle aux heures chaudes. Une vraie pièce de vie en plus dès les beaux jours — repas, jeux des enfants, apéro.',
     },
     {
+      icone: 'Ruler',
       titre: '90,5 m² Loi Carrez, 3 chambres',
       texte: 'De l’espace pour une famille, à un prix inférieur au centre-ville de Blagnac.',
     },
     {
+      icone: 'BedDouble',
       titre: 'Une vraie suite parentale',
       texte: 'Chambre de 17,4 m², grand dressing (ouvert aujourd’hui, il peut être fermé ou réaménagé) et salle d’eau privative de 3 m².',
     },
     {
+      icone: 'Columns2',
       titre: 'Des chambres modulables',
       texte: 'Deux chambres de 12,3 m² en longueur : faciles à séparer en deux espaces (coin jeux / coin nuit, ou bureau / chambre d’amis).',
     },
     {
+      icone: 'ChefHat',
       titre: 'Séjour-cuisine de 32 m²',
       texte: 'Cuisine ouverte avec îlot, plaque induction, lave-vaisselle, four et micro-ondes intégrés (seul le réfrigérateur est à prévoir). Climatisation réversible.',
     },
     {
+      icone: 'Zap',
       titre: 'Chauffage et eau dans les charges',
       texte: 'Résultat : une facture d’électricité d’environ 45 à 47 € par mois pour notre famille de quatre.',
     },
     {
+      icone: 'Car',
       titre: '2 places de parking en sous-sol',
       texte: 'Parking fermé et sécurisé, ascenseur, fibre optique.',
     },
     {
+      icone: 'Building2',
       titre: 'Une résidence récente et calme',
       texte: 'Immeuble de 2012. Voisinage agréable et varié : beaucoup de jeunes couples, avec ou sans enfants, et d’autres profils.',
     },
@@ -79,44 +97,53 @@ export const annonce = {
   // Distances : estimations à pied/en voiture depuis l'adresse.
   // `aConfirmer` = estimation des propriétaires, à vérifier sur carte.
   proximites: [
-    { categorie: 'Enfants', lieu: 'Crèche municipale Cassiopée', distance: '≈ 2 min à pied' },
-    { categorie: 'Enfants', lieu: 'Groupe scolaire Les Perséides (maternelle et élémentaire)', distance: '10 à 15 min à pied' },
-    { categorie: 'Enfants', lieu: 'Le Ferradou (établissement privé : élémentaire, collège, lycée)', distance: '≈ 15 min à pied', aConfirmer: true },
-    { categorie: 'Enfants', lieu: 'Lycée Saint-Exupéry', distance: '≈ 5 min à pied' },
-    { categorie: 'Enfants', lieu: 'Conservatoire Résonance (centre de Blagnac)', distance: '≈ 10 min en voiture', aConfirmer: true },
-    { categorie: 'Quotidien', lieu: 'Boulangerie, fleuriste, supérette, restaurants (sushis, pizzas) — avenue d’Andromède', distance: '5 à 10 min à pied' },
-    { categorie: 'Quotidien', lieu: 'E.Leclerc Blagnac (drive, galerie) et cinéma Méga CGR', distance: '≈ 5 min en voiture' },
-    { categorie: 'Quotidien', lieu: 'Salles de sport (dont Sporting Village) et complexe sportif Andromède', distance: 'à pied' },
-    { categorie: 'Quotidien', lieu: 'Parc et coulée verte d’Andromède (vers les bords de Garonne)', distance: 'quelques minutes à pied' },
-    { categorie: 'Se déplacer', lieu: 'Tram T1 — station Andromède-Lycée', distance: '5 à 8 min à pied' },
-    { categorie: 'Se déplacer', lieu: 'Bus — arrêt Giusta', distance: '≈ 4 min à pied', aConfirmer: true },
-    { categorie: 'Se déplacer', lieu: 'Rocade', distance: '≈ 2 min en voiture' },
-    { categorie: 'Se déplacer', lieu: 'Aéroport Toulouse-Blagnac et sites Airbus', distance: '5 à 15 min (voiture ou tram)' },
-    { categorie: 'Se déplacer', lieu: 'Toulouse Capitole (tram T1 + métro A)', distance: '≈ 40 à 45 min' },
+    { categorie: 'Enfants', icone: 'Baby', lieu: 'Crèche municipale Cassiopée', distance: '1 à 2 min à pied' },
+    { categorie: 'Enfants', icone: 'School', lieu: 'Groupe scolaire Les Perséides (maternelle et élémentaire)', distance: '10 à 15 min à pied' },
+    { categorie: 'Enfants', icone: 'School', lieu: 'Le Ferradou (établissement privé : élémentaire, collège, lycée)', distance: '≈ 15 min à pied', aConfirmer: true },
+    { categorie: 'Enfants', icone: 'GraduationCap', lieu: 'Lycée Saint-Exupéry', distance: '≈ 5 min à pied' },
+    { categorie: 'Enfants', icone: 'Music', lieu: 'Conservatoire Résonance (centre de Blagnac)', distance: '≈ 10 min en voiture', aConfirmer: true },
+    { categorie: 'Quotidien', icone: 'Croissant', lieu: 'Boulangerie et fleuriste — avenue d’Andromède', distance: '5 à 10 min à pied' },
+    { categorie: 'Quotidien', icone: 'Pizza', lieu: 'Restaurants : sushis, pizzas', distance: '5 à 10 min à pied' },
+    { categorie: 'Quotidien', icone: 'ShoppingBasket', lieu: 'Carrefour Market + salle de sport : reprise annoncée du supermarché de l’avenue', distance: '5 à 10 min à pied', aConfirmer: true },
+    { categorie: 'Quotidien', icone: 'ShoppingCart', lieu: 'E.Leclerc Blagnac (drive, galerie)', distance: '≈ 5 min en voiture' },
+    { categorie: 'Quotidien', icone: 'Clapperboard', lieu: 'Cinéma Méga CGR', distance: '≈ 5 min en voiture' },
+    { categorie: 'Sport et nature', icone: 'Dumbbell', lieu: 'Sporting Village (salle de sport), face au lycée', distance: '≈ 5 min à pied' },
+    { categorie: 'Sport et nature', icone: 'Waves', lieu: 'Movida, salle de sport avec piscine (Grand Noble)', distance: '≈ 5 min en voiture', aConfirmer: true },
+    { categorie: 'Sport et nature', icone: 'Trees', lieu: 'Parc et coulée verte d’Andromède, vers les bords de Garonne', distance: 'quelques minutes à pied' },
+    { categorie: 'Sport et nature', icone: 'Building2', lieu: 'Complexe sportif Andromède (stade, gymnase, dojo)', distance: 'à pied' },
+    { categorie: 'Se déplacer', icone: 'TramFront', lieu: 'Tram T1 — station Andromède-Lycée', distance: '5 à 8 min à pied' },
+    { categorie: 'Se déplacer', icone: 'Bus', lieu: 'Bus — arrêt Giusta', distance: '≈ 4 min à pied', aConfirmer: true },
+    { categorie: 'Se déplacer', icone: 'Route', lieu: 'Rocade', distance: '≈ 2 min en voiture' },
+    { categorie: 'Se déplacer', icone: 'Plane', lieu: 'Aéroport Toulouse-Blagnac et sites Airbus', distance: '5 à 15 min' },
+    { categorie: 'Se déplacer', icone: 'Landmark', lieu: 'Toulouse Capitole (tram T1 + métro A)', distance: '≈ 40 à 45 min' },
   ],
 
   // « Ce qu'il faut savoir » : chaque point d'attention est suivi de notre
   // expérience réelle puis de solutions concrètes. Jamais l'un sans l'autre.
   pointsAttention: [
     {
+      icone: 'Eye',
       sujet: 'Le vis-à-vis depuis la terrasse',
       constat: 'Un immeuble fait face à la terrasse. C’est la remarque qu’on nous fait le plus souvent, et nous nous étions posé la même question avant d’acheter.',
       experience: 'À l’usage, nous n’avons pas été gênés : les fenêtres en face sont le plus souvent fermées et les balcons très peu utilisés. Un vis-à-vis potentiel plus que réel — c’est notre expérience, pas une garantie. La vidéo le montre sans filtre.',
       solutions: 'Brise-vue, bacs végétalisés, voile d’ombrage : faciles à installer (dans le respect du règlement de copropriété).',
     },
     {
+      icone: 'Sofa',
       sujet: 'L’agencement du séjour',
       constat: 'Nous avons organisé le séjour pour nos besoins : repas quotidiens à l’îlot, grande table qu’on déploie quand on reçoit, et un grand canapé.',
       experience: 'Ça nous convient parfaitement, mais ce n’est qu’une possibilité parmi d’autres.',
       solutions: 'Coin repas plus grand en réduisant le salon ; ou, si la 3e chambre n’est pas utile, ouvrir la chambre-bureau sur le séjour (cloison démontable, à faire valider par un professionnel) pour un séjour d’environ 44 m².',
     },
     {
+      icone: 'Car',
       sujet: 'Deux places de parking en enfilade',
       constat: 'Les deux places sont l’une derrière l’autre.',
       experience: 'En pratique le parking est peu occupé : on passe par la gauche ou par la droite, de jour comme de nuit, sans jamais avoir été bloqués.',
       solutions: 'Si vous avez besoin d’une place indépendante ou d’un box, des places sont à vendre dans la résidence — le syndic peut vous indiquer lesquelles.',
     },
     {
+      icone: 'Euro',
       sujet: 'Les charges de copropriété',
       constat: 'Environ 200 € par mois (montant exact en cours de vérification sur les derniers appels de fonds).',
       experience: 'Elles comprennent le chauffage, l’eau et l’entretien des parties communes. En contrepartie, notre facture d’électricité est d’environ 45 à 47 € par mois à quatre.',

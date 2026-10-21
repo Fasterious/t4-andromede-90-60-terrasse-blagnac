@@ -2,6 +2,7 @@
 // Le site reste lisible sans JavaScript et les aperçus de partage sont corrects.
 
 import { annonce } from './annonce.js';
+import { icon } from './icons.js';
 
 const esc = (s) =>
   String(s)
@@ -58,7 +59,12 @@ function renderPointsForts() {
     'Ce que nous aimons',
     `<ul class="cards">
       ${annonce.pointsForts
-        .map((p) => `<li class="card"><h3>${esc(p.titre)}</h3><p>${esc(p.texte)}</p></li>`)
+        .map(
+          (p) => `<li class="card">
+            <span class="badge">${icon(p.icone)}</span>
+            <div><h3>${esc(p.titre)}</h3><p>${esc(p.texte)}</p></div>
+          </li>`
+        )
         .join('')}
     </ul>`
   );
@@ -71,7 +77,7 @@ function renderQuartier() {
   return section(
     'quartier',
     'Le quartier Andromède',
-    `<p class="adresse">📍 ${esc(annonce.adresse)} — <a href="${mapsUrl}" target="_blank" rel="noopener noreferrer" data-track="maps_click">calculer mes trajets</a></p>
+    `<p class="adresse">${icon('MapPin', 'ico ico-sm')} ${esc(annonce.adresse)} — <a href="${mapsUrl}" target="_blank" rel="noopener noreferrer" data-track="maps_click">calculer mes trajets</a></p>
      <div class="proxi">
       ${Object.entries(groupes)
         .map(
@@ -80,7 +86,10 @@ function renderQuartier() {
           <h3>${esc(cat)}</h3>
           <ul>
             ${items
-              .map((i) => `<li><span>${esc(i.lieu)}</span><span class="dist">${esc(i.distance)}${tagAConfirmer(i)}</span></li>`)
+              .map(
+                (i) =>
+                  `<li><span class="lieu">${icon(i.icone, 'ico ico-sm')}<span>${esc(i.lieu)}</span></span><span class="dist">${esc(i.distance)}${tagAConfirmer(i)}</span></li>`
+              )
               .join('')}
           </ul>
         </div>`
@@ -100,7 +109,7 @@ function renderPointsAttention() {
         .map(
           (a) => `
         <details class="attention">
-          <summary>${esc(a.sujet)}${tagAConfirmer(a)}</summary>
+          <summary>${icon(a.icone, 'ico ico-sm')}<span>${esc(a.sujet)}${tagAConfirmer(a)}</span></summary>
           <p><strong>Le constat.</strong> ${esc(a.constat)}</p>
           <p><strong>Notre expérience.</strong> ${esc(a.experience)}</p>
           <p><strong>Les solutions.</strong> ${esc(a.solutions)}</p>
@@ -169,8 +178,19 @@ export function renderSections() {
 }
 
 // Remplacements simples dans index.html : {{prix}}, {{titre}}…
+function renderChiffresCles() {
+  return `
+    <ul class="key-facts" aria-label="Chiffres clés">
+      ${annonce.chiffresCles
+        .map(
+          (c) => `<li>${icon(c.icone)}<span class="kf-val">${esc(c.valeur)}</span><span class="kf-label">${esc(c.label)}</span></li>`
+        )
+        .join('')}
+    </ul>`;
+}
+
 export function renderHeaderExtras() {
-  return renderDuree();
+  return renderChiffresCles() + renderDuree();
 }
 
 export function htmlVars() {
