@@ -193,7 +193,7 @@ export const annonce = {
     },
     {
       q: 'Comment se passe une visite ?',
-      r: 'Après un court échange sur WhatsApp ou par téléphone, nous vous faisons visiter nous-mêmes (environ 45 minutes). Nous commençons par la terrasse, puis tout l’appartement et le parking.',
+      r: 'Après un court échange sur WhatsApp ou par téléphone, nous vous faisons visiter nous-mêmes (environ 45 minutes). Nous commençons par le séjour et la terrasse, puis les chambres et la suite parentale. Ensuite, vous visitez librement, à votre rythme, et nous finissons par le parking.',
     },
   ],
 
@@ -214,7 +214,7 @@ export const annonce = {
     'Regardez les photos, la vidéo et les points d’attention : la visite sert alors à confirmer, pas à découvrir.',
     'Demandez une visite : quelques questions rapides, puis votre message part directement sur notre WhatsApp.',
     'Nous vous rappelons pour un court échange et nous fixons un créneau ensemble.',
-    'Visite avec nous, environ 45 minutes, en commençant par la terrasse.',
+    'Visite avec nous, environ 45 minutes : séjour, terrasse, chambres, suite parentale, puis un temps libre pour revoir ce que vous voulez, et le parking.',
     'Avant une seconde visite ou une offre, nous demandons une attestation de financement (banque ou courtier) ou, en cas d’achat comptant, un justificatif des fonds. Nous transmettons alors le dossier complet : diagnostics, procès-verbaux d’assemblée générale, charges.',
     'Offre écrite, puis compromis de vente chez le notaire.',
   ],
