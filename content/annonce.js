@@ -155,7 +155,7 @@ export const annonce = {
     {
       icone: 'Euro',
       sujet: 'Les charges de copropriété',
-      constat: 'Environ 200 € par mois (montant exact en cours de vérification sur les derniers appels de fonds).',
+      constat: 'Environ 230 € par mois, soit 2 760 € par an (montant exact en cours de vérification sur les derniers appels de fonds).',
       experience: 'Elles comprennent le chauffage, l’eau et l’entretien des parties communes. En contrepartie, notre facture d’électricité est d’environ 45 à 47 € par mois à quatre.',
       solutions: 'Nous transmettons les appels de fonds et le budget de la copropriété à toute personne intéressée.',
       aConfirmer: true,
@@ -185,7 +185,7 @@ export const annonce = {
     },
     {
       q: 'Et le DPE ?',
-      r: 'Le diagnostic de performance énergétique est à jour : classe énergie C. Le chauffage collectif est inclus dans les charges. Le rapport complet est transmis aux acquéreurs qui le demandent.',
+      r: 'Le diagnostic de performance énergétique est à jour : classe énergie C, classe climat C, dépenses d’énergie estimées entre 603 € et 815 € par an. Le chauffage collectif est inclus dans les charges. Le rapport complet est transmis aux acquéreurs qui le demandent.',
     },
     {
       q: 'Qu’est-ce qui reste dans l’appartement ?',
@@ -201,11 +201,11 @@ export const annonce = {
   // `null` = information pas encore confirmée : affichée « en cours de mise à jour ».
   reglementaire: {
     dpeEnergie: 'C',
-    dpeClimat: null,
-    depensesEnergie: null, // ex. 'entre 700 € et 1 000 € par an (prix moyens des énergies indexés au 1er janvier 2025)'
+    dpeClimat: 'C',
+    depensesEnergie: 'entre 603 € et 815 € par an',
     copropriete: true,
     lots: 259,
-    chargesAnnuelles: null, // quote-part annuelle moyenne du budget prévisionnel, ex. '2 400 €'
+    chargesAnnuelles: '2 760 €',
     procedures: null, // ex. 'Aucune procédure en cours'
   },
 
