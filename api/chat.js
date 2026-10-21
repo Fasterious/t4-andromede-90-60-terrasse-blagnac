@@ -29,10 +29,15 @@ const TTL_LOG = 60 * 60 * 24 * 90;
 
 const client = process.env.ANTHROPIC_API_KEY ? new Anthropic() : null;
 
-const WHATSAPP_REPLY =
-  'Vous avez posé beaucoup de questions, c’est bon signe ! Pour aller plus loin, le plus simple est d’échanger directement avec Corinne & Arnaud sur WhatsApp : ils vous répondront personnellement.';
-const UNAVAILABLE_REPLY =
-  'L’assistant fait une pause. Corinne & Arnaud vous répondent directement sur WhatsApp ou au téléphone.';
+// Messages quand l'assistant s'arrête : on explique que c'est une question de coût,
+// pas un refus, et on oriente vers les vendeurs (un visiteur qui pose autant de
+// questions est un acheteur intéressé).
+const QUOTA_REPLY =
+  'Vous avez atteint le nombre de questions prévu pour aujourd’hui. Ce n’est pas que je ne veux pas vous répondre : chaque réponse de l’assistant a un coût, et nous l’avons plafonné. Et si vous avez autant de questions, c’est que l’appartement vous intéresse vraiment : le mieux est d’en parler directement avec Corinne & Arnaud. Ils vous répondront personnellement sur WhatsApp ou au téléphone.';
+const BUDGET_REPLY =
+  'L’assistant fait une pause : le budget prévu pour ses réponses est atteint pour le moment. Ce n’est pas un refus de vous répondre. Pour vos questions, le plus simple est de passer directement par Corinne & Arnaud, sur WhatsApp ou au téléphone : ils vous répondront personnellement.';
+const ERROR_REPLY =
+  'L’assistant rencontre un souci technique et ne peut pas répondre pour l’instant. Corinne & Arnaud vous répondent directement sur WhatsApp ou au téléphone.';
 
 // Ne garde que des échanges texte user/assistant valides, en alternance,
 // commençant et finissant par une question de l'utilisateur.
@@ -103,7 +108,7 @@ export default async function handler(req, res) {
     ]);
   } catch (err) {
     console.error('store', err);
-    return res.status(200).json({ reply: UNAVAILABLE_REPLY, limitReached: true, conversationId });
+    return res.status(200).json({ reply: ERROR_REPLY, limitReached: true, conversationId });
   }
   const [nVisitor, , nIp, , nDay, , microUsd] = counts;
   const remaining = Math.max(0, LIMITS.perVisitorPerDay - nVisitor);
@@ -111,9 +116,9 @@ export default async function handler(req, res) {
   const overQuota = nVisitor > LIMITS.perVisitorPerDay || nIp > LIMITS.perIpPerDay;
   const overBudget = nDay > LIMITS.globalPerDay || Number(microUsd || 0) / 1e6 >= LIMITS.monthlyBudgetUsd;
 
-  if (overQuota) return reply({ reply: WHATSAPP_REPLY, remaining: 0, limitReached: true }, { limited: 'quota' });
+  if (overQuota) return reply({ reply: QUOTA_REPLY, remaining: 0, limitReached: true }, { limited: 'quota' });
   if (overBudget || !client) {
-    return reply({ reply: UNAVAILABLE_REPLY, remaining, limitReached: true }, { limited: client ? 'budget' : 'indisponible' });
+    return reply({ reply: client ? BUDGET_REPLY : ERROR_REPLY, remaining, limitReached: true }, { limited: client ? 'budget' : 'indisponible' });
   }
 
   let text;
@@ -141,7 +146,7 @@ export default async function handler(req, res) {
     if (err instanceof Anthropic.RateLimitError) console.warn('anthropic rate limit');
     else if (err instanceof Anthropic.APIError) console.error('anthropic', err.status, err.message);
     else console.error('chat', err);
-    return reply({ reply: UNAVAILABLE_REPLY, remaining, suggestWhatsApp: true }, { limited: 'erreur' });
+    return reply({ reply: ERROR_REPLY, remaining, suggestWhatsApp: true }, { limited: 'erreur' });
   }
 
   // Suivi du coût et journal anonyme des questions (statistiques agrégées)
@@ -163,7 +168,7 @@ export default async function handler(req, res) {
   }
 
   return reply(
-    { reply: text || UNAVAILABLE_REPLY, remaining, suggestWhatsApp: nVisitor >= LIMITS.suggestWhatsAppAfter },
+    { reply: text || ERROR_REPLY, remaining, suggestWhatsApp: nVisitor >= LIMITS.suggestWhatsAppAfter },
     { usage, costUsd: cost }
   );
 }

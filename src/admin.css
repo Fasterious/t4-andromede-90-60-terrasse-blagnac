@@ -74,6 +74,7 @@ h2 { margin: 2rem 0 0.75rem; font-size: 1.05rem; }
 .convs tbody tr:hover { background: var(--green-soft); }
 .convs td.num { text-align: right; font-variant-numeric: tabular-nums; }
 .convs td.q { max-width: 340px; }
+.tag-hot { background: #fdecea !important; color: #b42318 !important; font-weight: 600; }
 .tag { display: inline-block; margin-left: 0.3rem; padding: 0 0.4rem; border-radius: 999px; background: #fff6e0; color: #8a5a00; font-size: 0.7rem; }
 
 .transcript { width: min(680px, calc(100vw - 1rem)); max-height: calc(100dvh - 2rem); padding: 0; border: none; border-radius: 12px; background: var(--surface); color: var(--text); }

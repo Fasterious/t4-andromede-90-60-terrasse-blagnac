@@ -62,7 +62,7 @@ function saveConversationId(id) {
 
 const waLink = () =>
   `https://wa.me/${annonce.contact.whatsapp}?text=${encodeURIComponent(
-    `Bonjour, j’ai échangé avec l’assistant du site au sujet du T4 avec terrasse à Andromède et j’aimerais vous poser quelques questions. [réf. T4A-${sourceCode}]`
+    `Bonjour, j’ai posé plusieurs questions à l’assistant du site au sujet du T4 avec terrasse à Andromède et j’aimerais continuer avec vous. [réf. T4A-${sourceCode}]`
   )}`;
 
 export function initChat() {
@@ -180,12 +180,13 @@ export function initChat() {
       pending.remove();
       const reply =
         data.reply ||
-        'Je ne peux pas répondre pour le moment. Le plus simple : écrivez directement à Corinne & Arnaud sur WhatsApp.';
+        'L’assistant ne peut pas répondre pour l’instant. Corinne & Arnaud vous répondent directement sur WhatsApp ou au téléphone.';
       addBubble('assistant', reply);
       if (data.reply && !data.limitReached) history.push({ role: 'assistant', content: reply });
       else history.pop(); // la question sans réponse ne compte pas dans l'historique
       setRemaining(data.remaining);
-      if (data.limitReached || data.suggestWhatsApp || !res.ok) addWhatsAppCta();
+      if (data.limitReached && data.remaining === 0) addWhatsAppCta('Parler à Corinne & Arnaud sur WhatsApp');
+      else if (data.limitReached || data.suggestWhatsApp || !res.ok) addWhatsAppCta();
       if (data.limitReached) panel.querySelector('.chat-form').hidden = true;
       save(history);
     } catch {

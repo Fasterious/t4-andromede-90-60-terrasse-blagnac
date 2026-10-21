@@ -102,6 +102,7 @@ async function load() {
     tile(c.questions, 'Questions posées'),
     tile(c.questionsParConversation, 'Questions par conversation'),
     tile(fmtDuree(c.dureeMoyenneSec), 'Durée moyenne'),
+    tile(c.tresInteresses, 'Très intéressés (limite atteinte)'),
     tile(`${c.coutUsd.toFixed(2)} $`, 'Coût de l’assistant'),
   ].join('');
 
@@ -119,7 +120,7 @@ async function load() {
         .map(
           (cv) => `<tr data-id="${esc(cv.id)}">
         <td>${fmtDate(cv.debut)}</td>
-        <td class="num">${cv.questions}${cv.limite ? '<span class="tag">limite</span>' : ''}</td>
+        <td class="num">${cv.questions}${cv.limite === 'quota' ? '<span class="tag tag-hot">très intéressé</span>' : cv.limite ? `<span class="tag">${esc(cv.limite)}</span>` : ''}</td>
         <td class="num">${fmtDuree(cv.dureeSec)}</td>
         <td>${esc(cv.ville || 'inconnue')}</td>
         <td>${esc(cv.source)}</td>

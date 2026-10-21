@@ -54,6 +54,7 @@ export default async function handler(req, res) {
       questionsParConversation: convs.length ? Math.round((questions / convs.length) * 10) / 10 : 0,
       dureeMoyenneSec: convs.length ? Math.round(dureeTotale / convs.length) : 0,
       coutUsd: Math.round(cout * 10000) / 10000,
+      tresInteresses: new Set(convs.filter((c) => c.messages.some((m) => m.limite === 'quota')).map((c) => c.visiteur)).size,
       parHeure,
       parJourSemaine,
       parVille,
@@ -72,7 +73,7 @@ export default async function handler(req, res) {
       ville: [c.geo?.ville, c.geo?.codePostal, c.geo?.pays].filter(Boolean).join(' · '),
       appareil: `${c.appareil?.type || ''} · ${c.appareil?.os || ''} · ${c.appareil?.browser || ''}`,
       premiereQuestion: c.messages.find((m) => m.role === 'user')?.texte || '',
-      limite: c.messages.some((m) => m.limite),
+      limite: c.messages.some((m) => m.limite === 'quota') ? 'quota' : c.messages.find((m) => m.limite)?.limite || null,
     })),
   });
 }
