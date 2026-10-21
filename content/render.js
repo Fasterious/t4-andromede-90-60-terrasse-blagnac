@@ -3,6 +3,7 @@
 
 import { annonce } from './annonce.js';
 import { icon } from './icons.js';
+import { planSvg } from './plan.js';
 
 const esc = (s) =>
   String(s)
@@ -50,6 +51,19 @@ function renderHistoire() {
     'Notre histoire avec cet appartement',
     annonce.histoire.map((p) => `<p>${esc(p)}</p>`).join('') +
       `<p class="signature">${esc(annonce.contact.noms)}</p>`
+  );
+}
+
+function renderPlan() {
+  return section(
+    'plan',
+    'Plan de l’appartement',
+    `<figure class="plan">
+       <div class="plan-large">${planSvg()}</div>
+       <div class="plan-haut">${planSvg({ portrait: true })}</div>
+       <figcaption class="small muted">${esc(annonce.plan.mention)}</figcaption>
+     </figure>
+     <a class="btn-outline plan-ouvrir" href="/plan.svg" target="_blank" rel="noopener" data-track="plan_open">Ouvrir le plan en grand</a>`
   );
 }
 
@@ -168,6 +182,7 @@ export function renderSections() {
     renderVideo(),
     renderHistoire(),
     renderPointsForts(),
+    renderPlan(),
     renderQuartier(),
     renderPointsAttention(),
     renderFaq(),

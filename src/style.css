@@ -1594,3 +1594,56 @@ html.chat-open body {
   .chat-panel.open { animation: none; }
   .typing i { animation: none; }
 }
+
+/* Plan de l'appartement (SVG en ligne, version couchée ou debout selon l'écran) */
+.plan {
+  margin: 0;
+}
+
+.plan-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.plan-haut {
+  display: none;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+@media (max-width: 700px) {
+  .plan-large {
+    display: none;
+  }
+  .plan-haut {
+    display: block;
+  }
+}
+
+.plan figcaption {
+  margin-top: 0.75rem;
+  line-height: 1.5;
+}
+
+.plan-ouvrir {
+  display: inline-flex;
+  margin-top: 1rem;
+}
+
+.pl-sol { fill: #fbfaf7; }
+.pl-mur { fill: none; stroke: #1f2a24; stroke-linejoin: miter; }
+.pl-cloison { stroke: #1f2a24; stroke-linecap: square; }
+.pl-trou { stroke: #fbfaf7; }
+.pl-baie { stroke: #7fb3d5; }
+.pl-battant { stroke: #1f2a24; }
+.pl-arc { fill: none; stroke: #9aa39d; stroke-width: 0.02; stroke-dasharray: 0.06 0.05; }
+.pl-meuble { fill: none; stroke: #b9c0bb; stroke-width: 0.02; }
+.pl-dressing { stroke-dasharray: 0.08 0.06; }
+.pl-nom, .pl-surface, .pl-cote, .pl-note, .pl-terrasse { text-anchor: middle; font-family: inherit; }
+.pl-nom { font-weight: 700; fill: var(--green); }
+.pl-surface { font-weight: 600; fill: var(--text); }
+.pl-cote, .pl-note { fill: var(--muted); }
+.pl-note { font-style: italic; }
+.pl-terrasse { font-weight: 700; fill: var(--green); }
+.pl-fleche { fill: none; stroke: var(--green); stroke-width: 0.04; }

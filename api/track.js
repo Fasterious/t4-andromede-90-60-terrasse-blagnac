@@ -17,6 +17,7 @@ const EVENTS = new Set([
   'chat_whatsapp_click',
   'chat_save',
   'details_open',
+  'plan_open',
 ]);
 const SOURCES = new Set(['seloger', 'pap', 'leboncoin', 'lbc', 'facebook', 'fb', 'qr', 'affiche', 'whatsapp', 'direct']);
 const TTL = 60 * 60 * 24 * 120;

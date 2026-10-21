@@ -3,6 +3,7 @@
 // plus que ce qu'affiche déjà le site.
 
 import { annonce as a } from '../../content/annonce.js';
+import { PIECES } from '../../content/plan.js';
 
 const conf = (x) => (x.aConfirmer ? ' (à confirmer)' : '');
 
@@ -20,6 +21,10 @@ function knowledge() {
     '',
     `# Points forts`,
     ...a.pointsForts.map((p) => `- ${p.titre} : ${p.texte}`),
+    '',
+    `# Plan et cotes des pièces`,
+    ...PIECES.map((p) => `- ${p.nom}${p.surface ? ` (${p.surface})` : ''} : ${p.cotes}${p.note ? `, ${p.note}` : ''}`),
+    a.plan.mention,
     '',
     `# À proximité (estimations depuis l'adresse)`,
     ...a.proximites.map((p) => `- ${p.lieu} : ${p.distance}${conf(p)}`),

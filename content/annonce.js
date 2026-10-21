@@ -27,6 +27,11 @@ export const annonce = {
   // Badge mis en avant près du prix
   enDirect: 'Vente en direct · 0 € de frais d’agence',
 
+  // Plan redessiné (géométrie et cotes dans content/plan.js)
+  plan: {
+    mention: 'Plan schématique, redessiné à partir des mesures que nous avons relevées nous-mêmes en octobre 2026, avec nos propres appareils. Vous pouvez bien sûr les vérifier pendant la visite, ou faire mesurer par un professionnel. Seul le certificat Loi Carrez (90,5 m²) fait foi. Terrasse non représentée.',
+  },
+
   contact: {
     noms: 'Corinne & Arnaud',
     telephone: '06 23 94 79 77',

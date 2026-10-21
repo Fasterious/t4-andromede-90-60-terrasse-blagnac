@@ -6,6 +6,7 @@ const $ = (id) => document.getElementById(id);
 const EVENTS = {
   pageview: 'Visites',
   gallery_open: 'Galerie ouverte',
+  plan_open: 'Plan ouvert en grand',
   visit_request: 'Demandes de visite',
   whatsapp_click: 'Clics WhatsApp',
   chat_whatsapp_click: 'WhatsApp depuis l’assistant',

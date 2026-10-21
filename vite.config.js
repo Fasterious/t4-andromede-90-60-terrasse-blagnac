@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite';
+import { planSvg } from './content/plan.js';
 import { renderSections, renderHeaderExtras, renderSousTitre, renderEnDirect, htmlVars } from './content/render.js';
 
 const escAttr = (s) =>
@@ -8,6 +9,16 @@ const escAttr = (s) =>
 function annoncePlugin() {
   return {
     name: 'annonce-content',
+    // Plan seul, ouvrable en grand (zoom natif du navigateur)
+    configureServer(server) {
+      server.middlewares.use('/plan.svg', (req, res) => {
+        res.setHeader('Content-Type', 'image/svg+xml');
+        res.end(planSvg({ standalone: true }));
+      });
+    },
+    generateBundle() {
+      this.emitFile({ type: 'asset', fileName: 'plan.svg', source: planSvg({ standalone: true }) });
+    },
     transformIndexHtml(html) {
       const vars = htmlVars();
       return html
