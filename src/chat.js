@@ -399,6 +399,24 @@ export function initChat() {
 
   window.addEventListener('popstate', () => close(true));
 
-  // Seule entrée vers l'assistant : la bulle, toujours visible
+  // Seule entrée vers l'assistant : la bulle. Elle s'efface seulement quand
+  // elle recouvrirait le bouton « Demander une visite » de l'en-tête.
   fab.onclick = open;
+  const headerCta = document.querySelector('.header-ctas [data-open-visit]');
+  if (headerCta) {
+    let queued = false;
+    const check = () => {
+      queued = false;
+      const a = headerCta.getBoundingClientRect();
+      const b = fab.getBoundingClientRect();
+      const overlap = a.bottom > b.top && a.top < b.bottom && a.right > b.left && a.left < b.right;
+      fab.classList.toggle('is-tucked', overlap);
+    };
+    const schedule = () => {
+      if (!queued) (queued = true), requestAnimationFrame(check);
+    };
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule);
+    check();
+  }
 }

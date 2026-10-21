@@ -23,7 +23,7 @@ const QUESTIONS = [
   },
   {
     name: 'vente',
-    label: 'Avez-vous un bien à vendre pour acheter ?',
+    label: 'Avez-vous un bien à vendre pour acheter\u00a0?',
     options: ['Non', 'Oui, compromis déjà signé', 'Oui, pas encore vendu'],
   },
   {

@@ -11,6 +11,9 @@
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
   --lb-bottom-height: 7.5rem;
+  --wa: #15803d;
+  --wa-hover: #166534;
+  color-scheme: light;
 }
 
 *,
@@ -85,8 +88,21 @@ a:hover {
   border-radius: 999px;
   cursor: pointer;
   transition: background 0.15s, color 0.15s;
-  margin-top: 0.2rem;
   white-space: nowrap;
+}
+
+/* Pastilles secondaires : 40 px visibles, zone tactile étendue à 48 px */
+.btn-share,
+.btn-fullscreen {
+  position: relative;
+  min-height: 40px;
+}
+
+.btn-share::after,
+.btn-fullscreen::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
 }
 
 .btn-share:hover,
@@ -153,14 +169,15 @@ a:hover {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 0.75rem;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
 }
 
 .gallery-toolbar h2 {
   margin: 0;
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--text);
+  font-size: 1.2rem;
+  line-height: 1.25;
+  color: var(--green);
 }
 
 .btn-fullscreen {
@@ -175,6 +192,8 @@ a:hover {
   border-radius: 999px;
   cursor: pointer;
   transition: background 0.15s, color 0.15s;
+  display: inline-flex;
+  align-items: center;
 }
 
 .btn-fullscreen:hover,
@@ -252,8 +271,9 @@ a:hover {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.55rem 1rem;
-  background: #25d366;
+  min-height: 44px;
+  padding: 0.55rem 1.1rem;
+  background: var(--wa);
   color: #fff;
   font-size: 0.95rem;
   font-weight: 600;
@@ -264,7 +284,7 @@ a:hover {
 
 .btn-whatsapp:hover,
 .btn-whatsapp:focus-visible {
-  background: #1ebe57;
+  background: var(--wa-hover);
   outline: none;
   transform: translateY(-1px);
 }
@@ -558,7 +578,7 @@ a:hover {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-top: 1.1rem;
+  margin-top: 1.5rem;
 }
 
 .btn-primary,
@@ -567,7 +587,9 @@ a:hover {
   font: inherit;
   font-size: 0.95rem;
   font-weight: 600;
-  padding: 0.6rem 1.1rem;
+  line-height: 1.25;
+  min-height: 44px;
+  padding: 0.6rem 1.25rem;
   border-radius: 999px;
   cursor: pointer;
   border: 1.5px solid var(--green);
@@ -606,23 +628,28 @@ a:hover {
 .block {
   max-width: 640px;
   margin: 0 auto;
-  padding: 1.75rem 0;
+  padding: 2rem 0;
   border-top: 1px solid var(--border);
 }
 
+/* Hors de .content : mêmes marges latérales que les autres sections */
 .contact-block {
-  padding: 1.75rem 1.25rem 6rem;
+  width: calc(100% - 2.5rem);
+  max-width: calc(640px - 2.5rem);
+  padding: 2rem 0 6rem;
 }
 
 .block h2 {
-  margin: 0 0 0.85rem;
+  margin: 0 0 1rem;
   font-size: 1.2rem;
+  line-height: 1.25;
   color: var(--green);
 }
 
 .block h3 {
   margin: 0 0 0.25rem;
   font-size: 1rem;
+  line-height: 1.35;
 }
 
 .block p {
@@ -653,7 +680,7 @@ a:hover {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
-  margin: 1rem 0 0;
+  margin: 0.75rem 0 0;
   padding: 0.9rem 1rem;
   background: var(--amber-soft);
   border-radius: 10px;
@@ -670,7 +697,7 @@ a:hover {
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 0.6rem;
+  gap: 0.75rem;
 }
 
 @media (min-width: 560px) {
@@ -683,7 +710,7 @@ a:hover {
   display: flex;
   align-items: flex-start;
   gap: 0.75rem;
-  padding: 0.85rem 1rem;
+  padding: 1rem;
   background: var(--green-soft);
   border-radius: 10px;
 }
@@ -718,7 +745,7 @@ a:hover {
 
 .key-facts {
   list-style: none;
-  margin: 1.1rem 0 0;
+  margin: 1.5rem 0 0;
   padding: 0;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -755,18 +782,25 @@ a:hover {
 }
 
 .lieu .ico-sm {
-  margin-top: 0.15rem;
+  margin-top: 0.1rem;
 }
 
 details summary {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 0.5rem;
+  line-height: 1.4;
+}
+
+details summary .ico-sm {
+  margin-top: 0.1rem;
 }
 
 details summary::after {
   content: '+';
+  flex: 0 0 1rem;
   margin-left: auto;
+  text-align: center;
   font-weight: 400;
   color: var(--muted);
 }
@@ -793,13 +827,29 @@ details summary {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 0.35rem;
+  gap: 0.25rem 0.5rem;
   font-weight: 600;
+}
+
+/* Mobile : le lien passe sous l'adresse, aligné sur le texte (pas de « · » orphelin) */
+@media (max-width: 520px) {
+  .adresse .sep {
+    display: none;
+  }
+
+  .adresse a {
+    flex-basis: 100%;
+    padding-left: calc(18px + 0.5rem);
+  }
 }
 
 .proxi {
   display: grid;
-  gap: 1rem;
+  gap: 1.5rem;
+}
+
+.proxi-group h3 {
+  margin-bottom: 0.25rem;
 }
 
 .proxi-group ul {
@@ -812,9 +862,10 @@ details summary {
   display: flex;
   justify-content: space-between;
   gap: 1rem;
-  padding: 0.45rem 0;
+  padding: 0.5rem 0;
   border-bottom: 1px dashed var(--border);
   font-size: 0.92rem;
+  line-height: 1.4;
 }
 
 .dist {
@@ -823,9 +874,13 @@ details summary {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 0.2rem;
+  gap: 0.25rem;
   color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.45;
   text-align: right;
+  text-wrap: balance;
+  font-variant-numeric: tabular-nums;
 }
 
 .dist .tag-confirm {
@@ -835,36 +890,61 @@ details summary {
 .tag-confirm {
   display: inline-block;
   margin-left: 0.3rem;
-  padding: 0 0.4rem;
+  padding: 0.05rem 0.45rem;
   border-radius: 999px;
   background: var(--amber-soft);
   color: var(--amber);
   font-size: 0.7rem;
   font-weight: 600;
+  line-height: 1.4;
+  white-space: nowrap;
   vertical-align: middle;
+}
+
+.attention-list,
+.faq-list {
+  display: grid;
+  gap: 0.5rem;
 }
 
 details.attention,
 details.faq {
   border: 1px solid var(--border);
   border-radius: 10px;
-  padding: 0.7rem 1rem;
-  margin-bottom: 0.5rem;
+}
+
+/* Padding porté par le résumé : toute la ligne est cliquable (44 px min.) */
+details.attention summary,
+details.faq summary {
+  min-height: 44px;
+  padding: 0.75rem 1rem;
+}
+
+details.attention > p,
+details.faq > p {
+  padding: 0 1rem;
 }
 
 details summary {
   cursor: pointer;
   font-weight: 600;
   font-size: 0.95rem;
+  border-radius: 10px;
+}
+
+details summary:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 2px;
 }
 
 details[open] summary {
-  margin-bottom: 0.6rem;
+  padding-bottom: 0.5rem;
   color: var(--green);
 }
 
 details p:last-child {
   margin-bottom: 0;
+  padding-bottom: 1rem;
 }
 
 .steps {
@@ -915,9 +995,10 @@ details p:last-child {
   display: flex;
   justify-content: space-between;
   gap: 1rem;
-  padding: 0.4rem 0;
+  padding: 0.5rem 0;
   border-bottom: 1px dashed var(--border);
   font-size: 0.88rem;
+  line-height: 1.4;
 }
 
 .reg-list li span:last-child {
@@ -925,6 +1006,10 @@ details p:last-child {
   max-width: 50%;
   text-align: right;
   font-weight: 600;
+}
+
+.reg-list li .muted {
+  font-weight: 400;
 }
 
 /* Modale « Demander une visite » */
@@ -936,6 +1021,8 @@ details p:last-child {
   width: min(520px, calc(100vw - 2rem));
   max-height: calc(100dvh - 2rem);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+  color: var(--text);
+  background: var(--bg);
 }
 
 .modal::backdrop {
@@ -944,21 +1031,29 @@ details p:last-child {
 
 .modal-inner {
   position: relative;
-  padding: 1.25rem 1.25rem 1rem;
+  padding: 1.5rem 1.25rem 1.25rem;
 }
 
 .modal-inner h2 {
-  margin: 0 0 0.4rem;
+  margin: 0 0 0.5rem;
+  padding-right: 2.5rem;
   color: var(--green);
   font-size: 1.25rem;
+  line-height: 1.25;
 }
 
 .modal-close {
   position: absolute;
-  top: 0.5rem;
-  right: 0.6rem;
+  top: 0.75rem;
+  right: 0.75rem;
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   appearance: none;
   border: none;
+  border-radius: 50%;
   background: transparent;
   font-size: 1.6rem;
   line-height: 1;
@@ -966,9 +1061,16 @@ details p:last-child {
   color: var(--muted);
 }
 
+.modal-close:hover,
+.modal-close:focus-visible {
+  background: var(--green-soft);
+  color: var(--text);
+  outline: none;
+}
+
 .field {
   display: block;
-  margin: 0.9rem 0 0;
+  margin: 1rem 0 0;
   padding: 0;
   border: none;
 }
@@ -978,7 +1080,8 @@ details p:last-child {
   display: block;
   font-weight: 600;
   font-size: 0.9rem;
-  margin-bottom: 0.35rem;
+  line-height: 1.35;
+  margin-bottom: 0.25rem;
   padding: 0;
 }
 
@@ -986,9 +1089,12 @@ details p:last-child {
   width: 100%;
   font: inherit;
   font-size: 16px;
-  padding: 0.55rem 0.7rem;
-  border: 1.5px solid var(--border);
+  min-height: 44px;
+  padding: 0.55rem 0.75rem;
+  border: 1.5px solid #d4d4d4;
   border-radius: 8px;
+  color: var(--text);
+  background: var(--bg);
 }
 
 .field input[type='text']:focus {
@@ -999,14 +1105,19 @@ details p:last-child {
 .choice {
   display: flex;
   align-items: flex-start;
-  gap: 0.5rem;
-  font-size: 0.9rem;
-  padding: 0.25rem 0;
+  gap: 0.625rem;
+  min-height: 40px;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  padding: 0.5rem 0;
   cursor: pointer;
 }
 
 .choice input {
-  margin-top: 0.25rem;
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  margin: 0.1rem 0 0;
   accent-color: var(--green);
 }
 
@@ -1015,7 +1126,7 @@ details p:last-child {
 }
 
 .modal-actions {
-  margin: 1rem 0 0.5rem;
+  margin: 1.25rem 0 0.75rem;
 }
 
 .modal-actions .btn-primary {
@@ -1043,7 +1154,12 @@ details p:last-child {
   border-radius: 999px;
   box-shadow: 0 8px 24px rgba(30, 86, 49, 0.28);
   cursor: pointer;
-  transition: transform 0.15s, box-shadow 0.15s;
+  transition: transform 0.15s, box-shadow 0.15s, opacity 0.2s;
+}
+
+.chat-fab.is-tucked {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .chat-fab:hover {
@@ -1163,8 +1279,8 @@ html.chat-open body {
   border: none;
   background: transparent;
   color: var(--muted);
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   display: inline-flex;
   align-items: center;
@@ -1261,10 +1377,13 @@ html.chat-open body {
 
 .cmsg-cta {
   align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   margin-left: calc(26px + 0.6rem);
-  padding: 0.55rem 1rem;
+  padding: 0.55rem 1.1rem;
   border-radius: 999px;
-  background: #25d366;
+  background: var(--wa);
   color: #fff;
   font-weight: 600;
   font-size: 0.9rem;
@@ -1272,7 +1391,7 @@ html.chat-open body {
 }
 
 .cmsg-cta:hover {
-  background: #1ebe57;
+  background: var(--wa-hover);
   text-decoration: none;
 }
 
@@ -1317,7 +1436,8 @@ html.chat-open body {
   color: var(--text);
   font: inherit;
   font-size: 0.82rem;
-  padding: 0.4rem 0.8rem;
+  min-height: 40px;
+  padding: 0.4rem 0.85rem;
   border-radius: 999px;
   cursor: pointer;
   white-space: nowrap;
@@ -1341,7 +1461,7 @@ html.chat-open body {
   display: flex;
   align-items: flex-end;
   gap: 0.4rem;
-  padding: 0.35rem 0.35rem 0.35rem 1rem;
+  padding: 0.25rem 0.25rem 0.25rem 1rem;
   border: 1px solid var(--chat-line);
   border-radius: 24px;
   background: var(--chat-bg);
@@ -1369,7 +1489,7 @@ html.chat-open body {
   font: inherit;
   font-size: 16px;
   line-height: 1.4;
-  padding: 0.45rem 0;
+  padding: 0.55rem 0;
   max-height: 120px;
 }
 
@@ -1377,8 +1497,8 @@ html.chat-open body {
   flex: 0 0 auto;
   appearance: none;
   border: none;
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background: var(--green);
   color: #fff;
@@ -1412,28 +1532,14 @@ html.chat-open body {
   font-weight: 600;
 }
 
-.chat-notice {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.5rem;
-  margin: 0;
-  padding: 0.55rem 0.75rem;
-  border-radius: 12px;
-  background: #fff6e0;
-  color: #6b4a00;
-  font-size: 0.8rem;
-  line-height: 1.4;
-}
-
-.chat-notice svg {
-  width: 16px;
-  height: 16px;
-  margin-top: 0.05rem;
-}
-
-.chat-notice a {
-  color: inherit;
-  text-decoration: underline;
+/* Mention IA sous le message d'accueil */
+.cmsg-ai-note {
+  display: block;
+  margin-top: 6px;
+  font-style: italic;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--muted);
 }
 
 .chat-save {
@@ -1447,7 +1553,8 @@ html.chat-open body {
   font: inherit;
   font-size: 0.82rem;
   font-weight: 600;
-  padding: 0.4rem 0.75rem;
+  min-height: 40px;
+  padding: 0.4rem 0.85rem;
   border-radius: 999px;
   cursor: pointer;
 }
@@ -1471,8 +1578,15 @@ html.chat-open body {
     display: none;
   }
 
+  /* Icône seule : même gabarit que le bouton Fermer */
   .chat-save {
-    padding: 0.5rem;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    justify-content: center;
+    border-color: transparent;
+    border-radius: 50%;
+    color: var(--muted);
   }
 }
 
