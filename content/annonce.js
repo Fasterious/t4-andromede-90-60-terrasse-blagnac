@@ -113,7 +113,7 @@ export const annonce = {
     { categorie: 'Enfants', icone: 'Music', lieu: 'Conservatoire Résonance (musique et danse)', distance: '≈ 6 min à pied' },
     { categorie: 'Quotidien', icone: 'Croissant', lieu: 'Boulangerie et fleuriste, avenue d’Andromède', distance: '≈ 3 min à pied' },
     { categorie: 'Quotidien', icone: 'Pizza', lieu: 'Restaurants : sushis, pizzas, avenue d’Andromède', distance: '≈ 3 min à pied' },
-    { categorie: 'Quotidien', icone: 'ShoppingBasket', lieu: 'Carrefour Market + salle de sport : reprise annoncée de l’Intermarché de l’avenue', distance: '≈ 3 min à pied', aConfirmer: true },
+    { categorie: 'Quotidien', icone: 'ShoppingBasket', lieu: 'En projet : Carrefour Market et salle de sport à la place de l’ancien Intermarché de l’avenue (travaux pas encore commencés)', distance: '≈ 3 min à pied', projet: true },
     { categorie: 'Quotidien', icone: 'ShoppingCart', lieu: 'E.Leclerc Blagnac (drive, galerie)', distance: '≈ 3 min en voiture' },
     { categorie: 'Quotidien', icone: 'Clapperboard', lieu: 'Cinéma Méga CGR (même centre que Leclerc)', distance: '≈ 3 min en voiture' },
     { categorie: 'Sport et nature', icone: 'Dumbbell', lieu: 'Sporting Village (salle de sport), face au lycée', distance: '≈ 7 min à pied' },

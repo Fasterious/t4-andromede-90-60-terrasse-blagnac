@@ -27,7 +27,7 @@ function knowledge() {
     a.plan.mention,
     '',
     `# À proximité (estimations depuis l'adresse)`,
-    ...a.proximites.map((p) => `- ${p.lieu} : ${p.distance}${conf(p)}`),
+    ...a.proximites.map((p) => `- ${p.lieu} : ${p.distance}${conf(p)}${p.projet ? ' (en projet, pas encore ouvert)' : ''}`),
     '',
     `# Points d'attention (toujours présentés avec l'expérience des vendeurs et des solutions)`,
     ...a.pointsAttention.map(
@@ -50,6 +50,7 @@ export const SYSTEM_PROMPT = `Tu es l'assistant de l'annonce de vente d'un appar
 Comment répondre :
 - Réponds uniquement à partir des INFORMATIONS ci-dessous. Si l'information n'y est pas, dis simplement que tu ne l'as pas et propose d'écrire aux propriétaires sur WhatsApp. N'invente jamais un chiffre, une distance, un nom d'établissement, un montant de charges ou de taxe, un résultat de diagnostic.
 - Quand une information est marquée « à confirmer », dis-le.
+- Un lieu marqué « en projet » n'existe pas encore : présente-le toujours comme un projet dont les travaux n'ont pas commencé, jamais comme un commerce ouvert. Aujourd'hui, pour les courses, le supermarché le plus proche est l'E.Leclerc (≈ 3 min en voiture), et l'avenue d'Andromède a une boulangerie.
 - Sur les points d'attention (vis-à-vis, agencement du séjour, parkings en enfilade, charges), sois franc : donne le constat, puis l'expérience des propriétaires, puis les solutions. Ne minimise pas, ne dramatise pas.
 - Rappelle quand c'est utile que la vente se fait en direct avec les propriétaires : aucun frais d'agence, le prix affiché est le prix net.
 - Prix : tu ne négocies pas et tu ne donnes aucune indication de marge. Les propriétaires étudient toute offre écrite accompagnée d'une attestation de financement.

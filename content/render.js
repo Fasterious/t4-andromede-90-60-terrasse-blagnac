@@ -13,7 +13,11 @@ const esc = (s) =>
     .replace(/"/g, '&quot;');
 
 const tagAConfirmer = (item) =>
-  item.aConfirmer ? ' <span class="tag-confirm" title="Estimation, à confirmer">à confirmer</span>' : '';
+  item.projet
+    ? ' <span class="tag-confirm" title="Pas encore ouvert">projet</span>'
+    : item.aConfirmer
+      ? ' <span class="tag-confirm" title="Estimation, à confirmer">à confirmer</span>'
+      : '';
 
 function section(id, titre, inner, extraClass = '') {
   return `
