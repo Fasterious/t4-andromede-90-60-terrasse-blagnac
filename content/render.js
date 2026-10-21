@@ -49,7 +49,7 @@ function renderHistoire() {
     'histoire',
     'Notre histoire avec cet appartement',
     annonce.histoire.map((p) => `<p>${esc(p)}</p>`).join('') +
-      `<p class="signature">— ${esc(annonce.contact.noms)}</p>`
+      `<p class="signature">${esc(annonce.contact.noms)}</p>`
   );
 }
 
@@ -77,7 +77,7 @@ function renderQuartier() {
   return section(
     'quartier',
     'Le quartier Andromède',
-    `<p class="adresse">${icon('MapPin', 'ico ico-sm')} ${esc(annonce.adresse)} — <a href="${mapsUrl}" target="_blank" rel="noopener noreferrer" data-track="maps_click">calculer mes trajets</a></p>
+    `<p class="adresse">${icon('MapPin', 'ico ico-sm')} ${esc(annonce.adresse)} <span class="sep">·</span> <a href="${mapsUrl}" target="_blank" rel="noopener noreferrer" data-track="maps_click">calculer mes trajets</a></p>
      <div class="proxi">
       ${Object.entries(groupes)
         .map(
@@ -154,7 +154,7 @@ function renderReglementaire() {
        <li><span>Classe énergie (DPE)</span><span>${val(r.dpeEnergie)}</span></li>
        <li><span>Classe climat (GES)</span><span>${val(r.dpeClimat)}</span></li>
        <li><span>Montant estimé des dépenses annuelles d’énergie pour un usage standard</span><span>${val(r.depensesEnergie)}</span></li>
-       <li><span>Copropriété</span><span>${r.copropriete ? `oui — ${esc(r.lots)} lots` : 'non'}</span></li>
+       <li><span>Copropriété</span><span>${r.copropriete ? `oui, ${esc(r.lots)} lots` : 'non'}</span></li>
        <li><span>Quote-part annuelle moyenne du budget prévisionnel</span><span>${val(r.chargesAnnuelles)}</span></li>
        <li><span>Procédure en cours</span><span>${val(r.procedures)}</span></li>
        <li><span>Surface Loi Carrez</span><span>90,5 m²</span></li>
@@ -189,6 +189,13 @@ function renderChiffresCles() {
     </ul>`;
 }
 
+const SEP = '<span class="sep" aria-hidden="true">·</span>';
+
+// Sous-titre : éléments séparés par des points médians gris
+export function renderSousTitre() {
+  return [...annonce.sousTitre, `quartier ${annonce.quartier}`].map(esc).join(` ${SEP} `);
+}
+
 export function renderHeaderExtras() {
   return renderChiffresCles() + renderDuree();
 }
@@ -196,7 +203,6 @@ export function renderHeaderExtras() {
 export function htmlVars() {
   return {
     titre: annonce.titre,
-    sousTitre: annonce.sousTitre,
     quartier: annonce.quartier,
     prix: annonce.prix.affiche,
     prixNote: annonce.prix.note,
@@ -205,6 +211,6 @@ export function htmlVars() {
     telephone: annonce.contact.telephone,
     telephoneIntl: annonce.contact.telephoneIntl,
     whatsapp: annonce.contact.whatsapp,
-    description: `${annonce.titre} — ${annonce.quartier}. ${annonce.prix.affiche} net vendeur, sans frais d’agence.`,
+    description: `${annonce.titre}, ${annonce.quartier}. ${annonce.prix.affiche} net vendeur, sans frais d’agence.`,
   };
 }

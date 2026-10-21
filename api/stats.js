@@ -1,4 +1,4 @@
-// Tableau de bord privé (JSON) pour le pilotage — protégé par ADMIN_TOKEN.
+// Tableau de bord privé (JSON) pour le pilotage : protégé par ADMIN_TOKEN.
 // GET /api/stats?days=14  avec l'en-tête  Authorization: Bearer <ADMIN_TOKEN>
 
 import crypto from 'node:crypto';

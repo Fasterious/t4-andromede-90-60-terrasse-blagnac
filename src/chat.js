@@ -100,7 +100,7 @@ export function initChat() {
       <div class="chat-head">
         <div>
           <strong>Assistant de l’annonce</strong>
-          <span class="muted small">Assistant automatique (IA) — répond à partir de cette page</span>
+          <span class="muted small">Assistant automatique (IA) · répond à partir de cette page</span>
         </div>
         <button type="button" class="chat-close" aria-label="Fermer">×</button>
       </div>

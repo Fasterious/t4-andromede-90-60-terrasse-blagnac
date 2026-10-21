@@ -6,11 +6,11 @@
     <meta name="description" content="{{description}}" />
     <meta name="theme-color" content="#1e5631" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="{{titre}} — {{quartier}}" />
+    <meta property="og:title" content="{{titre}} · {{quartier}}" />
     <meta property="og:description" content="{{prix}} net vendeur, sans frais d’agence. Photos, vidéo, quartier et points d’attention en toute transparence." />
     <meta property="og:image" content="/photos/01-terrasse.png" />
     <meta property="og:locale" content="fr_FR" />
-    <title>{{titre}} — {{quartier}}</title>
+    <title>{{titre}} · {{quartier}}</title>
     <link rel="stylesheet" href="/src/style.css" />
   </head>
   <body>
@@ -28,8 +28,8 @@
           <span>Partager</span>
         </button>
       </div>
-      <p class="subtitle">{{sousTitre}} — quartier {{quartier}}</p>
-      <p class="agency-free">Vendu directement par les propriétaires — sans frais d'agence</p>
+      <p class="subtitle"><!-- SOUS_TITRE --></p>
+      <p class="agency-free">Vendu directement par les propriétaires, sans frais d'agence</p>
       <p class="price">{{prix}}</p>
       <p class="price-note">{{prixNote}}</p>
 <!-- HEADER_EXTRAS -->
@@ -57,7 +57,7 @@
       <h2 id="contact-titre">Nous contacter</h2>
       <p class="contact-intro">Une question, une photo en plus, une visite ? Écrivez-nous directement.</p>
       <p class="contact">
-        {{noms}} — <a href="tel:{{telephoneIntl}}" data-track="tel_click">{{telephone}}</a>
+        {{noms}} <span class="sep" aria-hidden="true">·</span> <a href="tel:{{telephoneIntl}}" data-track="tel_click">{{telephone}}</a>
       </p>
       <p class="contact-whatsapp">
         <a

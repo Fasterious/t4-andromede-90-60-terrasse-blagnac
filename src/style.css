@@ -617,6 +617,12 @@ a:hover {
   font-size: 0.95rem;
 }
 
+.sep {
+  margin: 0 0.15rem;
+  color: #b5b5b5;
+  font-weight: 700;
+}
+
 .muted {
   color: var(--muted);
 }
@@ -1072,7 +1078,13 @@ details p:last-child {
   flex-direction: column;
 }
 
-.chat-head .muted {
+.chat-head .sep {
+  margin: 0 0.15rem;
+  color: #b5b5b5;
+  font-weight: 700;
+}
+
+.muted {
   color: rgba(255, 255, 255, 0.8);
 }
 

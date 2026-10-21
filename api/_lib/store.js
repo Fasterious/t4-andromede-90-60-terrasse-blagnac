@@ -1,7 +1,7 @@
 // Petit stockage clé-valeur pour les quotas et les compteurs.
 // Utilise Upstash Redis (REST) si configuré via l'intégration Vercel,
 // sinon une Map en mémoire (best effort : remise à zéro à chaque démarrage
-// de fonction — suffisant en dépannage, pas en production).
+// de fonction : suffisant en dépannage, pas en production).
 
 const URL_ = process.env.UPSTASH_REDIS_REST_URL || process.env.KV_REST_API_URL;
 const TOKEN = process.env.UPSTASH_REDIS_REST_TOKEN || process.env.KV_REST_API_TOKEN;

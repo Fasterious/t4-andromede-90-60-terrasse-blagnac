@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite';
-import { renderSections, renderHeaderExtras, htmlVars } from './content/render.js';
+import { renderSections, renderHeaderExtras, renderSousTitre, htmlVars } from './content/render.js';
 
 const escAttr = (s) =>
   String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -13,6 +13,7 @@ function annoncePlugin() {
       return html
         .replace('<!-- SECTIONS -->', renderSections())
         .replace('<!-- HEADER_EXTRAS -->', renderHeaderExtras())
+        .replace('<!-- SOUS_TITRE -->', renderSousTitre())
         .replace(/\{\{(\w+)\}\}/g, (m, key) => (key in vars ? escAttr(vars[key]) : m));
     },
   };

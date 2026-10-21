@@ -1,4 +1,4 @@
-# T4 Andromède Blagnac — site de vente
+# T4 Andromède Blagnac : site de vente
 
 Site de vente directe du T4 90,5 m² + terrasse 63 m² à Andromède (Blagnac) : photos, histoire,
 quartier, points d'attention en toute transparence, FAQ, assistant, demande de visite via WhatsApp.

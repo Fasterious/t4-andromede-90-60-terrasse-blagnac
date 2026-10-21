@@ -16,9 +16,9 @@ const QUESTIONS = [
     label: 'Votre financement',
     options: [
       'Achat comptant',
-      'Prêt — accord de principe ou attestation obtenus',
-      'Prêt — simulation faite avec banque ou courtier',
-      'Prêt — pas encore étudié',
+      'Prêt : accord de principe ou attestation obtenus',
+      'Prêt : simulation faite avec banque ou courtier',
+      'Prêt : pas encore étudié',
     ],
   },
   {

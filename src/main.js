@@ -32,13 +32,13 @@ let dragStartY = 0;
 let dragDeltaX = 0;
 let isDragging = false;
 const SWIPE_THRESHOLD_RATIO = 0.22; // fraction de la largeur pour valider le swipe
-const SLIDE_DURATION = 320; // ms — doit matcher la transition CSS .sliding
+const SLIDE_DURATION = 320; // ms : doit matcher la transition CSS .sliding
 
 function wrap(i) {
   return (i + photos.length) % photos.length;
 }
 
-// Partage — Web Share API sur mobile (ouvre le vrai menu de partage natif),
+// Partage : Web Share API sur mobile (ouvre le vrai menu de partage natif),
 // copie du lien en fallback sur desktop.
 function showToast(message) {
   const toast = document.createElement('div');
@@ -56,7 +56,7 @@ async function shareListing() {
   track('share_click');
   const shareData = {
     title: document.title,
-    text: `${annonce.titre} — ${annonce.quartier}. ${annonce.prix.affiche} net vendeur, sans frais d’agence.`,
+    text: `${annonce.titre}, ${annonce.quartier}. ${annonce.prix.affiche} net vendeur, sans frais d’agence.`,
     url: window.location.href,
   };
 
@@ -64,7 +64,7 @@ async function shareListing() {
     try {
       await navigator.share(shareData);
     } catch (err) {
-      // L'utilisateur a annulé le partage — ne rien faire
+      // L'utilisateur a annulé le partage : ne rien faire
     }
     return;
   }
@@ -177,7 +177,7 @@ async function enterNativeFullscreen() {
     if (lightbox.requestFullscreen) await lightbox.requestFullscreen();
     else if (lightbox.webkitRequestFullscreen) await lightbox.webkitRequestFullscreen();
   } catch {
-    // iOS Safari ne supporte pas requestFullscreen — l'overlay fixed suffit
+    // iOS Safari ne supporte pas requestFullscreen : l'overlay fixed suffit
   }
 }
 

@@ -1,4 +1,4 @@
-# CLAUDE.md — site de vente du T4 Andromède
+# CLAUDE.md : site de vente du T4 Andromède
 
 ## ⚠️ Ce dépôt est PUBLIC
 
@@ -15,13 +15,13 @@ Si `coulisses/` est présent, lire `coulisses/CLAUDE.md` avant toute modificatio
 
 ## Architecture
 
-- `content/annonce.js` — **source unique** du contenu public. Toute modification de texte,
+- `content/annonce.js` : **source unique** du contenu public. Toute modification de texte,
   de chiffre ou de prix se fait ici.
-- `content/render.js` — rendu HTML statique des sections, injecté au build par `vite.config.js`
+- `content/render.js` : rendu HTML statique des sections, injecté au build par `vite.config.js`
   (placeholders `{{prix}}`, `<!-- SECTIONS -->`, `<!-- HEADER_EXTRAS -->` dans `index.html`).
-- `src/` — galerie photo (main.js), demande de visite → WhatsApp (visit.js), assistant (chat.js),
+- `src/` : galerie photo (main.js), demande de visite → WhatsApp (visit.js), assistant (chat.js),
   mesure d'audience sans cookie (track.js).
-- `api/` — fonctions serverless Vercel :
+- `api/` : fonctions serverless Vercel :
   - `chat.js` : assistant (Claude Haiku 5.5), quotas par visiteur/IP/jour + budget mensuel ;
   - `track.js` : compteurs agrégés par jour, événement et source (`?src=seloger|pap|leboncoin|facebook|qr`) ;
   - `stats.js` : tableau de bord JSON protégé par `ADMIN_TOKEN`.
@@ -39,6 +39,8 @@ Si `coulisses/` est présent, lire `coulisses/CLAUDE.md` avant toute modificatio
 
 ## Règles de contenu
 
+- **Aucun tiret long (—)**, nulle part (textes, titres, messages, assistant). Séparer avec le point
+  médian gris (`<span class="sep">·</span>`), un retour à la ligne, une liste, deux-points ou une virgule.
 - Chaque point d'attention = constat + expérience réelle + solutions. Jamais l'un sans l'autre.
 - Un chiffre non vérifié porte `aConfirmer: true` (affiché « à confirmer »), ou n'est pas publié.
 - Mentions légales de l'annonce dans `annonce.reglementaire` (DPE, dépenses d'énergie, copropriété, Géorisques).

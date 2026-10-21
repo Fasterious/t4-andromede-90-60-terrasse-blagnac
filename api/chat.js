@@ -1,4 +1,4 @@
-// Assistant de l'annonce — Claude Haiku 5.5 (le modèle le moins cher),
+// Assistant de l'annonce : Claude Haiku 5.5 (le modèle le moins cher),
 // avec quotas par visiteur, par IP, par jour et un budget mensuel.
 // Au-delà : réponse fixe qui renvoie vers WhatsApp, sans appel à l'API.
 
@@ -29,7 +29,7 @@ const TTL_LOG = 60 * 60 * 24 * 90;
 const client = process.env.ANTHROPIC_API_KEY ? new Anthropic() : null;
 
 const WHATSAPP_REPLY =
-  'Vous avez posé beaucoup de questions — c’est bon signe ! Pour aller plus loin, le plus simple est d’échanger directement avec Corinne & Arnaud sur WhatsApp : ils vous répondront personnellement.';
+  'Vous avez posé beaucoup de questions, c’est bon signe ! Pour aller plus loin, le plus simple est d’échanger directement avec Corinne & Arnaud sur WhatsApp : ils vous répondront personnellement.';
 const UNAVAILABLE_REPLY =
   'L’assistant fait une pause. Corinne & Arnaud vous répondent directement sur WhatsApp ou au téléphone.';
 

@@ -9,14 +9,14 @@
 
 export const annonce = {
   titre: 'T4 de 90,5 m² + terrasse de 63 m²',
-  sousTitre: '3 chambres dont une suite parentale — 1er étage avec ascenseur — 2 parkings en sous-sol',
+  sousTitre: ['3 chambres dont une suite parentale', '1er étage avec ascenseur', '2 parkings en sous-sol'],
   quartier: 'Andromède, Blagnac',
   adresse: '1 rue Jacqueline Auriol, 31700 Blagnac',
 
   prix: {
-    montant: 279000,
-    affiche: '279 000 €',
-    note: 'Prix net vendeur — vente directe entre particuliers, aucune commission d’agence',
+    montant: 249000,
+    affiche: '249 000 €',
+    note: 'Prix net vendeur : vente directe entre particuliers, aucune commission d’agence',
   },
 
   // Vente à durée limitée : formulation validée, à ne pas enrichir.
@@ -48,14 +48,14 @@ export const annonce = {
   histoire: [
     'Arnaud est Blagnacais depuis longtemps et a habité plusieurs quartiers de la ville. Ses deux préférés : le centre-ville, pour son charme, quand on en a les moyens… et Andromède.',
     'Quartier jeune aux équipements modernes, Andromède a tout pour une vie de famille à pied : crèche, écoles, lycée, commerces, restaurants. Et la rocade à deux minutes en voiture, sans en entendre le bruit.',
-    'Nous ne vendons pas parce que nous n’y sommes pas bien — nous restons d’ailleurs dans le quartier. Nous télétravaillons tous les deux, Arnaud fait de la musique et notre famille s’est agrandie : il nous manque simplement une pièce.',
+    'Nous ne vendons pas parce que nous n’y sommes pas bien : nous restons d’ailleurs dans le quartier. Nous télétravaillons tous les deux, Arnaud fait de la musique et notre famille s’est agrandie : il nous manque simplement une pièce.',
   ],
 
   pointsForts: [
     {
       icone: 'Sun',
       titre: 'Une terrasse de 63 m²',
-      texte: 'Exposée est/sud-est : soleil le matin, ombre naturelle aux heures chaudes. Une vraie pièce de vie en plus dès les beaux jours — repas, jeux des enfants, apéro.',
+      texte: 'Exposée est/sud-est : soleil le matin, ombre naturelle aux heures chaudes. Une vraie pièce de vie en plus dès les beaux jours : repas, jeux des enfants, apéro.',
     },
     {
       icone: 'Ruler',
@@ -102,17 +102,17 @@ export const annonce = {
     { categorie: 'Enfants', icone: 'School', lieu: 'Le Ferradou (établissement privé : élémentaire, collège, lycée)', distance: '≈ 15 min à pied', aConfirmer: true },
     { categorie: 'Enfants', icone: 'GraduationCap', lieu: 'Lycée Saint-Exupéry', distance: '≈ 5 min à pied' },
     { categorie: 'Enfants', icone: 'Music', lieu: 'Conservatoire Résonance (centre de Blagnac)', distance: '≈ 10 min en voiture', aConfirmer: true },
-    { categorie: 'Quotidien', icone: 'Croissant', lieu: 'Boulangerie et fleuriste — avenue d’Andromède', distance: '5 à 10 min à pied' },
+    { categorie: 'Quotidien', icone: 'Croissant', lieu: 'Boulangerie et fleuriste, avenue d’Andromède', distance: '5 à 10 min à pied' },
     { categorie: 'Quotidien', icone: 'Pizza', lieu: 'Restaurants : sushis, pizzas', distance: '5 à 10 min à pied' },
     { categorie: 'Quotidien', icone: 'ShoppingBasket', lieu: 'Carrefour Market + salle de sport : reprise annoncée du supermarché de l’avenue', distance: '5 à 10 min à pied', aConfirmer: true },
     { categorie: 'Quotidien', icone: 'ShoppingCart', lieu: 'E.Leclerc Blagnac (drive, galerie)', distance: '≈ 5 min en voiture' },
     { categorie: 'Quotidien', icone: 'Clapperboard', lieu: 'Cinéma Méga CGR', distance: '≈ 5 min en voiture' },
     { categorie: 'Sport et nature', icone: 'Dumbbell', lieu: 'Sporting Village (salle de sport), face au lycée', distance: '≈ 5 min à pied' },
-    { categorie: 'Sport et nature', icone: 'Waves', lieu: 'Movida, salle de sport avec piscine (Grand Noble)', distance: '≈ 5 min en voiture', aConfirmer: true },
+    { categorie: 'Sport et nature', icone: 'Dumbbell', lieu: 'On Air, salle de sport moderne et abordable (près de Leclerc)', distance: '≈ 5 min en voiture' },
     { categorie: 'Sport et nature', icone: 'Trees', lieu: 'Parc et coulée verte d’Andromède, vers les bords de Garonne', distance: 'quelques minutes à pied' },
     { categorie: 'Sport et nature', icone: 'Building2', lieu: 'Complexe sportif Andromède (stade, gymnase, dojo)', distance: 'à pied' },
-    { categorie: 'Se déplacer', icone: 'TramFront', lieu: 'Tram T1 — station Andromède-Lycée', distance: '5 à 8 min à pied' },
-    { categorie: 'Se déplacer', icone: 'Bus', lieu: 'Bus — arrêt Giusta', distance: '≈ 4 min à pied', aConfirmer: true },
+    { categorie: 'Se déplacer', icone: 'TramFront', lieu: 'Tram T1, station Andromède-Lycée', distance: '5 à 8 min à pied' },
+    { categorie: 'Se déplacer', icone: 'Bus', lieu: 'Bus, arrêt Giusta', distance: '≈ 4 min à pied', aConfirmer: true },
     { categorie: 'Se déplacer', icone: 'Route', lieu: 'Rocade', distance: '≈ 2 min en voiture' },
     { categorie: 'Se déplacer', icone: 'Plane', lieu: 'Aéroport Toulouse-Blagnac et sites Airbus', distance: '5 à 15 min' },
     { categorie: 'Se déplacer', icone: 'Landmark', lieu: 'Toulouse Capitole (tram T1 + métro A)', distance: '≈ 40 à 45 min' },
@@ -125,7 +125,7 @@ export const annonce = {
       icone: 'Eye',
       sujet: 'Le vis-à-vis depuis la terrasse',
       constat: 'Un immeuble fait face à la terrasse. C’est la remarque qu’on nous fait le plus souvent, et nous nous étions posé la même question avant d’acheter.',
-      experience: 'À l’usage, nous n’avons pas été gênés : les fenêtres en face sont le plus souvent fermées et les balcons très peu utilisés. Un vis-à-vis potentiel plus que réel — c’est notre expérience, pas une garantie. La vidéo le montre sans filtre.',
+      experience: 'À l’usage, nous n’avons pas été gênés : les fenêtres en face sont le plus souvent fermées et les balcons très peu utilisés. Un vis-à-vis potentiel plus que réel. C’est notre expérience, pas une garantie. La vidéo le montre sans filtre.',
       solutions: 'Brise-vue, bacs végétalisés, voile d’ombrage : faciles à installer (dans le respect du règlement de copropriété).',
     },
     {
@@ -140,7 +140,7 @@ export const annonce = {
       sujet: 'Deux places de parking en enfilade',
       constat: 'Les deux places sont l’une derrière l’autre.',
       experience: 'En pratique le parking est peu occupé : on passe par la gauche ou par la droite, de jour comme de nuit, sans jamais avoir été bloqués.',
-      solutions: 'Si vous avez besoin d’une place indépendante ou d’un box, des places sont à vendre dans la résidence — le syndic peut vous indiquer lesquelles.',
+      solutions: 'Si vous avez besoin d’une place indépendante ou d’un box, des places sont à vendre dans la résidence : le syndic peut vous indiquer lesquelles.',
     },
     {
       icone: 'Euro',
@@ -167,7 +167,7 @@ export const annonce = {
     },
     {
       q: 'Le prix est-il négociable ?',
-      r: 'Le prix a déjà été ajusté au marché. Nous étudions toute offre écrite accompagnée d’une attestation de financement — c’est directement avec nous que ça se discute.',
+      r: 'Le prix a déjà été ajusté au marché. Nous étudions toute offre écrite accompagnée d’une attestation de financement. C’est directement avec nous que ça se discute.',
     },
     {
       q: 'Quels frais en plus du prix ?',
