@@ -143,15 +143,6 @@ function renderVisite() {
   );
 }
 
-function renderConfidentialite() {
-  return section(
-    'confidentialite',
-    'Confidentialité',
-    annonce.confidentialite.map((p) => `<p class="small muted">${esc(p)}</p>`).join(''),
-    'block-reg'
-  );
-}
-
 function renderReglementaire() {
   const r = annonce.reglementaire;
   const val = (v) => (v == null ? '<span class="muted">en cours de mise à jour</span>' : esc(v));
@@ -182,7 +173,6 @@ export function renderSections() {
     renderFaq(),
     renderVisite(),
     renderReglementaire(),
-    renderConfidentialite(),
   ].join('\n');
 }
 

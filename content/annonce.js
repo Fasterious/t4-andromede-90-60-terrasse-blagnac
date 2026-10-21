@@ -27,13 +27,6 @@ export const annonce = {
   // Badge mis en avant près du prix
   enDirect: 'Vente en direct · 0 € de frais d’agence',
 
-  // Données personnelles (section « Confidentialité » en bas de page)
-  confidentialite: [
-    'Le site ne dépose aucun cookie publicitaire. La fréquentation est mesurée de façon agrégée (pages vues, source, ville approximative, type d’appareil).',
-    'Si vous utilisez l’assistant, vos messages, leur heure, la ville approximative de connexion et le type d’appareil sont enregistrés et lus par Corinne & Arnaud, pour vous répondre et améliorer cette page. Votre adresse IP n’est pas conservée en clair. Évitez d’y écrire des informations personnelles sensibles.',
-    'Ces données sont conservées 6 mois au plus et supprimées après la vente. Pour y accéder ou les faire effacer, écrivez-nous sur WhatsApp ou appelez-nous.',
-  ],
-
   contact: {
     noms: 'Corinne & Arnaud',
     telephone: '06 23 94 79 77',

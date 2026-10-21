@@ -26,9 +26,9 @@ const ICONS = {
   send: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>',
   chat: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>',
   save: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg>',
-  info: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>',
 };
 
+const AI_NOTE = 'Attention, il s’agit d’une IA : toute IA peut commettre des erreurs.';
 const NOTICE = 'Conversation avec une IA : elle peut se tromper. Pour une réponse sûre, voyez avec Corinne et Arnaud.';
 
 const reducedMotion = () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
@@ -227,9 +227,7 @@ export function initChat() {
         <button type="button" class="chat-icon-btn chat-close" aria-label="Fermer">${ICONS.close}</button>
       </header>
       <div class="chat-scroll">
-        <div class="chat-thread" aria-live="polite">
-          <p class="chat-notice">${ICONS.info}<span>${NOTICE} Échanges enregistrés (<a href="#confidentialite">confidentialité</a>).</span></p>
-        </div>
+        <div class="chat-thread" aria-live="polite"></div>
       </div>
       <div class="chat-bottom">
         <div class="chat-chips" aria-label="Suggestions de questions"></div>
@@ -250,19 +248,16 @@ export function initChat() {
 
     panel.querySelector('.chat-close').onclick = () => close();
     panel.querySelector('.chat-save').onclick = saveConversation;
-    panel.querySelector('a[href="#confidentialite"]').onclick = () => close();
     panel.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') close();
     });
 
     panel.classList.toggle('is-empty', history.length === 0);
-    if (history.length === 0) {
-      addAssistant(
-        `Bonjour ! Je suis l’assistant de l’annonce, une IA. Posez-moi vos questions sur l’appartement, vendu en direct par ${annonce.contact.noms} sans frais d’agence, et sur le quartier. Choisissez une suggestion ci-dessous ou écrivez la vôtre.`
-      );
-    } else {
-      history.forEach((m) => (m.role === 'user' ? addUser(m.content) : addAssistant(m.content)));
-    }
+    // Accueil court, suivi de l'avertissement IA en italique
+    addAssistant(`Bonjour ! Une question sur l’appartement ou le quartier ? Vente en direct, sans frais d’agence.`).then((row) =>
+      row.querySelector('.cmsg-text').insertAdjacentHTML('beforeend', `<em class="cmsg-ai-note">${AI_NOTE}</em>`)
+    );
+    history.forEach((m) => (m.role === 'user' ? addUser(m.content) : addAssistant(m.content)));
     renderChips();
 
     input.addEventListener('input', autosize);
