@@ -1,0 +1,184 @@
+// Source unique du contenu PUBLIC de l'annonce.
+// Utilisé par : le site (rendu au build, cf. content/render.js + vite.config.js)
+// et le chatbot (api/_lib/knowledge.js). Une modification ici met à jour les deux.
+//
+// ⚠️ Ce dépôt est PUBLIC. N'écrire ici que ce qu'un acheteur peut lire,
+// validé selon les règles des coulisses (dépôt privé).
+//
+// `aConfirmer: true` = chiffre annoncé avec la mention « à confirmer ».
+
+export const annonce = {
+  titre: 'T4 de 90,5 m² + terrasse de 63 m²',
+  sousTitre: '3 chambres dont une suite parentale — 1er étage avec ascenseur — 2 parkings en sous-sol',
+  quartier: 'Andromède, Blagnac',
+  adresse: '1 rue Jacqueline Auriol, 31700 Blagnac',
+
+  prix: {
+    montant: 279000,
+    affiche: '279 000 €',
+    note: 'Prix net vendeur — vente directe entre particuliers, aucune commission d’agence',
+  },
+
+  // Vente à durée limitée : formulation validée, à ne pas enrichir.
+  venteJusquau: '31 janvier 2027',
+  messageDuree:
+    'Vente à durée limitée : nous emménageons dans une maison. Si l’appartement n’a pas trouvé preneur au 31 janvier 2027, nous le mettrons en location. Nous préférons vous le dire dès maintenant.',
+
+  contact: {
+    noms: 'Corinne & Arnaud',
+    telephone: '06 23 94 79 77',
+    telephoneIntl: '+33623947977',
+    whatsapp: '33623947977',
+  },
+
+  // Courte vidéo de visite commentée (YouTube « non répertoriée »).
+  // Laisser null tant qu'elle n'est pas tournée : la section est alors masquée.
+  video: { youtubeId: null, duree: null },
+
+  histoire: [
+    'Arnaud est Blagnacais depuis longtemps et a habité plusieurs quartiers de la ville. Ses deux préférés : le centre-ville, pour son charme, quand on en a les moyens… et Andromède.',
+    'Quartier jeune aux équipements modernes, Andromède a tout pour une vie de famille à pied : crèche, écoles, lycée, commerces, restaurants. Et la rocade à deux minutes en voiture, sans en entendre le bruit.',
+    'Nous ne vendons pas parce que nous n’y sommes pas bien — nous restons d’ailleurs dans le quartier. Nous télétravaillons tous les deux, Arnaud fait de la musique et notre famille s’est agrandie : il nous manque simplement une pièce.',
+  ],
+
+  pointsForts: [
+    {
+      titre: 'Une terrasse de 63 m²',
+      texte: 'Exposée est/sud-est : soleil le matin, ombre naturelle aux heures chaudes. Une vraie pièce de vie en plus dès les beaux jours — repas, jeux des enfants, apéro.',
+    },
+    {
+      titre: '90,5 m² Loi Carrez, 3 chambres',
+      texte: 'De l’espace pour une famille, à un prix inférieur au centre-ville de Blagnac.',
+    },
+    {
+      titre: 'Une vraie suite parentale',
+      texte: 'Chambre de 17,4 m², grand dressing (ouvert aujourd’hui, il peut être fermé ou réaménagé) et salle d’eau privative de 3 m².',
+    },
+    {
+      titre: 'Des chambres modulables',
+      texte: 'Deux chambres de 12,3 m² en longueur : faciles à séparer en deux espaces (coin jeux / coin nuit, ou bureau / chambre d’amis).',
+    },
+    {
+      titre: 'Séjour-cuisine de 32 m²',
+      texte: 'Cuisine ouverte avec îlot, plaque induction, lave-vaisselle, four et micro-ondes intégrés (seul le réfrigérateur est à prévoir). Climatisation réversible.',
+    },
+    {
+      titre: 'Chauffage et eau dans les charges',
+      texte: 'Résultat : une facture d’électricité d’environ 45 à 47 € par mois pour notre famille de quatre.',
+    },
+    {
+      titre: '2 places de parking en sous-sol',
+      texte: 'Parking fermé et sécurisé, ascenseur, fibre optique.',
+    },
+    {
+      titre: 'Une résidence récente et calme',
+      texte: 'Immeuble de 2012. Voisinage agréable et varié : beaucoup de jeunes couples, avec ou sans enfants, et d’autres profils.',
+    },
+  ],
+
+  // Distances : estimations à pied/en voiture depuis l'adresse.
+  // `aConfirmer` = estimation des propriétaires, à vérifier sur carte.
+  proximites: [
+    { categorie: 'Enfants', lieu: 'Crèche municipale Cassiopée', distance: '≈ 2 min à pied' },
+    { categorie: 'Enfants', lieu: 'Groupe scolaire Les Perséides (maternelle et élémentaire)', distance: '10 à 15 min à pied' },
+    { categorie: 'Enfants', lieu: 'Le Ferradou (établissement privé : élémentaire, collège, lycée)', distance: '≈ 15 min à pied', aConfirmer: true },
+    { categorie: 'Enfants', lieu: 'Lycée Saint-Exupéry', distance: '≈ 5 min à pied' },
+    { categorie: 'Enfants', lieu: 'Conservatoire Résonance (centre de Blagnac)', distance: '≈ 10 min en voiture', aConfirmer: true },
+    { categorie: 'Quotidien', lieu: 'Boulangerie, fleuriste, supérette, restaurants (sushis, pizzas) — avenue d’Andromède', distance: '5 à 10 min à pied' },
+    { categorie: 'Quotidien', lieu: 'E.Leclerc Blagnac (drive, galerie) et cinéma Méga CGR', distance: '≈ 5 min en voiture' },
+    { categorie: 'Quotidien', lieu: 'Salles de sport (dont Sporting Village) et complexe sportif Andromède', distance: 'à pied' },
+    { categorie: 'Quotidien', lieu: 'Parc et coulée verte d’Andromède (vers les bords de Garonne)', distance: 'quelques minutes à pied' },
+    { categorie: 'Se déplacer', lieu: 'Tram T1 — station Andromède-Lycée', distance: '5 à 8 min à pied' },
+    { categorie: 'Se déplacer', lieu: 'Bus — arrêt Giusta', distance: '≈ 4 min à pied', aConfirmer: true },
+    { categorie: 'Se déplacer', lieu: 'Rocade', distance: '≈ 2 min en voiture' },
+    { categorie: 'Se déplacer', lieu: 'Aéroport Toulouse-Blagnac et sites Airbus', distance: '5 à 15 min (voiture ou tram)' },
+    { categorie: 'Se déplacer', lieu: 'Toulouse Capitole (tram T1 + métro A)', distance: '≈ 40 à 45 min' },
+  ],
+
+  // « Ce qu'il faut savoir » : chaque point d'attention est suivi de notre
+  // expérience réelle puis de solutions concrètes. Jamais l'un sans l'autre.
+  pointsAttention: [
+    {
+      sujet: 'Le vis-à-vis depuis la terrasse',
+      constat: 'Un immeuble fait face à la terrasse. C’est la remarque qu’on nous fait le plus souvent, et nous nous étions posé la même question avant d’acheter.',
+      experience: 'À l’usage, nous n’avons pas été gênés : les fenêtres en face sont le plus souvent fermées et les balcons très peu utilisés. Un vis-à-vis potentiel plus que réel — c’est notre expérience, pas une garantie. La vidéo le montre sans filtre.',
+      solutions: 'Brise-vue, bacs végétalisés, voile d’ombrage : faciles à installer (dans le respect du règlement de copropriété).',
+    },
+    {
+      sujet: 'L’agencement du séjour',
+      constat: 'Nous avons organisé le séjour pour nos besoins : repas quotidiens à l’îlot, grande table qu’on déploie quand on reçoit, et un grand canapé.',
+      experience: 'Ça nous convient parfaitement, mais ce n’est qu’une possibilité parmi d’autres.',
+      solutions: 'Coin repas plus grand en réduisant le salon ; ou, si la 3e chambre n’est pas utile, ouvrir la chambre-bureau sur le séjour (cloison démontable, à faire valider par un professionnel) pour un séjour d’environ 44 m².',
+    },
+    {
+      sujet: 'Deux places de parking en enfilade',
+      constat: 'Les deux places sont l’une derrière l’autre.',
+      experience: 'En pratique le parking est peu occupé : on passe par la gauche ou par la droite, de jour comme de nuit, sans jamais avoir été bloqués.',
+      solutions: 'Si vous avez besoin d’une place indépendante ou d’un box, des places sont à vendre dans la résidence — le syndic peut vous indiquer lesquelles.',
+    },
+    {
+      sujet: 'Les charges de copropriété',
+      constat: 'Environ 200 € par mois (montant exact en cours de vérification sur les derniers appels de fonds).',
+      experience: 'Elles comprennent le chauffage, l’eau et l’entretien des parties communes. En contrepartie, notre facture d’électricité est d’environ 45 à 47 € par mois à quatre.',
+      solutions: 'Nous transmettons les appels de fonds et le budget de la copropriété à toute personne intéressée.',
+      aConfirmer: true,
+    },
+  ],
+
+  faq: [
+    {
+      q: 'Pourquoi vendez-vous ?',
+      r: 'Il nous manque une pièce : télétravail à deux, musique, famille qui s’agrandit. Nous achetons une maison… dans le même quartier, ce qui en dit long sur ce que nous en pensons.',
+    },
+    {
+      q: 'Pourquoi vendre sans agence ?',
+      r: 'Pour échanger directement avec vous, en toute transparence, et parce que vous n’avez aucune commission d’agence à payer : le prix affiché est le prix net.',
+    },
+    {
+      q: 'Jusqu’à quand est-il en vente ?',
+      r: 'Jusqu’au 31 janvier 2027. Ensuite, s’il n’est pas vendu, nous le mettrons en location.',
+    },
+    {
+      q: 'Le prix est-il négociable ?',
+      r: 'Le prix a déjà été ajusté au marché. Nous étudions toute offre écrite accompagnée d’une attestation de financement — c’est directement avec nous que ça se discute.',
+    },
+    {
+      q: 'Quels frais en plus du prix ?',
+      r: 'Pas de frais d’agence. Restent les frais de notaire, d’environ 7 à 8 % du prix pour un logement de plus de 5 ans (montant exact donné par le notaire).',
+    },
+    {
+      q: 'Et le DPE ?',
+      r: 'Les résultats détaillés du diagnostic de performance énergétique (classes énergie et climat, estimation des dépenses annuelles) sont indiqués dans la section « Informations réglementaires » dès qu’ils sont confirmés. Le chauffage collectif est inclus dans les charges.',
+    },
+    {
+      q: 'Qu’est-ce qui reste dans l’appartement ?',
+      r: 'La cuisine équipée : plaque induction, lave-vaisselle, four et micro-ondes intégrés. Seul le réfrigérateur est à prévoir.',
+    },
+    {
+      q: 'Comment se passe une visite ?',
+      r: 'Après un court échange sur WhatsApp ou par téléphone, nous vous faisons visiter nous-mêmes (environ 45 minutes). Nous commençons par la terrasse, puis tout l’appartement et le parking.',
+    },
+  ],
+
+  // Mentions obligatoires d'une annonce de vente (DPE, copropriété, Géorisques).
+  // `null` = information pas encore confirmée : affichée « en cours de mise à jour ».
+  reglementaire: {
+    dpeEnergie: null, // ex. 'C'
+    dpeClimat: null,
+    depensesEnergie: null, // ex. 'entre 700 € et 1 000 € par an (prix moyens des énergies indexés au 1er janvier 2025)'
+    copropriete: true,
+    lots: 259,
+    chargesAnnuelles: null, // quote-part annuelle moyenne du budget prévisionnel, ex. '2 400 €'
+    procedures: null, // ex. 'Aucune procédure en cours'
+  },
+
+  // Parcours de visite affiché sur le site.
+  parcoursVisite: [
+    'Regardez les photos, la vidéo et les points d’attention : la visite sert alors à confirmer, pas à découvrir.',
+    'Demandez une visite : quelques questions rapides, puis votre message part directement sur notre WhatsApp.',
+    'Nous vous rappelons pour un court échange et nous fixons un créneau ensemble.',
+    'Visite avec nous, environ 45 minutes, en commençant par la terrasse.',
+    'Avant une seconde visite ou une offre, nous demandons une attestation de financement (banque ou courtier) ou, en cas d’achat comptant, un justificatif des fonds. Nous transmettons alors le dossier complet : diagnostics, procès-verbaux d’assemblée générale, charges.',
+    'Offre écrite, puis compromis de vente chez le notaire.',
+  ],
+};

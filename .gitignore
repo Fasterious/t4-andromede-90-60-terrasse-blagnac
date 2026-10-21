@@ -2,3 +2,7 @@ node_modules
 dist
 .vercel
 .DS_Store
+
+# Coulisses privées (dépôt git séparé, privé) — ne jamais committer ici
+coulisses/
+.env*

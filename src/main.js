@@ -1,3 +1,8 @@
+import { annonce } from '../content/annonce.js';
+import { initTracking, track } from './track.js';
+import { initVisit } from './visit.js';
+import { initChat } from './chat.js';
+
 const galleryEl = document.getElementById('gallery');
 const lightbox = document.getElementById('lightbox');
 const lbStage = document.getElementById('lb-stage');
@@ -48,9 +53,10 @@ function showToast(message) {
 }
 
 async function shareListing() {
+  track('share_click');
   const shareData = {
     title: document.title,
-    text: 'T4 90,5 m² + terrasse 63 m² — Andromède, Blagnac. 279 000 € net vendeur.',
+    text: `${annonce.titre} — ${annonce.quartier}. ${annonce.prix.affiche} net vendeur, sans frais d’agence.`,
     url: window.location.href,
   };
 
@@ -187,6 +193,7 @@ async function exitNativeFullscreen() {
 }
 
 async function openLightbox(index) {
+  track('gallery_open');
   currentIndex = index;
   isOpen = true;
   lightbox.hidden = false;
@@ -385,3 +392,6 @@ document.addEventListener('fullscreenchange', onFullscreenChange);
 document.addEventListener('webkitfullscreenchange', onFullscreenChange);
 
 loadPhotos();
+initTracking();
+initVisit();
+initChat();
