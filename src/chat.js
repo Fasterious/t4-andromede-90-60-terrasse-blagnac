@@ -212,16 +212,6 @@ export function initChat() {
     fab.hidden = false;
   }
 
+  // Seule entrée vers l'assistant : la bulle, toujours visible
   fab.onclick = open;
-
-  // Pas de bulle flottante tant que les boutons du haut de page sont visibles
-  const headerCtas = document.querySelector('.header-ctas');
-  if (headerCtas && 'IntersectionObserver' in window) {
-    new IntersectionObserver(([entry]) => {
-      fab.classList.toggle('chat-fab-hidden', entry.isIntersecting);
-    }).observe(headerCtas);
-  }
-  document.addEventListener('click', (e) => {
-    if (e.target.closest('[data-open-chat]')) open();
-  });
 }

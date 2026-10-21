@@ -128,8 +128,7 @@ function renderFaq() {
       ${annonce.faq
         .map((f) => `<details class="faq"><summary>${esc(f.q)}</summary><p>${esc(f.r)}</p></details>`)
         .join('')}
-     </div>
-     <button type="button" class="btn-outline" data-open-chat>Une autre question ? Demandez à notre assistant</button>`
+     </div>`
   );
 }
 

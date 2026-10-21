@@ -1042,8 +1042,7 @@ details p:last-child {
   cursor: pointer;
 }
 
-.chat-fab[hidden],
-.chat-fab.chat-fab-hidden {
+.chat-fab[hidden] {
   display: none;
 }
 
