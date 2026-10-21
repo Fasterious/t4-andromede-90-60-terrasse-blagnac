@@ -58,8 +58,9 @@ const BAIES = [
   [0.9, 8.72, 2.4, 8.72],
   [3.7, 8.72, 5.2, 8.72],
   [6.2, 8.72, 7.7, 8.72],
-  [12.26, 4.3, 12.26, 6.7], // baie du séjour vers la terrasse
-  [9.0, 0.19, 10.4, 0.19],
+  [12.26, 1.5, 12.26, 2.4], // petite porte-fenêtre côté cuisine, vers la terrasse
+  [12.26, 4.3, 12.26, 6.7], // grande baie côté salon (télévision), vers la terrasse
+  // pas d'ouverture sur le mur du haut du séjour : mur porteur, côté évier et four
 ];
 
 // Équipements dessinés en trait léger [x, y, w, h]
