@@ -1,5 +1,7 @@
 // Assistant de l'annonce (FAQ interactive). Le quota est appliqué côté
 // serveur (api/chat.js) ; ici on affiche simplement ce qu'il renvoie.
+// Interface inspirée des assistants modernes : en-tête fixe, fil de messages
+// épuré, suggestions toujours visibles, zone de saisie qui suit le clavier.
 
 import { annonce } from '../content/annonce.js';
 import { source, sourceCode, track } from './track.js';
@@ -10,10 +12,23 @@ const SUGGESTIONS = [
   'Comment fonctionnent les 2 parkings ?',
   'Quelles écoles à proximité ?',
   'Pourquoi vendez-vous ?',
+  'Comment se passe une visite ?',
 ];
+const VISIT_CHIP = 'Organiser une visite';
 
 const STORAGE_KEY = 'chat-history';
 const MAX_KEPT = 12;
+
+const ICONS = {
+  house:
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>',
+  close: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>',
+  send: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>',
+  chat: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>',
+};
+
+const reducedMotion = () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+const isTouch = () => window.matchMedia?.('(pointer: coarse)').matches;
 
 function load() {
   try {
@@ -68,13 +83,17 @@ const waLink = () =>
 export function initChat() {
   let history = load();
   let panel = null;
+  let thread = null;
+  let scroller = null;
+  let input = null;
   let busy = false;
+  const asked = new Set(history.filter((m) => m.role === 'user').map((m) => m.content));
 
   const fab = document.createElement('button');
   fab.type = 'button';
   fab.className = 'chat-fab';
   fab.setAttribute('aria-label', 'Poser une question à l’assistant');
-  fab.innerHTML = '<span aria-hidden="true">💬</span> Une question ?';
+  fab.innerHTML = `${ICONS.chat}<span>Une question ?</span>`;
   document.body.appendChild(fab);
 
   function el(tag, cls, text) {
@@ -84,90 +103,192 @@ export function initChat() {
     return n;
   }
 
-  function addBubble(role, text) {
-    const list = panel.querySelector('.chat-messages');
-    const b = el('div', `chat-msg chat-${role}`, text);
-    list.appendChild(b);
-    list.scrollTop = list.scrollHeight;
-    return b;
+  const scrollToEnd = (smooth = true) =>
+    scroller?.scrollTo({ top: scroller.scrollHeight, behavior: smooth && !reducedMotion() ? 'smooth' : 'auto' });
+
+  // Message de l'assistant : texte libre avec un petit avatar, sans bulle
+  function addAssistant(text, { animate = false } = {}) {
+    const row = el('div', 'cmsg cmsg-assistant');
+    row.innerHTML = `<span class="cmsg-avatar">${ICONS.house}</span>`;
+    const body = el('div', 'cmsg-text');
+    row.appendChild(body);
+    thread.appendChild(row);
+    if (!animate || reducedMotion()) {
+      body.textContent = text;
+      scrollToEnd();
+      return Promise.resolve(row);
+    }
+    // Apparition progressive, mot à mot (au plus ~1,2 s)
+    const words = text.split(/(\s+)/);
+    const step = Math.max(8, Math.min(28, 1200 / words.length));
+    let i = 0;
+    return new Promise((resolve) => {
+      const tick = () => {
+        i = Math.min(words.length, i + 2);
+        body.textContent = words.slice(0, i).join('');
+        scroller.scrollTop = scroller.scrollHeight;
+        if (i < words.length) setTimeout(tick, step);
+        else resolve(row);
+      };
+      tick();
+    });
+  }
+
+  function addUser(text) {
+    const row = el('div', 'cmsg cmsg-user');
+    row.appendChild(el('div', 'cmsg-bubble', text));
+    thread.appendChild(row);
+    scrollToEnd();
+  }
+
+  function addTyping() {
+    const row = el('div', 'cmsg cmsg-assistant');
+    row.innerHTML = `<span class="cmsg-avatar">${ICONS.house}</span><div class="typing" aria-label="L’assistant écrit"><i></i><i></i><i></i></div>`;
+    thread.appendChild(row);
+    scrollToEnd();
+    return row;
   }
 
   function addWhatsAppCta(label = 'Continuer avec Corinne & Arnaud sur WhatsApp') {
-    const list = panel.querySelector('.chat-messages');
-    const a = el('a', 'btn-whatsapp chat-wa', label);
+    const a = el('a', 'cmsg-cta', label);
     a.href = waLink();
     a.target = '_blank';
     a.rel = 'noopener noreferrer';
     a.dataset.track = 'chat_whatsapp_click';
-    list.appendChild(a);
-    list.scrollTop = list.scrollHeight;
+    thread.appendChild(a);
+    scrollToEnd();
+  }
+
+  // Suggestions : toujours visibles au-dessus de la saisie ; celles déjà
+  // posées disparaissent et « Organiser une visite » reste en dernier.
+  function renderChips() {
+    const row = panel.querySelector('.chat-chips');
+    row.innerHTML = '';
+    const left = SUGGESTIONS.filter((s) => !asked.has(s));
+    for (const s of [...left, VISIT_CHIP]) {
+      const b = el('button', s === VISIT_CHIP ? 'chip chip-visit' : 'chip', s);
+      b.type = 'button';
+      b.onclick = () => {
+        if (s === VISIT_CHIP) {
+          close();
+          document.querySelector('[data-open-visit]')?.click();
+          return;
+        }
+        ask(s);
+      };
+      row.appendChild(b);
+    }
+    row.scrollLeft = 0;
   }
 
   function setRemaining(n) {
     const r = panel.querySelector('.chat-remaining');
-    r.textContent = typeof n === 'number' ? `${n} question${n > 1 ? 's' : ''} restante${n > 1 ? 's' : ''}` : '';
+    r.textContent = typeof n === 'number' ? `${n} question${n > 1 ? 's' : ''} restante${n > 1 ? 's' : ''} aujourd’hui` : '';
+  }
+
+  function autosize() {
+    input.style.height = 'auto';
+    input.style.height = `${Math.min(input.scrollHeight, 120)}px`;
+    panel.querySelector('.chat-send').disabled = !input.value.trim() || busy;
+  }
+
+  // Sur mobile, le panneau épouse la zone visible au-dessus du clavier :
+  // l'en-tête, les suggestions et la saisie restent à l'écran.
+  function fit() {
+    if (!panel?.classList.contains('open')) return;
+    const vv = window.visualViewport;
+    if (vv && window.innerWidth <= 560) {
+      panel.style.top = `${vv.offsetTop}px`;
+      panel.style.height = `${vv.height}px`;
+    } else {
+      panel.style.top = '';
+      panel.style.height = '';
+    }
+    scroller.scrollTop = scroller.scrollHeight;
   }
 
   function build() {
     panel = el('div', 'chat-panel');
     panel.setAttribute('role', 'dialog');
+    panel.setAttribute('aria-modal', 'true');
     panel.setAttribute('aria-label', 'Assistant de l’annonce');
     panel.innerHTML = `
-      <div class="chat-head">
-        <div>
+      <header class="chat-head">
+        <span class="chat-head-avatar">${ICONS.house}</span>
+        <div class="chat-head-title">
           <strong>Assistant de l’annonce</strong>
-          <span class="muted small">Assistant automatique (IA) · répond à partir de cette page</span>
+          <span>IA · vente en direct par ${annonce.contact.noms}</span>
         </div>
-        <button type="button" class="chat-close" aria-label="Fermer">×</button>
+        <button type="button" class="chat-icon-btn chat-close" aria-label="Fermer">${ICONS.close}</button>
+      </header>
+      <div class="chat-scroll">
+        <div class="chat-thread" aria-live="polite"></div>
       </div>
-      <div class="chat-messages" aria-live="polite"></div>
-      <div class="chat-suggestions"></div>
-      <form class="chat-form">
-        <input type="text" name="q" maxlength="500" placeholder="Votre question…" autocomplete="off" aria-label="Votre question" />
-        <button type="submit" class="btn-primary">Envoyer</button>
-      </form>
-      <p class="chat-disclaimer">* Réponses générées par une intelligence artificielle : elles peuvent comporter des erreurs. Seuls les documents officiels (diagnostics, procès-verbaux, compromis) et les réponses écrites de Corinne & Arnaud font foi. Vos échanges sont enregistrés et lus par Corinne & Arnaud (voir <a href="#confidentialite">confidentialité</a>).</p>
-      <div class="chat-foot"><span class="chat-remaining small muted"></span>
-        <a class="small" href="${waLink()}" target="_blank" rel="noopener noreferrer" data-track="chat_whatsapp_click">Parler aux propriétaires</a></div>`;
+      <div class="chat-bottom">
+        <div class="chat-chips" aria-label="Suggestions de questions"></div>
+        <form class="chat-composer">
+          <textarea rows="1" maxlength="500" placeholder="Posez votre question…" aria-label="Votre question" enterkeyhint="send"></textarea>
+          <button type="submit" class="chat-send" aria-label="Envoyer" disabled>${ICONS.send}</button>
+        </form>
+        <div class="chat-meta">
+          <span class="chat-remaining"></span>
+          <a href="${waLink()}" target="_blank" rel="noopener noreferrer" data-track="chat_whatsapp_click">Parler aux propriétaires</a>
+        </div>
+        <p class="chat-disclaimer">IA : peut se tromper ; seuls les documents officiels et nos réponses écrites font foi. Échanges enregistrés (<a href="#confidentialite">confidentialité</a>).</p>
+      </div>`;
     document.body.appendChild(panel);
 
+    thread = panel.querySelector('.chat-thread');
+    scroller = panel.querySelector('.chat-scroll');
+    input = panel.querySelector('textarea');
+
     panel.querySelector('.chat-close').onclick = close;
-
-    if (history.length === 0) {
-      addBubble(
-        'assistant',
-        `Bonjour ! Je suis un assistant automatique (IA) : je réponds à vos questions sur l’appartement, vendu en direct par ${annonce.contact.noms} sans frais d’agence, et sur le quartier. Pour une visite ou une question pointue, je vous mets en relation avec eux.`
-      );
-    } else {
-      history.forEach((m) => addBubble(m.role, m.content));
-    }
-
-    const sugg = panel.querySelector('.chat-suggestions');
-    SUGGESTIONS.forEach((s) => {
-      const b = el('button', 'chip', s);
-      b.type = 'button';
-      b.onclick = () => ask(s);
-      sugg.appendChild(b);
+    panel.querySelector('a[href="#confidentialite"]').onclick = close;
+    panel.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') close();
     });
 
-    panel.querySelector('.chat-form').onsubmit = (e) => {
+    panel.classList.toggle('is-empty', history.length === 0);
+    if (history.length === 0) {
+      addAssistant(
+        `Bonjour ! Je suis l’assistant de l’annonce, une IA. Posez-moi vos questions sur l’appartement, vendu en direct par ${annonce.contact.noms} sans frais d’agence, et sur le quartier. Choisissez une suggestion ci-dessous ou écrivez la vôtre.`
+      );
+    } else {
+      history.forEach((m) => (m.role === 'user' ? addUser(m.content) : addAssistant(m.content)));
+    }
+    renderChips();
+
+    input.addEventListener('input', autosize);
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) {
+        e.preventDefault();
+        panel.querySelector('.chat-composer').requestSubmit();
+      }
+    });
+    panel.querySelector('.chat-composer').onsubmit = (e) => {
       e.preventDefault();
-      const input = e.target.q;
       const q = input.value.trim();
-      if (!q) return;
+      if (!q || busy) return;
       input.value = '';
+      autosize();
       ask(q);
     };
+
+    window.visualViewport?.addEventListener('resize', fit);
+    window.visualViewport?.addEventListener('scroll', fit);
+    window.addEventListener('resize', fit);
   }
 
   async function ask(question) {
     if (busy) return;
     busy = true;
-    panel.querySelector('.chat-suggestions').hidden = true;
-    addBubble('user', question);
+    autosize();
+    asked.add(question);
+    panel.classList.remove('is-empty');
+    renderChips();
+    addUser(question);
     history.push({ role: 'user', content: question });
-    const pending = addBubble('assistant', '…');
-    pending.classList.add('pending');
+    const typing = addTyping();
 
     try {
       const res = await fetch('/api/chat', {
@@ -177,39 +298,46 @@ export function initChat() {
       });
       const data = await res.json().catch(() => ({}));
       saveConversationId(data.conversationId);
-      pending.remove();
+      typing.remove();
       const reply =
         data.reply ||
         'L’assistant ne peut pas répondre pour l’instant. Corinne & Arnaud vous répondent directement sur WhatsApp ou au téléphone.';
-      addBubble('assistant', reply);
+      await addAssistant(reply, { animate: true });
       if (data.reply && !data.limitReached) history.push({ role: 'assistant', content: reply });
       else history.pop(); // la question sans réponse ne compte pas dans l'historique
       setRemaining(data.remaining);
       if (data.limitReached && data.remaining === 0) addWhatsAppCta('Parler à Corinne & Arnaud sur WhatsApp');
       else if (data.limitReached || data.suggestWhatsApp || !res.ok) addWhatsAppCta();
-      if (data.limitReached) panel.querySelector('.chat-form').hidden = true;
+      if (data.limitReached) panel.querySelector('.chat-composer').hidden = true;
       save(history);
     } catch {
-      pending.remove();
+      typing.remove();
       history.pop();
-      addBubble('assistant', 'Connexion impossible. Vous pouvez écrire directement aux propriétaires sur WhatsApp.');
+      await addAssistant('Connexion impossible. Vous pouvez écrire directement aux propriétaires sur WhatsApp.');
       addWhatsAppCta();
     } finally {
       busy = false;
+      autosize();
     }
   }
 
   function open() {
     if (!panel) build();
     panel.classList.add('open');
+    document.documentElement.classList.add('chat-open');
     fab.hidden = true;
     track('chat_open');
-    panel.querySelector('input[name="q"]').focus();
+    fit();
+    scrollToEnd(false);
+    // Sur mobile, on laisse voir l'accueil et les suggestions avant d'ouvrir le clavier
+    if (!isTouch()) input.focus();
   }
 
   function close() {
     panel.classList.remove('open');
+    document.documentElement.classList.remove('chat-open');
     fab.hidden = false;
+    fab.focus();
   }
 
   // Seule entrée vers l'assistant : la bulle, toujours visible
