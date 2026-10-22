@@ -1672,3 +1672,92 @@ html.chat-open body {
 .pl-note { font-style: italic; }
 .pl-terrasse { font-weight: 700; fill: var(--green); }
 .pl-fleche { fill: none; stroke: var(--green); stroke-width: 0.04; }
+
+/* Sommaire sous le prix : accès direct aux sections */
+.sommaire {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.75rem 0 0.25rem;
+}
+
+.sommaire a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 0.35rem 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--green);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  background: var(--bg);
+}
+
+.sommaire a:hover {
+  background: var(--green-soft);
+}
+
+html {
+  scroll-padding-top: 1rem;
+}
+
+/* Barre de contact fixe en bas de l'écran (téléphone) */
+.contact-bar {
+  display: none;
+}
+
+@media (max-width: 700px) {
+  .contact-bar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 40;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 0.5rem;
+    padding: 0.6rem 0.75rem calc(0.6rem + var(--safe-bottom));
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    box-shadow: 0 -6px 18px rgba(0, 0, 0, 0.06);
+  }
+
+  .contact-bar button {
+    width: 100%;
+    margin: 0;
+    white-space: nowrap;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  body {
+    padding-bottom: calc(4.5rem + var(--safe-bottom));
+  }
+
+  /* Sur téléphone, la barre remplace la bulle d'aide */
+  .chat-fab {
+    display: none;
+  }
+}
+
+.visit-avant {
+  margin: 0.75rem 0 0.5rem;
+  padding: 0.65rem 0.8rem;
+  border-radius: 10px;
+  background: var(--amber-soft);
+  color: var(--amber);
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.modal-inner a[href^='tel'] {
+  white-space: nowrap;
+}
+
+.visit-avant a {
+  color: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+}

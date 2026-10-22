@@ -63,6 +63,7 @@ function buildDialog() {
         <span>Vos disponibilités pour visiter <em class="muted">(facultatif)</em></span>
         <input type="text" name="dispos" maxlength="120" placeholder="ex. samedi matin, soirs de semaine" />
       </label>
+      <p class="visit-avant">Avant de venir, prenez 2 minutes pour lire <a href="#transparence">Ce qu’il faut savoir</a> (vis-à-vis, parkings en enfilade, agencement du séjour) : nous préférons que vous le sachiez avant plutôt que de le découvrir sur place.</p>
       <label class="choice check">
         <input type="checkbox" name="lu" required />
         J’ai pris connaissance des points d’attention (vis-à-vis, parkings en enfilade, charges).
@@ -98,6 +99,8 @@ export function initVisit() {
     dialog ||= buildDialog();
     const form = dialog.querySelector('#visit-form');
     dialog.querySelector('[data-close]').onclick = () => dialog.close();
+    // Un lien vers une section de la page ferme la fenêtre pour laisser lire
+    dialog.querySelectorAll('a[href^="#"]').forEach((a) => (a.onclick = () => dialog.close()));
     form.onsubmit = (e) => {
       e.preventDefault();
       const data = new FormData(form);

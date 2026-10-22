@@ -53,7 +53,7 @@ export const annonce = {
     { icone: 'BedDouble', valeur: '3 chambres', label: 'dont une suite' },
     { icone: 'SquareParking', valeur: '2 parkings', label: 'en sous-sol' },
     { icone: 'Building2', valeur: '1er étage', label: 'avec ascenseur' },
-    { icone: 'TramFront', valeur: 'Tram T1', label: 'à 5-8 min à pied' },
+    { icone: 'TramFront', valeur: 'Tram T1', label: '≈ 5 min à pied' },
   ],
 
   histoire: [

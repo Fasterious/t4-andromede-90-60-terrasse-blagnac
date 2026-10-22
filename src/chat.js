@@ -406,6 +406,7 @@ export function initChat() {
   // Seule entrée vers l'assistant : la bulle. Elle s'efface seulement quand
   // elle recouvrirait le bouton « Demander une visite » de l'en-tête.
   fab.onclick = open;
+  document.querySelectorAll('[data-open-chat]').forEach((b) => b.addEventListener('click', open));
   const headerCta = document.querySelector('.header-ctas [data-open-visit]');
   if (headerCta) {
     let queued = false;
