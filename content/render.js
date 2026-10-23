@@ -31,7 +31,7 @@ const BANDES = {
 const INFOS = {
   plan: () => annonce.plan.mention,
   reglementaire: () =>
-    'Les dépenses d’énergie ci-dessous sont une estimation réglementaire du diagnostic (DPE), pour un usage standard. Dans la réalité, le chauffage et l’eau sont compris dans les charges (environ 235 € par mois), et notre facture d’électricité est d’environ 45 € par mois.',
+    'Les dépenses d’énergie ci-dessous sont une estimation réglementaire du diagnostic (DPE), pour un usage standard. Dans la réalité, le chauffage et l’eau sont compris dans les charges (environ 235 € par mois pour nous quatre), et notre facture d’électricité est d’environ 45 € par mois.',
 };
 
 // **gras** dans les textes simples (après échappement)
