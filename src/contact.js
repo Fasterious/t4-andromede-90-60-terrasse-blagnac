@@ -42,7 +42,7 @@ function buildDialog() {
         <a class="cb-btn cb-wa" href="${waHref()}" target="_blank" rel="noopener noreferrer" data-track="wa_gate_continue" data-continue>Écrire sur WhatsApp</a>
         <button type="button" class="cb-btn cb-ask" data-track="wa_gate_assistant" data-open-chat>Poser une question à l’assistant</button>
       </div>
-      <p class="muted small">Pas WhatsApp ? Appelez ou envoyez un SMS au <a href="tel:${annonce.contact.telephoneIntl}">${annonce.contact.telephone}</a>.</p>
+      <p class="muted small">Vous préférez ne pas utiliser WhatsApp ? Appelez ou envoyez un SMS à Corinne au <a href="tel:${annonce.contact.telephoneIntl}">${annonce.contact.telephone}</a>.</p>
     </div>`;
   document.body.appendChild(dialog);
   dialog.querySelector('[data-close]').onclick = () => dialog.close();
