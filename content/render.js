@@ -19,10 +19,32 @@ const tagAConfirmer = (item) =>
       ? ' <span class="tag-confirm" title="Estimation, à confirmer">à confirmer</span>'
       : '';
 
+// Fonds alternés : vert très léger ou vert-gris, une section sur deux environ
+const BANDES = {
+  atouts: 'band band-vert',
+  quartier: 'band band-sauge',
+  faq: 'band band-vert',
+  reglementaire: 'band band-sauge',
+};
+
+// Information secondaire repliée derrière un petit bouton « i » à droite du titre
+const INFOS = {
+  plan: () => annonce.plan.mention,
+};
+
 function section(id, titre, inner, extraClass = '') {
+  const info = INFOS[id]?.();
+  const titreHtml = `<h2 id="${id}-titre">${esc(titre)}</h2>`;
+  const tete = info
+    ? `<div class="block-head">
+        ${titreHtml}
+        <button type="button" class="info-btn" aria-expanded="false" aria-controls="${id}-info" aria-label="En savoir plus" data-info-toggle>${icon('Info', 'ico ico-sm')}</button>
+      </div>
+      <p class="info-panel" id="${id}-info" hidden>${esc(info)}</p>`
+    : titreHtml;
   return `
-    <section class="block ${extraClass}" id="${id}" aria-labelledby="${id}-titre">
-      <h2 id="${id}-titre">${esc(titre)}</h2>
+    <section class="block ${[BANDES[id], extraClass].filter(Boolean).join(' ')}" id="${id}" aria-labelledby="${id}-titre">
+      ${tete}
       ${inner}
     </section>`;
 }
@@ -57,7 +79,6 @@ function renderPlan() {
     `<figure class="plan">
        <div class="plan-large">${planSvg()}</div>
        <div class="plan-haut">${planSvg({ portrait: true })}</div>
-       <figcaption class="small muted">${esc(annonce.plan.mention)}</figcaption>
      </figure>
      <a class="btn-outline plan-ouvrir" href="/plan.svg" target="_blank" rel="noopener" data-track="plan_open">Ouvrir le plan en grand</a>`
   );

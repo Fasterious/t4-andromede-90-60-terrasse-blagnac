@@ -453,3 +453,13 @@ function initSommaire() {
   update();
 }
 initSommaire();
+
+// Petits boutons « i » : déplient et replient une information secondaire
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('[data-info-toggle]');
+  if (!btn) return;
+  const panel = document.getElementById(btn.getAttribute('aria-controls'));
+  const open = btn.getAttribute('aria-expanded') !== 'true';
+  btn.setAttribute('aria-expanded', String(open));
+  if (panel) panel.hidden = !open;
+});

@@ -5,6 +5,8 @@
   --amber-soft: #fff6e0;
   --amber: #8a5a00;
   --green-light: #2a7344;
+  --band-vert: #eef5f0;
+  --band-sauge: #f2f4f1;
   --text: #1a1a1a;
   --muted: #666;
   --bg: #fff;
@@ -182,7 +184,7 @@ a:hover {
 .gallery-section {
   max-width: 640px;
   margin: 0 auto;
-  padding: 0 1.25rem 2rem;
+  padding: 0 1.25rem 1.5rem;
 }
 
 .gallery-toolbar {
@@ -293,7 +295,7 @@ a:hover {
   display: flex;
   justify-content: center;
   gap: 0.35rem;
-  margin-top: 0.75rem;
+  margin-top: 0.6rem;
 }
 
 .gallery-dots span {
@@ -311,7 +313,7 @@ a:hover {
 
 .gallery-item {
   position: relative;
-  flex: 0 0 86%;
+  flex: 0 0 80%;
   scroll-snap-align: start;
   border: none;
   padding: 0;
@@ -319,7 +321,7 @@ a:hover {
   border-radius: 12px;
   overflow: hidden;
   cursor: pointer;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 3 / 2;
 }
 
 .gallery-item img {
@@ -573,7 +575,7 @@ a:hover {
 
 @media (min-width: 640px) {
   .gallery-item {
-    flex-basis: 80%;
+    flex-basis: 62%;
   }
 }
 
@@ -650,6 +652,100 @@ a:hover {
   width: calc(100% - 2.5rem);
   max-width: calc(640px - 2.5rem);
   padding: 2rem 0 6rem;
+}
+
+/* Bandes de couleur pleine largeur, sans changer la mise en page : le fond
+   déborde par une ombre portée, découpée à la hauteur de la section */
+.band {
+  background: var(--band);
+  box-shadow: 0 0 0 100vmax var(--band);
+  clip-path: inset(0 -100vmax);
+}
+
+.band-vert {
+  --band: var(--band-vert);
+}
+
+.band-sauge {
+  --band: var(--band-sauge);
+}
+
+/* La couleur sépare déjà : pas de filet sur une bande ni juste après */
+.block.band,
+.block.band + .block {
+  border-top: none;
+}
+
+/* Sur fond coloré, les cartes passent en blanc */
+.band .card,
+.band details.faq,
+.band details.attention {
+  background: #fff;
+}
+
+.band .card {
+  box-shadow: 0 1px 2px rgba(30, 86, 49, 0.06);
+}
+
+.band .badge {
+  background: var(--band-vert);
+}
+
+.band .proxi-group li,
+.band .reg-list li {
+  border-bottom-color: #dfe5df;
+}
+
+/* Titre de section avec petit bouton « i » repliable */
+.block-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.block-head h2 {
+  margin-bottom: 0;
+}
+
+.info-btn {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  margin-top: -0.1rem;
+  appearance: none;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--bg);
+  color: var(--green);
+  cursor: pointer;
+}
+
+.info-btn[aria-expanded='true'] {
+  background: var(--green);
+  border-color: var(--green);
+}
+
+.info-btn[aria-expanded='true'] .ico-sm {
+  color: #fff;
+}
+
+.info-panel {
+  margin: 0.6rem 0 0;
+  padding: 0.7rem 0.85rem;
+  border-radius: 10px;
+  background: var(--band-sauge);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #444;
+}
+
+.block-head + .info-panel[hidden] + *,
+.block-head + .info-panel + * {
+  margin-top: 1rem;
 }
 
 .block h2 {
