@@ -112,8 +112,11 @@ export const annonce = {
     { categorie: 'Enfants', icone: 'School', lieu: 'Le Ferradou (établissement privé : élémentaire, collège, lycée)', distance: '≈ 15 min à pied' },
     { categorie: 'Enfants', icone: 'GraduationCap', lieu: 'Lycée Saint-Exupéry', distance: '≈ 7 min à pied', gps: [43.65357, 1.37547] },
     { categorie: 'Enfants', icone: 'Music', lieu: 'Conservatoire Résonance (musique et danse)', distance: '≈ 6 min à pied', gps: [43.6549, 1.3744] },
-    { categorie: 'Quotidien', icone: 'Croissant', lieu: 'Boulangerie et fleuriste, avenue d’Andromède', distance: '≈ 3 min à pied', gps: [43.65583, 1.37042] },
-    { categorie: 'Quotidien', icone: 'Pizza', lieu: 'Restaurants : sushis, pizzas, avenue d’Andromède', distance: '≈ 3 min à pied' },
+    // Commerces de l'avenue d'Andromède : même rangée, positions espacées de quelques mètres pour la carte
+    { categorie: 'Quotidien', icone: 'Croissant', lieu: 'Boulangerie, avenue d’Andromède', distance: '≈ 3 min à pied', gps: [43.65583, 1.37042] },
+    { categorie: 'Quotidien', icone: 'Flower2', lieu: 'Fleuriste, avenue d’Andromède', distance: '≈ 3 min à pied', gps: [43.6557, 1.3701] },
+    { categorie: 'Quotidien', icone: 'Fish', lieu: 'Restaurant de sushis, avenue d’Andromède', distance: '≈ 3 min à pied', gps: [43.65596, 1.37074] },
+    { categorie: 'Quotidien', icone: 'Pizza', lieu: 'Pizzeria, avenue d’Andromède', distance: '≈ 3 min à pied', gps: [43.65609, 1.37045] },
     { categorie: 'Quotidien', icone: 'ShoppingBasket', lieu: 'En projet : Carrefour Market et salle de sport à la place de l’ancien Intermarché de l’avenue (travaux pas encore commencés)', distance: '≈ 3 min à pied', projet: true },
     { categorie: 'Quotidien', icone: 'ShoppingCart', lieu: 'E.Leclerc Blagnac (drive, galerie)', distance: '≈ 3 min en voiture', gps: [43.645812, 1.372548] },
     { categorie: 'Quotidien', icone: 'Clapperboard', lieu: 'Cinéma Méga CGR (même centre que Leclerc)', distance: '≈ 3 min en voiture' },

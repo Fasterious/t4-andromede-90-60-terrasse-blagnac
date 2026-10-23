@@ -106,9 +106,9 @@ function renderPointsForts() {
   );
 }
 
-// Points de la carte : l'appartement, puis chaque lieu dont la position est connue.
-// Les lieux à moins de 90 m l'un de l'autre partagent une seule icône (sinon elles
-// se chevauchent à l'échelle du quartier) ; la bulle les liste tous.
+// Points de la carte : l'appartement, puis chaque lieu dont la position est connue,
+// chacun avec sa propre goutte. Les lieux très proches (moins de 80 m) se rangent
+// côte à côte (`dx`, en pixels) au lieu de s'empiler ; l'appartement ne bouge pas.
 const metres = ([a, b], [c, d]) => {
   const r = Math.PI / 180;
   const x = Math.sin(((c - a) * r) / 2) ** 2 + Math.cos(a * r) * Math.cos(c * r) * Math.sin(((d - b) * r) / 2) ** 2;
@@ -116,17 +116,31 @@ const metres = ([a, b], [c, d]) => {
 };
 
 function carteData() {
-  const lieux = [
-    { gps: annonce.gps, nom: 'L’appartement', detail: annonce.adresse, icone: 'House', maison: true },
-    ...annonce.proximites.filter((p) => p.gps).map((p) => ({ gps: p.gps, nom: p.lieu, detail: p.distance, icone: p.icone })),
+  const points = [
+    { gps: annonce.gps, maison: true, svg: icon('House', 'ico'), lieux: [{ nom: 'L’appartement', detail: annonce.adresse }] },
+    ...annonce.proximites
+      .filter((p) => p.gps)
+      .map((p) => ({ gps: p.gps, maison: false, svg: icon(p.icone, 'ico'), lieux: [{ nom: p.lieu, detail: p.distance }] })),
   ];
   const groupes = [];
-  for (const l of lieux) {
-    const g = groupes.find((x) => metres(x.gps, l.gps) < 90);
-    if (g) g.lieux.push({ nom: l.nom, detail: l.detail });
-    else groupes.push({ gps: l.gps, maison: !!l.maison, svg: icon(l.icone, 'ico'), lieux: [{ nom: l.nom, detail: l.detail }] });
+  for (const p of points) {
+    const g = groupes.find((x) => x.some((q) => metres(q.gps, p.gps) < 80));
+    if (g) g.push(p);
+    else groupes.push([p]);
   }
-  return groupes;
+  for (const g of groupes) {
+    if (g.length < 2) continue;
+    const avecMaison = g.some((p) => p.maison);
+    // Places : 0 réservé à l'appartement s'il est là, puis +1, -1, +2, -2…
+    const places = [];
+    for (let k = 1; places.length < g.length; k++) places.push(k, -k);
+    let i = 0;
+    g.forEach((p, n) => {
+      if (p.maison) p.dx = 0;
+      else p.dx = (avecMaison ? places[i++] : n - (g.length - 1) / 2) * 27;
+    });
+  }
+  return points;
 }
 
 function renderQuartier() {
