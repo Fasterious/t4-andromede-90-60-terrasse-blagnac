@@ -100,7 +100,7 @@ export const annonce = {
     {
       icone: 'Building2',
       titre: 'Une résidence récente, calme et bien gérée',
-      texte: 'Immeuble de 2012. Un syndic actif et réactif (Domicia), d’une vraie aide au quotidien. Voisinage agréable et varié : beaucoup de jeunes couples, avec ou sans enfants, et d’autres profils.',
+      texte: 'Immeuble livré en 2013. Un syndic actif et réactif (Domicia), d’une vraie aide au quotidien. Voisinage agréable et varié : beaucoup de jeunes couples, avec ou sans enfants, et d’autres profils.',
     },
   ],
 
