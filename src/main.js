@@ -348,3 +348,17 @@ loadPhotos();
 initTracking();
 initContact();
 initChat();
+
+// Titre : « 90,5 m² + 63 m² » occupe toute la largeur disponible, quelle que
+// soit la police du téléphone (plafonné à 76 px sur grand écran)
+function fitTitle() {
+  const el = document.querySelector('.h1-surfaces');
+  if (!el) return;
+  const dispo = el.parentElement.clientWidth;
+  el.style.fontSize = '100px';
+  const largeur = el.getBoundingClientRect().width;
+  el.style.fontSize = `${Math.min(76, (100 * dispo * 0.985) / largeur).toFixed(1)}px`;
+}
+fitTitle();
+document.fonts?.ready.then(fitTitle);
+window.addEventListener('resize', fitTitle);

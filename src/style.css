@@ -49,27 +49,46 @@ a:hover {
   text-decoration: underline;
 }
 
-/* Header */
+/* Header : bandeau vert pleine largeur (titre, prix), puis sommaire et chiffres clés */
 
-.header {
-  padding: 2rem 1.25rem 1.5rem;
-  max-width: 640px;
-  margin: 0 auto;
+.hero {
+  background: linear-gradient(160deg, var(--green) 0%, #24663b 100%);
+  color: #fff;
 }
 
-.header-top {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 0.75rem;
+.hero-inner {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: calc(1.75rem + var(--safe-top)) 1.25rem 1.6rem;
+}
+
+.header-below {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 1rem 1.25rem 1.5rem;
 }
 
 .header h1 {
   margin: 0;
-  font-size: clamp(1.6rem, 5.5vw, 2.1rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+/* « 90,5 m² + 63 m² » sur une ligne, aussi grand que la largeur le permet :
+   ajusté au pixel par main.js (fitTitle), 10 vw sans JavaScript */
+.h1-surfaces {
+  display: inline-block;
+  white-space: nowrap;
+  font-size: min(10vw, 3.6rem);
+}
+
+.h1-suite {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: min(6.6vw, 2.5rem);
   font-weight: 700;
-  color: var(--green);
-  line-height: 1.15;
+  opacity: 0.92;
 }
 
 /* Pastilles secondaires : 40 px visibles, zone tactile étendue à 48 px */
@@ -85,42 +104,47 @@ a:hover {
 }
 
 .subtitle {
-  margin: 0.6rem 0 0;
+  margin: 0.85rem 0 0;
   font-size: 0.95rem;
-  color: var(--text);
-  line-height: 1.4;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.92);
 }
 
-.agency-free {
-  margin: 0.35rem 0 0;
-  font-size: 0.9rem;
-  color: var(--muted);
+.hero .sep {
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .en-direct {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  margin: 0.8rem 0 0;
+  margin: 0.9rem 0 0;
   padding: 0.35rem 0.8rem;
   border-radius: 999px;
-  background: var(--green-soft);
-  color: var(--green);
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
   font-size: 0.85rem;
   font-weight: 600;
 }
 
+.en-direct .ico {
+  color: #fff;
+}
+
 .price {
-  margin: 1.25rem 0 0.25rem;
-  font-size: clamp(1.75rem, 5vw, 2rem);
-  font-weight: 700;
-  color: var(--green);
+  margin: 1.1rem 0 0.2rem;
+  font-size: min(11vw, 3rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: #fff;
 }
 
 .price-note {
   margin: 0;
-  font-size: 0.9rem;
-  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.8);
 }
 
 /* Gallery */
@@ -599,7 +623,7 @@ a:hover {
 
 .key-facts {
   list-style: none;
-  margin: 1.5rem 0 0;
+  margin: 1.25rem 0 0;
   padding: 0;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -1442,7 +1466,7 @@ html.chat-open body {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin: 0.75rem 0 0.25rem;
+  margin: 0 0 0.25rem;
 }
 
 .sommaire a {
