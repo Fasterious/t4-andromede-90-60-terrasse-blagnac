@@ -209,11 +209,10 @@ export const annonce = {
 
   // Parcours de visite affiché sur le site.
   parcoursVisite: [
-    'Regardez les photos, la vidéo et les points d’attention : la visite sert alors à confirmer, pas à découvrir.',
-    'Écrivez-nous sur WhatsApp (bouton en bas de l’écran) : nous vous posons quelques questions rapides sur votre projet.',
-    'Nous vous rappelons pour un court échange et nous fixons un créneau ensemble.',
-    'Visite avec nous, environ 30 minutes : séjour, terrasse, chambres, suite parentale, puis un temps libre pour revoir ce que vous voulez, et le parking.',
-    'Avant une seconde visite ou une offre, nous demandons une attestation de financement (banque ou courtier) ou, en cas d’achat comptant, un justificatif des fonds. Nous transmettons alors le dossier complet : diagnostics, procès-verbaux d’assemblée générale, charges.',
-    'Offre écrite, puis compromis de vente chez le notaire.',
+    'Prenez le temps de parcourir le site : photos, plan, quartier et points d’attention. La visite sert alors à confirmer, pas à découvrir.',
+    'Toujours intéressés ? Écrivez-nous sur WhatsApp : c’est le plus simple pour garder le fil de nos échanges et vous envoyer photos, plan ou documents. Quelques questions rapides sur votre projet, et nous fixons un créneau.',
+    'Première visite avec nous, environ 30 minutes : séjour, terrasse, chambres, suite parentale, puis un temps libre pour revoir ce que vous voulez, et le parking.',
+    'Avant une seconde visite ou une offre, nous demandons une attestation de financement (banque ou courtier) ou, en cas d’achat comptant, un justificatif des fonds. Nous vous transmettons alors le dossier complet : diagnostics, procès-verbaux d’assemblée générale, charges.',
+    'Offre écrite, réponse de notre part sous 48 h, puis compromis de vente chez le notaire.',
   ],
 };

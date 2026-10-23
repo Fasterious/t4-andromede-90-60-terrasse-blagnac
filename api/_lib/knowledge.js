@@ -39,7 +39,7 @@ function knowledge() {
     `# Informations réglementaires (null = pas encore confirmé, à dire comme tel)`,
     JSON.stringify(a.reglementaire),
     '',
-    `# Déroulement d'une visite et d'un achat`,
+    `# Comment les propriétaires proposent d'avancer, du site à la signature`,
     ...a.parcoursVisite.map((e, i) => `${i + 1}. ${e}`),
   ].join('\n');
 }

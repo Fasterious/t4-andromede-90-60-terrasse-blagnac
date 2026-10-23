@@ -166,7 +166,7 @@ function renderFaq() {
 function renderVisite() {
   return section(
     'visite',
-    'Comment se passe une visite',
+    'Comment nous vous proposons d’avancer',
     `<ol class="steps">${annonce.parcoursVisite.map((e) => `<li>${esc(e)}</li>`).join('')}</ol>`
   );
 }
