@@ -363,8 +363,8 @@ fitTitle();
 document.fonts?.ready.then(fitTitle);
 window.addEventListener('resize', fitTitle);
 
-// Sommaire collé en haut : ombre une fois collé, section en cours surlignée,
-// pastille active ramenée dans la partie visible de la ligne
+// Sommaire collé en haut : ombre une fois collé, section en cours surlignée ;
+// les ancres s'arrêtent juste sous la barre, quelle que soit sa hauteur
 function initSommaire() {
   const bar = document.querySelector('.sommaire-bar');
   const nav = bar?.querySelector('.sommaire');
@@ -391,16 +391,14 @@ function initSommaire() {
     if (!active) return;
     active.classList.add('is-active');
     active.setAttribute('aria-current', 'true');
-    const left = active.offsetLeft - nav.offsetLeft;
-    if (left < nav.scrollLeft || left + active.offsetWidth > nav.scrollLeft + nav.clientWidth) {
-      nav.scrollTo({ left: left - 20, behavior: 'smooth' });
-    }
   };
+  const pad = () => (document.documentElement.style.scrollPaddingTop = `${bar.offsetHeight + 12}px`);
   const schedule = () => {
     if (!queued) (queued = true), requestAnimationFrame(update);
   };
   window.addEventListener('scroll', schedule, { passive: true });
-  window.addEventListener('resize', schedule);
+  window.addEventListener('resize', () => (pad(), schedule()));
+  pad();
   update();
 }
 initSommaire();
