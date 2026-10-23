@@ -80,9 +80,11 @@ function saveConversationId(id) {
   }
 }
 
-const waLink = () =>
+const waLink = (visite = false) =>
   `https://wa.me/${annonce.contact.whatsapp}?text=${encodeURIComponent(
-    `Bonjour, j’ai posé plusieurs questions à l’assistant du site au sujet du T4 avec terrasse à Andromède et j’aimerais continuer avec vous. [réf. T4A-${sourceCode}]`
+    visite
+      ? `Bonjour, j’ai échangé avec l’assistant du site et j’aimerais visiter le T4 avec terrasse à Andromède. [réf. T4A-${sourceCode}]`
+      : `Bonjour, j’ai posé plusieurs questions à l’assistant du site au sujet du T4 avec terrasse à Andromède et j’aimerais continuer avec vous. [réf. T4A-${sourceCode}]`
   )}`;
 
 export function initChat() {
@@ -174,8 +176,8 @@ export function initChat() {
       b.type = 'button';
       b.onclick = () => {
         if (s === VISIT_CHIP) {
-          close();
-          document.querySelector('[data-open-visit]')?.click();
+          track('chat_whatsapp_click');
+          window.open(waLink(true), '_blank', 'noopener');
           return;
         }
         ask(s);
@@ -399,25 +401,8 @@ export function initChat() {
 
   window.addEventListener('popstate', () => close(true));
 
-  // Sur grand écran, la barre flottante s'efface seulement quand elle
-  // recouvrirait le bouton « Demander une visite » de l'en-tête.
-  document.querySelectorAll('[data-open-chat]').forEach((b) => b.addEventListener('click', open));
-  const headerCta = document.querySelector('.header-ctas [data-open-visit]');
-  if (headerCta) {
-    let queued = false;
-    const check = () => {
-      queued = false;
-      if (window.matchMedia('(max-width: 700px)').matches) return fab.classList.remove('is-tucked');
-      const a = headerCta.getBoundingClientRect();
-      const b = fab.getBoundingClientRect();
-      const overlap = a.bottom > b.top && a.top < b.bottom && a.right > b.left && a.left < b.right;
-      fab.classList.toggle('is-tucked', overlap);
-    };
-    const schedule = () => {
-      if (!queued) (queued = true), requestAnimationFrame(check);
-    };
-    window.addEventListener('scroll', schedule, { passive: true });
-    window.addEventListener('resize', schedule);
-    check();
-  }
+  // Délégation : les boutons créés plus tard (fenêtre WhatsApp) ouvrent aussi l'assistant
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('[data-open-chat]')) open();
+  });
 }

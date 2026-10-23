@@ -1,6 +1,6 @@
 import { annonce } from '../content/annonce.js';
 import { initTracking, track } from './track.js';
-import { initVisit } from './visit.js';
+import { initContact } from './contact.js';
 import { initChat } from './chat.js';
 
 const galleryEl = document.getElementById('gallery');
@@ -393,5 +393,5 @@ document.addEventListener('webkitfullscreenchange', onFullscreenChange);
 
 loadPhotos();
 initTracking();
-initVisit();
+initContact();
 initChat();

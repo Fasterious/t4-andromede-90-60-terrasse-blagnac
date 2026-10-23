@@ -210,7 +210,7 @@ export const annonce = {
   // Parcours de visite affiché sur le site.
   parcoursVisite: [
     'Regardez les photos, la vidéo et les points d’attention : la visite sert alors à confirmer, pas à découvrir.',
-    'Demandez une visite : quelques questions rapides, puis votre message part directement sur notre WhatsApp.',
+    'Écrivez-nous sur WhatsApp (bouton en bas de l’écran) : nous vous posons quelques questions rapides sur votre projet.',
     'Nous vous rappelons pour un court échange et nous fixons un créneau ensemble.',
     'Visite avec nous, environ 30 minutes : séjour, terrasse, chambres, suite parentale, puis un temps libre pour revoir ce que vous voulez, et le parking.',
     'Avant une seconde visite ou une offre, nous demandons une attestation de financement (banque ou courtier) ou, en cas d’achat comptant, un justificatif des fonds. Nous transmettons alors le dossier complet : diagnostics, procès-verbaux d’assemblée générale, charges.',

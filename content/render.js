@@ -146,10 +146,7 @@ function renderVisite() {
   return section(
     'visite',
     'Comment se passe une visite',
-    `<ol class="steps">${annonce.parcoursVisite.map((e) => `<li>${esc(e)}</li>`).join('')}</ol>
-     <div class="cta-row">
-       <button type="button" class="btn-primary" data-open-visit>Demander une visite</button>
-     </div>`
+    `<ol class="steps">${annonce.parcoursVisite.map((e) => `<li>${esc(e)}</li>`).join('')}</ol>`
   );
 }
 
@@ -224,6 +221,7 @@ export function htmlVars() {
     telephone: annonce.contact.telephone,
     telephoneIntl: annonce.contact.telephoneIntl,
     whatsapp: annonce.contact.whatsapp,
+    whatsappAffiche: annonce.contact.whatsappAffiche,
     description: `${annonce.titre}, ${annonce.quartier}. ${annonce.prix.affiche} net vendeur, sans frais d’agence.`,
   };
 }

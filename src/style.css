@@ -263,38 +263,6 @@ a:hover {
   font-weight: 600;
 }
 
-.contact-whatsapp {
-  margin: 0.75rem 0 0;
-}
-
-.btn-whatsapp {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  min-height: 44px;
-  padding: 0.55rem 1.1rem;
-  background: var(--wa);
-  color: #fff;
-  font-size: 0.95rem;
-  font-weight: 600;
-  text-decoration: none;
-  border-radius: 999px;
-  transition: background 0.15s, transform 0.15s;
-}
-
-.btn-whatsapp:hover,
-.btn-whatsapp:focus-visible {
-  background: var(--wa-hover);
-  outline: none;
-  transform: translateY(-1px);
-}
-
-.icon-whatsapp {
-  width: 20px;
-  height: 20px;
-  flex: 0 0 auto;
-}
-
 /* Lightbox */
 
 .lightbox {
@@ -573,13 +541,6 @@ a:hover {
 }
 
 /* Sections de contenu */
-
-.header-ctas {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 1.5rem;
-}
 
 .btn-primary,
 .btn-outline {
@@ -946,12 +907,6 @@ details p:last-child {
   font-weight: 700;
 }
 
-.cta-row {
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-}
-
 .video-wrap {
   position: relative;
   aspect-ratio: 16 / 9;
@@ -996,7 +951,7 @@ details p:last-child {
   font-weight: 400;
 }
 
-/* Modale « Demander une visite » */
+/* Fenêtres (modales) */
 
 .modal {
   border: none;
@@ -1052,69 +1007,22 @@ details p:last-child {
   outline: none;
 }
 
-.field {
-  display: block;
-  margin: 1rem 0 0;
-  padding: 0;
-  border: none;
+.wa-gate p {
+  margin: 0 0 0.75rem;
+  line-height: 1.5;
 }
 
-.field > span,
-.field legend {
-  display: block;
-  font-weight: 600;
-  font-size: 0.9rem;
-  line-height: 1.35;
-  margin-bottom: 0.25rem;
-  padding: 0;
-}
-
-.field input[type='text'] {
-  width: 100%;
-  font: inherit;
-  font-size: 16px;
-  min-height: 44px;
-  padding: 0.55rem 0.75rem;
-  border: 1.5px solid #d4d4d4;
-  border-radius: 8px;
-  color: var(--text);
-  background: var(--bg);
-}
-
-.field input[type='text']:focus {
-  outline: none;
-  border-color: var(--green);
-}
-
-.choice {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.625rem;
-  min-height: 40px;
-  font-size: 0.95rem;
-  line-height: 1.4;
-  padding: 0.5rem 0;
-  cursor: pointer;
-}
-
-.choice input {
-  flex: 0 0 auto;
-  width: 18px;
-  height: 18px;
-  margin: 0.1rem 0 0;
-  accent-color: var(--green);
-}
-
-.choice.check {
-  margin-top: 1rem;
-}
-
-.modal-actions {
+.wa-gate-actions {
+  display: grid;
+  gap: 0.5rem;
   margin: 1.25rem 0 0.75rem;
 }
 
-.modal-actions .btn-primary {
-  width: 100%;
+.wa-gate-actions .cb-btn {
+  justify-content: center;
+  padding: 0.75rem 1rem;
+  font-weight: 700;
+  box-shadow: none;
 }
 
 /* Assistant */
@@ -1666,11 +1574,6 @@ html {
   display: none;
 }
 
-.contact-bar.is-tucked {
-  opacity: 0;
-  pointer-events: none;
-}
-
 .cb-btn {
   display: inline-flex;
   align-items: center;
@@ -1684,6 +1587,11 @@ html {
   cursor: pointer;
   box-shadow: 0 8px 24px rgba(30, 86, 49, 0.22);
   transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
+}
+
+.cb-btn:hover,
+.cb-btn:focus-visible {
+  text-decoration: none;
 }
 
 .cb-btn:hover {
