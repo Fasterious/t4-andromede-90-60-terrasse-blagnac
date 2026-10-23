@@ -70,8 +70,8 @@ export const annonce = {
     },
     {
       icone: 'BedDouble',
-      titre: 'Une vraie suite parentale',
-      texte: 'Chambre de 17,4 m², grand dressing (ouvert aujourd’hui, il peut être fermé ou réaménagé) et salle d’eau privative de 3 m².',
+      titre: 'Une suite parentale de 17,4 m²',
+      texte: 'Grand dressing (ouvert aujourd’hui, il peut être fermé ou réaménagé) et salle d’eau privative.',
     },
     {
       icone: 'Columns2',
