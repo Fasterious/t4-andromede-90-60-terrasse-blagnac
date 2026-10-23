@@ -35,6 +35,7 @@ async function geolocaliser() {
     if (trouves[i]) p.gps = trouves[i].gps;
   });
   // Journal du build : position retenue et distance à vol d'oiseau depuis l'appartement
+  console.log(`[carte] appartement : ${annonce.gps[0].toFixed(5)}, ${annonce.gps[1].toFixed(5)}`);
   for (const p of annonce.proximites) {
     if (!p.gps) continue;
     const [a, b] = annonce.gps;

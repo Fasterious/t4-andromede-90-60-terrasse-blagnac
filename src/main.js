@@ -483,52 +483,71 @@ async function chargerCarte() {
     maxZoom: 19,
     attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
   }).addTo(carte);
-  // Goutte dont la pointe touche le lieu ; `dx` la décale (en pixels) quand elle en touche une autre
-  const goutte = (p, dx = 0) =>
+  // Goutte dont la pointe touche le lieu ; `d` la décale (en pixels) quand elle en touche d'autres
+  const goutte = (p, [dx, dy] = [0, 0]) =>
     L.divIcon({
       className: `carte-pin${p.maison ? ' carte-pin-maison' : ''}${p.projet ? ' carte-pin-projet' : ''}`,
       html: `<span class="goutte">${p.svg}</span>`,
       iconSize: p.maison ? [30, 37] : [24, 30],
-      iconAnchor: p.maison ? [15, 37] : [12 - dx, 30],
-      popupAnchor: [dx, p.maison ? -36 : -29],
+      iconAnchor: p.maison ? [15, 37] : [12 - dx, 30 - dy],
+      popupAnchor: [dx, (p.maison ? -36 : -29) + dy],
     });
   const marqueurs = points.map((p) =>
     L.marker(p.gps, { icon: goutte(p), title: p.nom, zIndexOffset: p.maison ? 1000 : 0 })
       .bindPopup(`<strong>${p.nom}</strong><br>${p.detail}`)
       .addTo(carte)
   );
-  // À chaque zoom : les gouttes qui se chevauchent à l'écran se rangent côte à côte ;
-  // en zoomant, elles se séparent d'elles-mêmes et reviennent pile sur leur lieu.
-  const ESPACE = 27;
+  // À chaque zoom : les gouttes qui se chevauchent à l'écran se rangent en petite grille
+  // (l'appartement ne bouge pas) ; en zoomant, elles se séparent et reviennent sur leur lieu.
+  const COL = 27;
+  const LIGNE = 32;
   const ranger = () => {
     const pos = points.map((p) => carte.latLngToLayerPoint(p.gps));
+    const touche = (i, j) => Math.abs(pos[j].x - pos[i].x) < 26 && Math.abs(pos[j].y - pos[i].y) < 30;
     const groupes = [];
     points.forEach((p, i) => {
-      const g = groupes.find((x) => x.some((j) => Math.abs(pos[j].x - pos[i].x) < 26 && Math.abs(pos[j].y - pos[i].y) < 30));
-      if (g) g.push(i);
-      else groupes.push([i]);
+      const liés = groupes.filter((g) => g.some((j) => touche(i, j)));
+      const g = liés.flat().concat(i);
+      liés.forEach((x) => groupes.splice(groupes.indexOf(x), 1));
+      groupes.push(g);
     });
-    const dx = points.map(() => 0);
+    const dec = points.map(() => [0, 0]);
     for (const g of groupes) {
       if (g.length < 2) continue;
+      const n = g.length;
+      const cols = Math.min(n, n > 6 ? 4 : 3);
+      const rows = Math.ceil(n / cols);
+      const cx = g.reduce((t, i) => t + pos[i].x, 0) / n;
+      const cy = g.reduce((t, i) => t + pos[i].y, 0) / n;
+      let cases = [];
+      for (let r = 0; r < rows; r++)
+        for (let c = 0; c < cols; c++) cases.push({ x: cx + (c - (cols - 1) / 2) * COL, y: cy + (r - (rows - 1) / 2) * LIGNE });
+      const d2 = (i, k) => (cases[k].x - pos[i].x) ** 2 + (cases[k].y - pos[i].y) ** 2;
       const maison = g.find((i) => points[i].maison);
-      const tries = g.filter((i) => i !== maison).sort((i, j) => pos[i].x - pos[j].x);
       if (maison !== undefined) {
-        // L'appartement ne bouge pas ; les autres de part et d'autre, du plus proche au plus loin
-        const x0 = pos[maison].x;
-        const gauche = tries.filter((i) => pos[i].x < x0).reverse();
-        const droite = tries.filter((i) => pos[i].x >= x0);
-        gauche.forEach((i, k) => (dx[i] = x0 - (k + 1) * ESPACE - pos[i].x));
-        droite.forEach((i, k) => (dx[i] = x0 + (k + 1) * ESPACE - pos[i].x));
-      } else {
-        const milieu = tries.reduce((t, i) => t + pos[i].x, 0) / tries.length;
-        tries.forEach((i, k) => (dx[i] = milieu + (k - (tries.length - 1) / 2) * ESPACE - pos[i].x));
+        // La grille se cale pour que l'appartement reste exactement à sa place
+        const k = cases.map((_, k) => k).sort((a, b) => d2(maison, a) - d2(maison, b))[0];
+        const [ox, oy] = [pos[maison].x - cases[k].x, pos[maison].y - cases[k].y];
+        cases = cases.map((c) => ({ x: c.x + ox, y: c.y + oy }));
+        cases.splice(k, 1);
+      }
+      // Chaque lieu prend la case libre la plus proche, les plus « coincés » d'abord
+      const reste = g.filter((i) => i !== maison);
+      const libres = cases.map((_, k) => k);
+      while (reste.length) {
+        let best = null;
+        for (const i of reste)
+          for (const k of libres) if (!best || d2(i, k) < best.d) best = { i, k, d: d2(i, k) };
+        dec[best.i] = [cases[best.k].x - pos[best.i].x, cases[best.k].y - pos[best.i].y];
+        reste.splice(reste.indexOf(best.i), 1);
+        libres.splice(libres.indexOf(best.k), 1);
       }
     }
     marqueurs.forEach((m, i) => {
-      if (Math.round(dx[i]) !== Math.round(m.dx || 0)) {
-        m.dx = dx[i];
-        m.setIcon(goutte(points[i], Math.round(dx[i])));
+      const d = dec[i].map(Math.round);
+      if (String(d) !== String(m.dec || [0, 0])) {
+        m.dec = d;
+        m.setIcon(goutte(points[i], d));
       }
     });
   };
