@@ -220,7 +220,6 @@ export function htmlVars() {
     telephone: annonce.contact.telephone,
     telephoneIntl: annonce.contact.telephoneIntl,
     whatsapp: annonce.contact.whatsapp,
-    whatsappAffiche: annonce.contact.whatsappAffiche,
     description: `${annonce.titre}, ${annonce.quartier}. ${annonce.prix.affiche} net vendeur, sans frais d’agence.`,
   };
 }

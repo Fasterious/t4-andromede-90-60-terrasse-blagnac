@@ -277,18 +277,18 @@ a:hover {
   color: var(--muted);
 }
 
-.contact {
-  margin: 0;
-  font-size: 1rem;
-  font-weight: 600;
-}
-
-.contact a {
-  white-space: nowrap;
-}
-
 .contact-cta {
   margin: 1rem 0 0;
+}
+
+.contact-alt {
+  margin: 0.75rem 0 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.contact-alt a {
+  white-space: nowrap;
 }
 
 /* Lightbox */
