@@ -97,7 +97,12 @@ a:hover {
   padding: 0.4rem 1.25rem 1.5rem;
 }
 
+/* Le titre prend la largeur de « 90,5 m² + 63 m² » : « de terrasse » s'aligne sur son bord droit */
 .header h1 {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-end;
+  max-width: 100%;
   margin: 0;
   font-weight: 800;
   line-height: 1;
@@ -115,6 +120,7 @@ a:hover {
 .h1-suite {
   display: block;
   margin-top: 0.3rem;
+  text-align: right;
   font-size: min(6.4vw, 2.3rem);
   font-weight: 600;
   letter-spacing: -0.015em;

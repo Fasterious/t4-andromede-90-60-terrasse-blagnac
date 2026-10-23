@@ -405,7 +405,10 @@ initChat();
 function fitTitle() {
   const el = document.querySelector('.h1-surfaces');
   if (!el) return;
-  const dispo = el.parentElement.clientWidth;
+  // Largeur disponible : celle du bandeau (le titre, lui, s'ajuste à son contenu)
+  const zone = el.closest('.hero-inner');
+  const cs = getComputedStyle(zone);
+  const dispo = zone.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
   el.style.fontSize = '100px';
   const largeur = el.getBoundingClientRect().width;
   el.style.fontSize = `${Math.min(76, (100 * dispo * 0.985) / largeur).toFixed(1)}px`;
