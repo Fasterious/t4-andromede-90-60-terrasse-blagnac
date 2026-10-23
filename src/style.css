@@ -1107,19 +1107,45 @@ details p:last-child {
   max-height: none !important;
 }
 
-/* Icônes de la carte : pastilles vertes, l'appartement en plus grand */
+/* Icônes de la carte : petites gouttes dont la pointe désigne le lieu ;
+   l'appartement en vert plein et un peu plus grand */
 .carte-pin {
+  background: none;
+  border: none;
+}
+
+.goutte {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 24px;
+  height: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
   background: #fff;
-  color: var(--green);
   border: 2px solid var(--green);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+  color: var(--green);
 }
 
-.carte-pin .ico {
+.goutte .ico {
+  width: 13px;
+  height: 13px;
+  transform: rotate(45deg);
+}
+
+.carte-pin-maison .goutte {
+  width: 30px;
+  height: 30px;
+  background: var(--green);
+  border-color: #fff;
+  color: #fff;
+}
+
+.carte-pin-maison .goutte .ico {
   width: 16px;
   height: 16px;
 }
@@ -1127,8 +1153,8 @@ details p:last-child {
 /* Nombre de lieux regroupés sous une même icône */
 .carte-nb {
   position: absolute;
-  top: -7px;
-  right: -7px;
+  top: -6px;
+  right: -8px;
   min-width: 17px;
   height: 17px;
   padding: 0 4px;
@@ -1150,17 +1176,6 @@ details p:last-child {
   margin: 0.4rem 0;
   border: none;
   border-top: 1px solid var(--border);
-}
-
-.carte-pin-maison {
-  background: var(--green);
-  color: #fff;
-  border-color: #fff;
-}
-
-.carte-pin-maison .ico {
-  width: 20px;
-  height: 20px;
 }
 
 .carte .leaflet-popup-content {

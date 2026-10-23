@@ -487,10 +487,11 @@ async function chargerCarte() {
     L.marker(p.gps, {
       icon: L.divIcon({
         className: `carte-pin${p.maison ? ' carte-pin-maison' : ''}`,
-        html: p.svg + (p.lieux.length > 1 ? `<b class="carte-nb">${p.lieux.length}</b>` : ''),
-        iconSize: p.maison ? [36, 36] : [28, 28],
-        iconAnchor: p.maison ? [18, 18] : [14, 14],
-        popupAnchor: [0, p.maison ? -18 : -14],
+        // Goutte dont la pointe touche le lieu ; l'icône est dans la tête de la goutte
+        html: `<span class="goutte">${p.svg}</span>${p.lieux.length > 1 ? `<b class="carte-nb">${p.lieux.length}</b>` : ''}`,
+        iconSize: p.maison ? [30, 37] : [24, 30],
+        iconAnchor: p.maison ? [15, 37] : [12, 30],
+        popupAnchor: [0, p.maison ? -36 : -29],
       }),
       title: p.lieux.map((l) => l.nom).join(' · '),
       zIndexOffset: p.maison ? 1000 : 0,
