@@ -121,7 +121,7 @@ export const annonce = {
     { categorie: 'Sport et nature', icone: 'Dumbbell', lieu: 'On Air, salle de sport moderne et abordable (près de Leclerc)', distance: '≈ 8 min à pied', gps: [43.6494, 1.3677] },
     { categorie: 'Sport et nature', icone: 'Trees', lieu: 'Grand parc, juste après le tram T1 et à côté du conservatoire : allées vertes, petit bois, grande aire de jeux avec deux espaces balançoires', distance: '≈ 6 min à pied' },
     { categorie: 'Sport et nature', icone: 'TreeDeciduous', lieu: 'Coulée verte d’Andromède, vers les bords de Garonne', distance: 'quelques minutes à pied' },
-    { categorie: 'Sport et nature', icone: 'Building2', lieu: 'Complexe sportif Andromède (stade, gymnase, dojo)', distance: '≈ 13 min à pied', gps: [43.65524, 1.385947] },
+    { categorie: 'Sport et nature', icone: 'Trophy', lieu: 'Complexe sportif Andromède (stade, gymnase, dojo)', distance: '≈ 13 min à pied', gps: [43.65524, 1.385947] },
     { categorie: 'Se déplacer', icone: 'TramFront', lieu: 'Tram T1, station Andromède-Lycée', distance: '≈ 5 min à pied', gps: [43.65477, 1.37364] },
     { categorie: 'Se déplacer', icone: 'Bus', lieu: 'Bus, arrêt Giusta', distance: '≈ 4 min à pied', aConfirmer: true },
     { categorie: 'Se déplacer', icone: 'Route', lieu: 'Rocade', distance: '≈ 2 min en voiture' },
