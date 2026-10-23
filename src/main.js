@@ -487,15 +487,15 @@ async function chargerCarte() {
     L.marker(p.gps, {
       icon: L.divIcon({
         className: `carte-pin${p.maison ? ' carte-pin-maison' : ''}`,
-        html: p.svg,
-        iconSize: p.maison ? [40, 40] : [32, 32],
-        iconAnchor: p.maison ? [20, 20] : [16, 16],
-        popupAnchor: [0, p.maison ? -20 : -16],
+        html: p.svg + (p.lieux.length > 1 ? `<b class="carte-nb">${p.lieux.length}</b>` : ''),
+        iconSize: p.maison ? [36, 36] : [28, 28],
+        iconAnchor: p.maison ? [18, 18] : [14, 14],
+        popupAnchor: [0, p.maison ? -18 : -14],
       }),
-      title: p.nom,
+      title: p.lieux.map((l) => l.nom).join(' · '),
       zIndexOffset: p.maison ? 1000 : 0,
     })
-      .bindPopup(`<strong>${p.nom}</strong><br>${p.detail}`)
+      .bindPopup(p.lieux.map((l) => `<strong>${l.nom}</strong><br>${l.detail}`).join('<hr>'))
       .addTo(carte)
   );
   carte.fitBounds(L.featureGroup(marqueurs).getBounds(), { padding: [36, 36] });

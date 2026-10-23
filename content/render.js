@@ -106,14 +106,27 @@ function renderPointsForts() {
   );
 }
 
-// Points de la carte : l'appartement, puis chaque lieu dont la position est connue
+// Points de la carte : l'appartement, puis chaque lieu dont la position est connue.
+// Les lieux à moins de 90 m l'un de l'autre partagent une seule icône (sinon elles
+// se chevauchent à l'échelle du quartier) ; la bulle les liste tous.
+const metres = ([a, b], [c, d]) => {
+  const r = Math.PI / 180;
+  const x = Math.sin(((c - a) * r) / 2) ** 2 + Math.cos(a * r) * Math.cos(c * r) * Math.sin(((d - b) * r) / 2) ** 2;
+  return 2 * 6371000 * Math.asin(Math.sqrt(x));
+};
+
 function carteData() {
-  return [
-    { gps: annonce.gps, nom: 'L’appartement', detail: annonce.adresse, svg: icon('House', 'ico'), maison: true },
-    ...annonce.proximites
-      .filter((p) => p.gps)
-      .map((p) => ({ gps: p.gps, nom: p.lieu, detail: p.distance, svg: icon(p.icone, 'ico') })),
+  const lieux = [
+    { gps: annonce.gps, nom: 'L’appartement', detail: annonce.adresse, icone: 'House', maison: true },
+    ...annonce.proximites.filter((p) => p.gps).map((p) => ({ gps: p.gps, nom: p.lieu, detail: p.distance, icone: p.icone })),
   ];
+  const groupes = [];
+  for (const l of lieux) {
+    const g = groupes.find((x) => metres(x.gps, l.gps) < 90);
+    if (g) g.lieux.push({ nom: l.nom, detail: l.detail });
+    else groupes.push({ gps: l.gps, maison: !!l.maison, svg: icon(l.icone, 'ico'), lieux: [{ nom: l.nom, detail: l.detail }] });
+  }
+  return groupes;
 }
 
 function renderQuartier() {
