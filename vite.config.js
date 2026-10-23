@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite';
 import { planSvg } from './content/plan.js';
-import { renderSections, renderHeaderExtras, renderSousTitre, renderEnDirect, htmlVars } from './content/render.js';
+import { renderSections, renderHeaderExtras, renderSurtitre, renderEnDirect, htmlVars } from './content/render.js';
 
 const escAttr = (s) =>
   String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -24,7 +24,7 @@ function annoncePlugin() {
       return html
         .replace('<!-- SECTIONS -->', renderSections())
         .replace('<!-- HEADER_EXTRAS -->', renderHeaderExtras())
-        .replace('<!-- SOUS_TITRE -->', renderSousTitre())
+        .replace('<!-- SURTITRE -->', renderSurtitre())
         .replace('<!-- EN_DIRECT -->', renderEnDirect())
         .replace(/\{\{(\w+)\}\}/g, (m, key) => (key in vars ? escAttr(vars[key]) : m));
     },

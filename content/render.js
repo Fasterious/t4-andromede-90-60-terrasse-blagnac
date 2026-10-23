@@ -198,9 +198,9 @@ function renderChiffresCles() {
 
 const SEP = '<span class="sep" aria-hidden="true">·</span>';
 
-// Sous-titre : éléments séparés par des points médians gris
-export function renderSousTitre() {
-  return [...annonce.sousTitre, `quartier ${annonce.quartier}`].map(esc).join(` ${SEP} `);
+// Surtitre du bandeau : type de bien et quartier (le détail est dans les chiffres clés)
+export function renderSurtitre() {
+  return `T4 à vendre ${SEP} ${esc(annonce.quartier)}`;
 }
 
 export function renderEnDirect() {
@@ -216,7 +216,6 @@ export function htmlVars() {
     titre: annonce.titre,
     quartier: annonce.quartier,
     prix: annonce.prix.affiche,
-    prixNote: annonce.prix.note,
     noms: annonce.contact.noms,
     telephone: annonce.contact.telephone,
     telephoneIntl: annonce.contact.telephoneIntl,

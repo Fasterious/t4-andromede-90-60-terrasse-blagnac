@@ -49,17 +49,42 @@ a:hover {
   text-decoration: underline;
 }
 
-/* Header : bandeau vert pleine largeur (titre, prix), puis sommaire et chiffres clés */
+/* Header : bandeau vert pleine largeur (surtitre, surfaces, prix), puis
+   sommaire et chiffres clés sur fond blanc */
 
 .hero {
-  background: linear-gradient(160deg, var(--green) 0%, #24663b 100%);
+  background:
+    radial-gradient(120% 90% at 100% 0%, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 55%),
+    linear-gradient(165deg, var(--green) 0%, #17472a 100%);
   color: #fff;
+  border-radius: 0 0 28px 28px;
 }
 
 .hero-inner {
   max-width: 640px;
   margin: 0 auto;
-  padding: calc(1.75rem + var(--safe-top)) 1.25rem 1.6rem;
+  padding: calc(1.4rem + var(--safe-top)) 1.25rem 1.5rem;
+}
+
+.hero-surtitre {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 0.85rem;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.hs-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #7ee2a0;
+  box-shadow: 0 0 0 4px rgba(126, 226, 160, 0.22);
+  flex: 0 0 auto;
 }
 
 .header-below {
@@ -71,8 +96,8 @@ a:hover {
 .header h1 {
   margin: 0;
   font-weight: 800;
-  line-height: 1.05;
-  letter-spacing: -0.02em;
+  line-height: 1;
+  letter-spacing: -0.03em;
 }
 
 /* « 90,5 m² + 63 m² » sur une ligne, aussi grand que la largeur le permet :
@@ -85,10 +110,11 @@ a:hover {
 
 .h1-suite {
   display: block;
-  margin-top: 0.15rem;
-  font-size: min(6.6vw, 2.5rem);
-  font-weight: 700;
-  opacity: 0.92;
+  margin-top: 0.3rem;
+  font-size: min(6.4vw, 2.3rem);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: rgba(255, 255, 255, 0.82);
 }
 
 /* Pastilles secondaires : 40 px visibles, zone tactile étendue à 48 px */
@@ -103,48 +129,50 @@ a:hover {
   inset: -4px;
 }
 
-.subtitle {
-  margin: 0.85rem 0 0;
-  font-size: 0.95rem;
-  line-height: 1.45;
-  color: rgba(255, 255, 255, 0.92);
+.hero .sep {
+  color: rgba(255, 255, 255, 0.45);
 }
 
-.hero .sep {
-  color: rgba(255, 255, 255, 0.5);
+.hero-prix {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.8rem 1rem;
+  margin-top: 1.35rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.price-label {
+  margin: 0 0 0.3rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.price {
+  margin: 0;
+  font-size: min(10.5vw, 2.9rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: #fff;
 }
 
 .en-direct {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  margin: 0.9rem 0 0;
-  padding: 0.35rem 0.8rem;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.14);
-  color: #fff;
-  font-size: 0.85rem;
-  font-weight: 600;
-}
-
-.en-direct .ico {
-  color: #fff;
-}
-
-.price {
-  margin: 1.1rem 0 0.2rem;
-  font-size: min(11vw, 3rem);
-  font-weight: 800;
-  line-height: 1.1;
-  letter-spacing: -0.01em;
-  color: #fff;
-}
-
-.price-note {
   margin: 0;
-  font-size: 0.88rem;
-  line-height: 1.4;
-  color: rgba(255, 255, 255, 0.8);
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--green);
+  font-size: 0.82rem;
+  font-weight: 700;
 }
 
 /* Gallery */
@@ -1462,14 +1490,23 @@ html.chat-open body {
 .pl-fleche { fill: none; stroke: var(--green); stroke-width: 0.04; }
 
 /* Sommaire sous le prix : accès direct aux sections */
+/* Une seule ligne, défilante sur téléphone */
 .sommaire {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 0.5rem;
-  margin: 0 0 0.25rem;
+  margin: 0 -1.25rem 0.25rem;
+  padding: 0.1rem 1.25rem 0.2rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.sommaire::-webkit-scrollbar {
+  display: none;
 }
 
 .sommaire a {
+  flex: 0 0 auto;
   display: inline-flex;
   align-items: center;
   min-height: 36px;
