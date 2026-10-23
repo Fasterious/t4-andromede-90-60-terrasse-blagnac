@@ -119,9 +119,8 @@ export function initVisit() {
   });
 
   // Lien WhatsApp direct : message court, avec la référence de source
-  const wa = document.getElementById('wa-direct');
-  if (wa) {
-    const text = `Bonjour, je vous contacte au sujet du T4 avec terrasse à Andromède. Pourrais-je avoir quelques renseignements ? [réf. T4A-${sourceCode}]`;
+  const text = `Bonjour, je vous contacte au sujet du T4 avec terrasse à Andromède. Pourrais-je avoir quelques renseignements ? [réf. T4A-${sourceCode}]`;
+  document.querySelectorAll('#wa-direct, [data-wa-direct]').forEach((wa) => {
     wa.href = `https://wa.me/${annonce.contact.whatsapp}?text=${encodeURIComponent(text)}`;
-  }
+  });
 }

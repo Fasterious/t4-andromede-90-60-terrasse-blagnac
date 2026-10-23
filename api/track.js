@@ -11,6 +11,7 @@ const EVENTS = new Set([
   'visit_open',
   'visit_request',
   'whatsapp_click',
+  'bar_whatsapp_click',
   'tel_click',
   'maps_click',
   'chat_open',

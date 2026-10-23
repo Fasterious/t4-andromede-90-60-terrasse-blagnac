@@ -9,6 +9,7 @@ const EVENTS = {
   plan_open: 'Plan ouvert en grand',
   visit_request: 'Demandes de visite',
   whatsapp_click: 'Clics WhatsApp',
+  bar_whatsapp_click: 'WhatsApp depuis la barre',
   chat_whatsapp_click: 'WhatsApp depuis l’assistant',
   tel_click: 'Clics téléphone',
   share_click: 'Partages',

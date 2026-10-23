@@ -94,12 +94,8 @@ export function initChat() {
   let busy = false;
   const asked = new Set(history.filter((m) => m.role === 'user').map((m) => m.content));
 
-  const fab = document.createElement('button');
-  fab.type = 'button';
-  fab.className = 'chat-fab';
-  fab.setAttribute('aria-label', 'Poser une question à l’assistant');
-  fab.innerHTML = `${ICONS.chat}<span>Une question ?</span>`;
-  document.body.appendChild(fab);
+  // Barre de contact (WhatsApp + assistant), masquée quand l'assistant est ouvert
+  const fab = document.querySelector('.contact-bar') || document.createElement('div');
 
   function el(tag, cls, text) {
     const n = document.createElement(tag);
@@ -403,15 +399,15 @@ export function initChat() {
 
   window.addEventListener('popstate', () => close(true));
 
-  // Seule entrée vers l'assistant : la bulle. Elle s'efface seulement quand
-  // elle recouvrirait le bouton « Demander une visite » de l'en-tête.
-  fab.onclick = open;
+  // Sur grand écran, la barre flottante s'efface seulement quand elle
+  // recouvrirait le bouton « Demander une visite » de l'en-tête.
   document.querySelectorAll('[data-open-chat]').forEach((b) => b.addEventListener('click', open));
   const headerCta = document.querySelector('.header-ctas [data-open-visit]');
   if (headerCta) {
     let queued = false;
     const check = () => {
       queued = false;
+      if (window.matchMedia('(max-width: 700px)').matches) return fab.classList.remove('is-tucked');
       const a = headerCta.getBoundingClientRect();
       const b = fab.getBoundingClientRect();
       const overlap = a.bottom > b.top && a.top < b.bottom && a.right > b.left && a.left < b.right;
