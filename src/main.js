@@ -474,39 +474,32 @@ document.addEventListener('click', (e) => {
 // Carte du quartier (OpenStreetMap + Leaflet, sans cookie) : chargée quand on
 // approche de la section ; chaque lieu est une icône, un appui affiche son nom
 const carteEl = document.getElementById('carte-quartier');
-function chargerCarte() {
-  const css = document.createElement('link');
-  css.rel = 'stylesheet';
-  css.href = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css';
-  document.head.appendChild(css);
-  const js = document.createElement('script');
-  js.src = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js';
-  js.onload = () => {
-    const L = window.L;
-    const points = JSON.parse(carteEl.dataset.points);
-    const carte = L.map(carteEl, { scrollWheelZoom: false, tap: true, attributionControl: true });
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-    }).addTo(carte);
-    const marqueurs = points.map((p) =>
-      L.marker(p.gps, {
-        icon: L.divIcon({
-          className: `carte-pin${p.maison ? ' carte-pin-maison' : ''}`,
-          html: p.svg,
-          iconSize: p.maison ? [40, 40] : [32, 32],
-          iconAnchor: p.maison ? [20, 20] : [16, 16],
-        }),
-        title: p.nom,
-        zIndexOffset: p.maison ? 1000 : 0,
-      })
-        .bindPopup(`<strong>${p.nom}</strong><br>${p.detail}`)
-        .addTo(carte)
-    );
-    carte.fitBounds(L.featureGroup(marqueurs).getBounds(), { padding: [36, 36] });
-    track('carte_open');
-  };
-  document.head.appendChild(js);
+async function chargerCarte() {
+  // Leaflet est servi par le site lui-même (aucun CDN) ; CSS chargée avant la carte
+  const [{ default: L }] = await Promise.all([import('leaflet'), import('leaflet/dist/leaflet.css')]);
+  const points = JSON.parse(carteEl.dataset.points);
+  const carte = L.map(carteEl, { scrollWheelZoom: false });
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+  }).addTo(carte);
+  const marqueurs = points.map((p) =>
+    L.marker(p.gps, {
+      icon: L.divIcon({
+        className: `carte-pin${p.maison ? ' carte-pin-maison' : ''}`,
+        html: p.svg,
+        iconSize: p.maison ? [40, 40] : [32, 32],
+        iconAnchor: p.maison ? [20, 20] : [16, 16],
+        popupAnchor: [0, p.maison ? -20 : -16],
+      }),
+      title: p.nom,
+      zIndexOffset: p.maison ? 1000 : 0,
+    })
+      .bindPopup(`<strong>${p.nom}</strong><br>${p.detail}`)
+      .addTo(carte)
+  );
+  carte.fitBounds(L.featureGroup(marqueurs).getBounds(), { padding: [36, 36] });
+  track('carte_open');
 }
 if (carteEl) {
   const obs = new IntersectionObserver(

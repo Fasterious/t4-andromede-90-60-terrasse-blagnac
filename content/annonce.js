@@ -12,7 +12,8 @@ export const annonce = {
   sousTitre: ['3 chambres dont une suite parentale', '1er étage avec ascenseur', '2 parkings en sous-sol'],
   quartier: 'Andromède, Blagnac',
   adresse: '1 rue Jacqueline Auriol, 31700 Blagnac',
-  // Position de l'immeuble (carte du quartier) ; `gps` des lieux : relevés du 21/10
+  // Position de l'immeuble (carte du quartier) ; `gps` des lieux : relevés du 21/10 ;
+  // `geo` : adresse géolocalisée au build par la Base Adresse Nationale (vite.config.js)
   gps: [43.65425, 1.36926],
 
   prix: {
@@ -106,9 +107,9 @@ export const annonce = {
   // `aConfirmer` = estimation des propriétaires, à vérifier sur carte.
   proximites: [
     { categorie: 'Enfants', icone: 'ToyBrick', lieu: 'Aire de jeux pour les petits, au pied de l’immeuble', distance: 'en bas de chez vous' },
-    { categorie: 'Enfants', icone: 'Baby', lieu: 'Crèche municipale Cassiopée', distance: '≈ 1 min à pied' },
+    { categorie: 'Enfants', icone: 'Baby', lieu: 'Crèche municipale Cassiopée', distance: '≈ 1 min à pied', geo: '50 rue George Sand, 31700 Blagnac' },
     { categorie: 'Enfants', icone: 'School', lieu: 'Groupe scolaire Les Perséides (maternelle et élémentaire)', distance: '≈ 13 min à pied', gps: [43.65713, 1.38087] },
-    { categorie: 'Enfants', icone: 'School', lieu: 'Le Ferradou (établissement privé : élémentaire, collège, lycée)', distance: '≈ 15 min à pied' },
+    { categorie: 'Enfants', icone: 'School', lieu: 'Le Ferradou (établissement privé : élémentaire, collège, lycée)', distance: '≈ 15 min à pied', geo: 'Chemin du Ferradou, 31700 Blagnac' },
     { categorie: 'Enfants', icone: 'GraduationCap', lieu: 'Lycée Saint-Exupéry', distance: '≈ 7 min à pied', gps: [43.65357, 1.37547] },
     { categorie: 'Enfants', icone: 'Music', lieu: 'Conservatoire Résonance (musique et danse)', distance: '≈ 6 min à pied', gps: [43.6549, 1.3744] },
     { categorie: 'Quotidien', icone: 'Croissant', lieu: 'Boulangerie et fleuriste, avenue d’Andromède', distance: '≈ 3 min à pied', gps: [43.65583, 1.37042] },
@@ -116,7 +117,7 @@ export const annonce = {
     { categorie: 'Quotidien', icone: 'ShoppingBasket', lieu: 'En projet : Carrefour Market et salle de sport à la place de l’ancien Intermarché de l’avenue (travaux pas encore commencés)', distance: '≈ 3 min à pied', projet: true },
     { categorie: 'Quotidien', icone: 'ShoppingCart', lieu: 'E.Leclerc Blagnac (drive, galerie)', distance: '≈ 3 min en voiture', gps: [43.645812, 1.372548] },
     { categorie: 'Quotidien', icone: 'Clapperboard', lieu: 'Cinéma Méga CGR (même centre que Leclerc)', distance: '≈ 3 min en voiture' },
-    { categorie: 'Sport et nature', icone: 'Dumbbell', lieu: 'Sporting Village (salle de sport), face au lycée', distance: '≈ 7 min à pied' },
+    { categorie: 'Sport et nature', icone: 'Dumbbell', lieu: 'Sporting Village (salle de sport), face au lycée', distance: '≈ 7 min à pied', geo: '18 boulevard Alain Savary, 31700 Blagnac' },
     { categorie: 'Sport et nature', icone: 'Dumbbell', lieu: 'On Air, salle de sport moderne et abordable (près de Leclerc)', distance: '≈ 8 min à pied', gps: [43.6494, 1.3677] },
     { categorie: 'Sport et nature', icone: 'Trees', lieu: 'Grand parc, juste après le tram T1 et à côté du conservatoire : allées vertes, petit bois, grande aire de jeux avec deux espaces balançoires', distance: '≈ 6 min à pied' },
     { categorie: 'Sport et nature', icone: 'TreeDeciduous', lieu: 'Coulée verte d’Andromède, vers les bords de Garonne', distance: 'quelques minutes à pied' },

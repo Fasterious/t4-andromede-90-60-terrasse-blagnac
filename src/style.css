@@ -1100,6 +1100,13 @@ details p:last-child {
   z-index: 0;
 }
 
+/* Les règles générales des images ne doivent pas toucher aux tuiles de la carte */
+#carte-quartier img {
+  display: inline;
+  max-width: none !important;
+  max-height: none !important;
+}
+
 /* Icônes de la carte : pastilles vertes, l'appartement en plus grand */
 .carte-pin {
   display: flex;
