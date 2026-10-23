@@ -12,9 +12,10 @@ export const annonce = {
   sousTitre: ['3 chambres dont une suite parentale', '1er étage avec ascenseur', '2 parkings en sous-sol'],
   quartier: 'Andromède, Blagnac',
   adresse: '1 rue Jacqueline Auriol, 31700 Blagnac',
-  // Position de l'immeuble (carte du quartier) ; `gps` des lieux : relevés du 21/10 ;
-  // `geo` : adresse géolocalisée au build par la Base Adresse Nationale (vite.config.js)
+  // Position sur la carte : `geo` (adresse) est géolocalisé au build par la Base Adresse
+  // Nationale (vite.config.js) ; `gps` sert de secours si l'adresse n'est pas trouvée au numéro près.
   gps: [43.65425, 1.36926],
+  geo: '1 rue Jacqueline Auriol, 31700 Blagnac',
 
   prix: {
     montant: 239000,
@@ -108,20 +109,23 @@ export const annonce = {
   proximites: [
     { categorie: 'Enfants', icone: 'ToyBrick', lieu: 'Aire de jeux pour les petits, au pied de l’immeuble', distance: 'en bas de chez vous' },
     { categorie: 'Enfants', icone: 'Baby', lieu: 'Crèche municipale Cassiopée', distance: '≈ 1 min à pied', geo: '50 rue George Sand, 31700 Blagnac' },
-    { categorie: 'Enfants', icone: 'School', lieu: 'Groupe scolaire Les Perséides (maternelle et élémentaire)', distance: '≈ 13 min à pied', gps: [43.65713, 1.38087] },
-    { categorie: 'Enfants', icone: 'School', lieu: 'Le Ferradou (établissement privé : élémentaire, collège, lycée)', distance: '≈ 15 min à pied' },
-    { categorie: 'Enfants', icone: 'GraduationCap', lieu: 'Lycée Saint-Exupéry', distance: '≈ 7 min à pied', gps: [43.65357, 1.37547] },
-    { categorie: 'Enfants', icone: 'Music', lieu: 'Conservatoire Résonance (musique et danse)', distance: '≈ 6 min à pied', gps: [43.6549, 1.3744] },
+    { categorie: 'Enfants', icone: 'Ecoliers', lieu: 'Groupe scolaire Les Perséides (maternelle et élémentaire)', distance: '≈ 13 min à pied', gps: [43.65713, 1.38087] },
+    { categorie: 'Enfants', icone: 'Ecoliers', lieu: 'Le Ferradou (établissement privé : élémentaire, collège, lycée)', distance: '≈ 15 min à pied' },
+    { categorie: 'Enfants', icone: 'GraduationCap', lieu: 'Lycée Saint-Exupéry', distance: '≈ 7 min à pied', gps: [43.65357, 1.37547], geo: '1 place Alain Savary, 31700 Blagnac' },
+    { categorie: 'Enfants', icone: 'Music', lieu: 'Conservatoire Résonance (musique et danse)', distance: '≈ 6 min à pied', gps: [43.6549, 1.3744], geo: '45 boulevard Alain Savary, 31700 Blagnac' },
     // Commerces de l'avenue d'Andromède : même rangée, positions espacées de quelques mètres pour la carte
-    { categorie: 'Quotidien', icone: 'Croissant', lieu: 'Boulangerie, avenue d’Andromède', distance: '≈ 3 min à pied', gps: [43.65583, 1.37042] },
-    { categorie: 'Quotidien', icone: 'Flower2', lieu: 'Fleuriste, avenue d’Andromède', distance: '≈ 3 min à pied', gps: [43.6557, 1.3701] },
-    { categorie: 'Quotidien', icone: 'Fish', lieu: 'Restaurant de sushis, avenue d’Andromède', distance: '≈ 3 min à pied', gps: [43.65596, 1.37074] },
-    { categorie: 'Quotidien', icone: 'Pizza', lieu: 'Pizzeria, avenue d’Andromède', distance: '≈ 3 min à pied', gps: [43.65609, 1.37045] },
-    { categorie: 'Quotidien', icone: 'ShoppingBasket', lieu: 'En projet : Carrefour Market et salle de sport à la place de l’ancien Intermarché de l’avenue (travaux pas encore commencés)', distance: '≈ 3 min à pied', projet: true },
-    { categorie: 'Quotidien', icone: 'ShoppingCart', lieu: 'E.Leclerc Blagnac (drive, galerie)', distance: '≈ 3 min en voiture', gps: [43.645812, 1.372548] },
+    { categorie: 'Quotidien', icone: 'Croissant', lieu: 'Boulangerie Maison Blanchard, avenue d’Andromède', distance: '≈ 3 min à pied', gps: [43.65583, 1.37042], geo: '19 avenue d’Andromède, 31700 Blagnac' },
+    { categorie: 'Quotidien', icone: 'Flower2', lieu: 'Fleuriste Jé Flors, avenue d’Andromède', distance: '≈ 3 min à pied', gps: [43.6557, 1.3701], geo: '22 avenue d’Andromède, 31700 Blagnac' },
+    { categorie: 'Quotidien', icone: 'Fish', lieu: 'Yammy Sushi, avenue d’Andromède', distance: '≈ 3 min à pied', gps: [43.65596, 1.37074], geo: '8 avenue d’Andromède, 31700 Blagnac' },
+    { categorie: 'Quotidien', icone: 'Pizza', lieu: 'Le Tchap (pizzas Papa Calvo, poulet Monsieur Poule), avenue d’Andromède', distance: '≈ 3 min à pied', gps: [43.65609, 1.37045], geo: '12 avenue d’Andromède, 31700 Blagnac' },
+    { categorie: 'Quotidien', icone: 'Beer', lieu: 'Papy Georges, bar à bières artisanales, avenue d’Andromède', distance: '≈ 3 min à pied', gps: [43.6559, 1.3706], geo: '17 avenue d’Andromède, 31700 Blagnac' },
+    { categorie: 'Quotidien', icone: 'Newspaper', lieu: 'Tabac-presse d’Andromède, avenue d’Andromède', distance: '≈ 3 min à pied', geo: '13 avenue d’Andromède, 31700 Blagnac' },
+    { categorie: 'Quotidien', icone: 'Scissors', lieu: 'By Santos, barbier et coiffeur, avenue d’Andromède', distance: '≈ 3 min à pied', geo: '14 bis avenue d’Andromède, 31700 Blagnac' },
+    { categorie: 'Quotidien', icone: 'ShoppingBasket', lieu: 'En projet : Carrefour Market et salle de sport à la place de l’ancien Intermarché de l’avenue (travaux pas encore commencés)', distance: '≈ 3 min à pied', projet: true, geo: '15 avenue d’Andromède, 31700 Blagnac' },
+    { categorie: 'Quotidien', icone: 'ShoppingCart', lieu: 'E.Leclerc Blagnac (drive, galerie)', distance: '≈ 3 min en voiture', gps: [43.645812, 1.372548], geo: '2 allée Émile Zola, 31700 Blagnac' },
     { categorie: 'Quotidien', icone: 'Clapperboard', lieu: 'Cinéma Méga CGR (même centre que Leclerc)', distance: '≈ 3 min en voiture' },
     { categorie: 'Sport et nature', icone: 'Dumbbell', lieu: 'Sporting Village (salle de sport), face au lycée', distance: '≈ 7 min à pied', geo: '18 boulevard Alain Savary, 31700 Blagnac' },
-    { categorie: 'Sport et nature', icone: 'Dumbbell', lieu: 'On Air, salle de sport moderne et abordable (près de Leclerc)', distance: '≈ 8 min à pied', gps: [43.6494, 1.3677] },
+    { categorie: 'Sport et nature', icone: 'Dumbbell', lieu: 'On Air, salle de sport moderne et abordable (près de Leclerc)', distance: '≈ 8 min à pied', gps: [43.6494, 1.3677], geo: '16 rue Gustave Flaubert, 31700 Blagnac' },
     { categorie: 'Sport et nature', icone: 'Trees', lieu: 'Grand parc, juste après le tram T1 et à côté du conservatoire : allées vertes, petit bois, grande aire de jeux avec deux espaces balançoires', distance: '≈ 6 min à pied' },
     { categorie: 'Sport et nature', icone: 'TreeDeciduous', lieu: 'Coulée verte d’Andromède, vers les bords de Garonne', distance: 'quelques minutes à pied' },
     { categorie: 'Sport et nature', icone: 'Trophy', lieu: 'Complexe sportif Andromède (stade, gymnase, dojo)', distance: '≈ 13 min à pied', gps: [43.65524, 1.385947] },

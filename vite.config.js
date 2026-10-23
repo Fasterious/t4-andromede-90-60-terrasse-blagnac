@@ -12,19 +12,37 @@ let geoFait = false;
 async function geolocaliser() {
   if (geoFait) return;
   geoFait = true;
-  for (const p of annonce.proximites) {
-    if (p.gps || !p.geo) continue;
+  // Position au numéro près uniquement ; sinon on garde `gps` (le centre d'une rue ne suffit pas)
+  const situer = async (adresse) => {
     try {
-      const url = `https://api-adresse.data.gouv.fr/search/?limit=1&q=${encodeURIComponent(p.geo)}`;
+      const q = adresse.replace(/’/g, "'");
+      const url = `https://api-adresse.data.gouv.fr/search/?limit=1&citycode=31069&q=${encodeURIComponent(q)}`;
       const res = await fetch(url, { signal: AbortSignal.timeout(4000) });
       const f = (await res.json()).features?.[0];
-      if (f && f.properties.score > 0.5 && f.properties.citycode === '31069') {
+      if (f && f.properties.type === 'housenumber' && f.properties.score > 0.6) {
         const [lon, lat] = f.geometry.coordinates;
-        p.gps = [lat, lon];
+        return { gps: [lat, lon], label: f.properties.label };
       }
+      console.log(`[carte] non trouvé au numéro près : ${adresse} (${f?.properties.type || 'aucun'} ${f?.properties.label || ''})`);
     } catch {
-      // hors ligne : pas de position
+      console.log(`[carte] hors ligne : ${adresse}`);
     }
+    return null;
+  };
+  const lieux = [annonce, ...annonce.proximites].filter((p) => p.geo);
+  const trouves = await Promise.all(lieux.map((p) => situer(p.geo)));
+  lieux.forEach((p, i) => {
+    if (trouves[i]) p.gps = trouves[i].gps;
+  });
+  // Journal du build : position retenue et distance à vol d'oiseau depuis l'appartement
+  for (const p of annonce.proximites) {
+    if (!p.gps) continue;
+    const [a, b] = annonce.gps;
+    const [c, d] = p.gps;
+    const m = Math.round(
+      6371000 * Math.hypot(((d - b) * Math.PI) / 180 * Math.cos((((a + c) / 2) * Math.PI) / 180), ((c - a) * Math.PI) / 180)
+    );
+    console.log(`[carte] ${p.lieu.slice(0, 40)} : ${p.gps[0].toFixed(5)}, ${p.gps[1].toFixed(5)} (${m} m)`);
   }
 }
 

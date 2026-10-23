@@ -483,23 +483,58 @@ async function chargerCarte() {
     maxZoom: 19,
     attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
   }).addTo(carte);
+  // Goutte dont la pointe touche le lieu ; `dx` la décale (en pixels) quand elle en touche une autre
+  const goutte = (p, dx = 0) =>
+    L.divIcon({
+      className: `carte-pin${p.maison ? ' carte-pin-maison' : ''}${p.projet ? ' carte-pin-projet' : ''}`,
+      html: `<span class="goutte">${p.svg}</span>`,
+      iconSize: p.maison ? [30, 37] : [24, 30],
+      iconAnchor: p.maison ? [15, 37] : [12 - dx, 30],
+      popupAnchor: [dx, p.maison ? -36 : -29],
+    });
   const marqueurs = points.map((p) =>
-    L.marker(p.gps, {
-      icon: L.divIcon({
-        className: `carte-pin${p.maison ? ' carte-pin-maison' : ''}`,
-        // Goutte dont la pointe touche le lieu ; l'icône est dans la tête de la goutte
-        html: `<span class="goutte">${p.svg}</span>${p.lieux.length > 1 ? `<b class="carte-nb">${p.lieux.length}</b>` : ''}`,
-        iconSize: p.maison ? [30, 37] : [24, 30],
-        iconAnchor: p.maison ? [15, 37] : [12 - (p.dx || 0), 30],
-        popupAnchor: [p.dx || 0, p.maison ? -36 : -29],
-      }),
-      title: p.lieux.map((l) => l.nom).join(' · '),
-      zIndexOffset: p.maison ? 1000 : 0,
-    })
-      .bindPopup(p.lieux.map((l) => `<strong>${l.nom}</strong><br>${l.detail}`).join('<hr>'))
+    L.marker(p.gps, { icon: goutte(p), title: p.nom, zIndexOffset: p.maison ? 1000 : 0 })
+      .bindPopup(`<strong>${p.nom}</strong><br>${p.detail}`)
       .addTo(carte)
   );
+  // À chaque zoom : les gouttes qui se chevauchent à l'écran se rangent côte à côte ;
+  // en zoomant, elles se séparent d'elles-mêmes et reviennent pile sur leur lieu.
+  const ESPACE = 27;
+  const ranger = () => {
+    const pos = points.map((p) => carte.latLngToLayerPoint(p.gps));
+    const groupes = [];
+    points.forEach((p, i) => {
+      const g = groupes.find((x) => x.some((j) => Math.abs(pos[j].x - pos[i].x) < 26 && Math.abs(pos[j].y - pos[i].y) < 30));
+      if (g) g.push(i);
+      else groupes.push([i]);
+    });
+    const dx = points.map(() => 0);
+    for (const g of groupes) {
+      if (g.length < 2) continue;
+      const maison = g.find((i) => points[i].maison);
+      const tries = g.filter((i) => i !== maison).sort((i, j) => pos[i].x - pos[j].x);
+      if (maison !== undefined) {
+        // L'appartement ne bouge pas ; les autres de part et d'autre, du plus proche au plus loin
+        const x0 = pos[maison].x;
+        const gauche = tries.filter((i) => pos[i].x < x0).reverse();
+        const droite = tries.filter((i) => pos[i].x >= x0);
+        gauche.forEach((i, k) => (dx[i] = x0 - (k + 1) * ESPACE - pos[i].x));
+        droite.forEach((i, k) => (dx[i] = x0 + (k + 1) * ESPACE - pos[i].x));
+      } else {
+        const milieu = tries.reduce((t, i) => t + pos[i].x, 0) / tries.length;
+        tries.forEach((i, k) => (dx[i] = milieu + (k - (tries.length - 1) / 2) * ESPACE - pos[i].x));
+      }
+    }
+    marqueurs.forEach((m, i) => {
+      if (Math.round(dx[i]) !== Math.round(m.dx || 0)) {
+        m.dx = dx[i];
+        m.setIcon(goutte(points[i], Math.round(dx[i])));
+      }
+    });
+  };
+  carte.on('zoomend', ranger);
   carte.fitBounds(L.featureGroup(marqueurs).getBounds(), { padding: [36, 36] });
+  ranger();
   track('carte_open');
 }
 if (carteEl) {
