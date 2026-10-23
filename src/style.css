@@ -666,13 +666,10 @@ a:hover {
   --band: var(--band-vert);
 }
 
-.band-sauge {
-  --band: var(--band-sauge);
-}
-
 /* La couleur sépare déjà : pas de filet sur une bande ni juste après */
 .block.band,
-.block.band + .block {
+.block.band + .block,
+.contact-block {
   border-top: none;
 }
 

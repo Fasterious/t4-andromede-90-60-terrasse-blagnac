@@ -19,12 +19,12 @@ const tagAConfirmer = (item) =>
       ? ' <span class="tag-confirm" title="Estimation, à confirmer">à confirmer</span>'
       : '';
 
-// Fonds alternés : vert très léger ou vert-gris, une section sur deux environ
+// Fonds alternés : une section sur deux en vert très léger (Contact, en fin de page, reste blanc)
 const BANDES = {
   atouts: 'band band-vert',
-  quartier: 'band band-sauge',
+  quartier: 'band band-vert',
   faq: 'band band-vert',
-  reglementaire: 'band band-sauge',
+  reglementaire: 'band band-vert',
 };
 
 // Information secondaire repliée derrière un petit bouton « i » à droite du titre
