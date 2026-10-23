@@ -31,7 +31,7 @@ const BANDES = {
 const INFOS = {
   plan: () => annonce.plan.mention,
   reglementaire: () =>
-    'Les dépenses d’énergie ci-dessous sont une estimation réglementaire du diagnostic (DPE), pour un usage standard. Dans la réalité, le chauffage et l’eau sont compris dans les charges (environ 230 € par mois en moyenne), et notre facture d’électricité est d’environ 45 € par mois.',
+    'Les dépenses d’énergie ci-dessous sont une estimation réglementaire du diagnostic (DPE), pour un usage standard. Dans la réalité, le chauffage et l’eau sont compris dans les charges (environ 235 € par mois), et notre facture d’électricité est d’environ 45 € par mois.',
 };
 
 // **gras** dans les textes simples (après échappement)
@@ -181,7 +181,14 @@ function renderFaq() {
         .map((f) => `<details class="faq"><summary>${esc(f.q)}</summary><p>${esc(f.r)}</p></details>`)
         .join('')}
      </div>
-     <p class="faq-plus">Une autre question ? <button type="button" class="lien" data-open-chat>Posez-la à notre assistant</button>, qui connaît tout le contenu de cette page, ou écrivez-nous sur WhatsApp.</p>`
+     <div class="faq-ask">
+       <span class="faq-ask-ico">${icon('MessageCircleQuestion', 'ico')}</span>
+       <div class="faq-ask-txt">
+         <p class="faq-ask-titre">Une autre question ?</p>
+         <p>Notre assistant connaît tout le contenu de cette page et vous répond tout de suite.</p>
+       </div>
+       <button type="button" class="faq-ask-btn" data-open-chat data-track="faq_assistant">Poser ma question ${icon('ArrowRight', 'ico')}</button>
+     </div>`
   );
 }
 

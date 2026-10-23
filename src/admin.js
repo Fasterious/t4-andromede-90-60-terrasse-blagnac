@@ -11,6 +11,7 @@ const EVENTS = {
   bar_whatsapp_click: 'WhatsApp depuis la barre',
   wa_gate_continue: 'Fenêtre : continuer sur WhatsApp',
   wa_gate_assistant: 'Fenêtre : assistant d’abord',
+  faq_assistant: 'FAQ : poser ma question à l’assistant',
   carte_open: 'Carte du quartier ouverte',
   chat_whatsapp_click: 'WhatsApp depuis l’assistant',
   tel_click: 'Clics téléphone',

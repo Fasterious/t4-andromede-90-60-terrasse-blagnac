@@ -1066,10 +1066,86 @@ details p:last-child {
   color: var(--green);
 }
 
-.faq-plus {
+/* Fin de FAQ : encart bien visible vers l'assistant */
+.faq-ask {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
   margin: 1.25rem 0 0;
+  padding: 1rem 1.1rem;
+  border-radius: 14px;
+  background: #fff;
+  border: 1.5px solid var(--green);
+  box-shadow: 0 6px 18px rgba(30, 86, 49, 0.1);
+}
+
+.faq-ask-ico {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--green);
+  color: #fff;
+}
+
+.faq-ask-ico .ico {
+  width: 22px;
+  height: 22px;
+}
+
+.faq-ask-txt {
+  flex: 1 1 14rem;
+  min-width: 0;
+}
+
+.faq-ask-txt p {
+  margin: 0;
   font-size: 0.9rem;
   color: var(--muted);
+}
+
+.faq-ask-txt .faq-ask-titre {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.faq-ask-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  flex: 0 0 auto;
+  appearance: none;
+  margin: 0;
+  padding: 0.7rem 1.2rem;
+  border: none;
+  border-radius: 999px;
+  background: var(--green);
+  color: #fff;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.faq-ask-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(30, 86, 49, 0.25);
+}
+
+.faq-ask-btn .ico {
+  width: 18px;
+  height: 18px;
+}
+
+@media (max-width: 480px) {
+  .faq-ask-btn {
+    width: 100%;
+  }
 }
 
 /* Bouton qui se lit comme un lien */

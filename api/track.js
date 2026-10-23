@@ -16,6 +16,7 @@ const EVENTS = new Set([
   'carte_open',
   'wa_gate_continue',
   'wa_gate_assistant',
+  'faq_assistant',
   'tel_click',
   'maps_click',
   'chat_open',
