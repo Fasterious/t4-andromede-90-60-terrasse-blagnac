@@ -106,6 +106,16 @@ function renderPointsForts() {
   );
 }
 
+// Points de la carte : l'appartement, puis chaque lieu dont la position est connue
+function carteData() {
+  return [
+    { gps: annonce.gps, nom: 'L’appartement', detail: annonce.adresse, svg: icon('House', 'ico'), maison: true },
+    ...annonce.proximites
+      .filter((p) => p.gps)
+      .map((p) => ({ gps: p.gps, nom: p.lieu, detail: p.distance, svg: icon(p.icone, 'ico') })),
+  ];
+}
+
 function renderQuartier() {
   const groupes = {};
   for (const p of annonce.proximites) (groupes[p.categorie] ||= []).push(p);
@@ -114,9 +124,7 @@ function renderQuartier() {
     'quartier',
     'Le quartier Andromède',
     `<p class="adresse">${icon('MapPin', 'ico ico-sm')} ${esc(annonce.adresse)} <span class="sep">·</span> <a href="${mapsUrl}" target="_blank" rel="noopener noreferrer" data-track="maps_click">calculer mes trajets</a></p>
-     <div class="carte" id="carte-quartier">
-       <button type="button" class="carte-ouvrir" data-carte="${esc(annonce.adresse)}" data-track="carte_open">${icon('Map', 'ico')}<span>Voir le quartier sur la carte</span></button>
-     </div>
+     <div class="carte" id="carte-quartier" data-points="${esc(JSON.stringify(carteData()))}" role="region" aria-label="Carte du quartier : l’appartement et les lieux proches"></div>
      <details class="proxi-details">
        <summary><span>Temps de trajet depuis l’appartement · ${annonce.proximites.length} lieux</span></summary>
      <div class="proxi">

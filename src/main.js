@@ -471,10 +471,52 @@ document.addEventListener('click', (e) => {
   if (panel) panel.hidden = !open;
 });
 
-// Carte du quartier : chargée seulement au clic (pas de cookies tiers avant)
-document.addEventListener('click', (e) => {
-  const btn = e.target.closest('[data-carte]');
-  if (!btn) return;
-  const q = encodeURIComponent(btn.dataset.carte);
-  btn.parentElement.innerHTML = `<iframe title="Carte du quartier Andromède" src="https://maps.google.com/maps?q=${q}&z=15&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>`;
-});
+// Carte du quartier (OpenStreetMap + Leaflet, sans cookie) : chargée quand on
+// approche de la section ; chaque lieu est une icône, un appui affiche son nom
+const carteEl = document.getElementById('carte-quartier');
+function chargerCarte() {
+  const css = document.createElement('link');
+  css.rel = 'stylesheet';
+  css.href = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css';
+  document.head.appendChild(css);
+  const js = document.createElement('script');
+  js.src = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js';
+  js.onload = () => {
+    const L = window.L;
+    const points = JSON.parse(carteEl.dataset.points);
+    const carte = L.map(carteEl, { scrollWheelZoom: false, tap: true, attributionControl: true });
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    }).addTo(carte);
+    const marqueurs = points.map((p) =>
+      L.marker(p.gps, {
+        icon: L.divIcon({
+          className: `carte-pin${p.maison ? ' carte-pin-maison' : ''}`,
+          html: p.svg,
+          iconSize: p.maison ? [40, 40] : [32, 32],
+          iconAnchor: p.maison ? [20, 20] : [16, 16],
+        }),
+        title: p.nom,
+        zIndexOffset: p.maison ? 1000 : 0,
+      })
+        .bindPopup(`<strong>${p.nom}</strong><br>${p.detail}`)
+        .addTo(carte)
+    );
+    carte.fitBounds(L.featureGroup(marqueurs).getBounds(), { padding: [36, 36] });
+    track('carte_open');
+  };
+  document.head.appendChild(js);
+}
+if (carteEl) {
+  const obs = new IntersectionObserver(
+    (entrees) => {
+      if (entrees.some((e) => e.isIntersecting)) {
+        obs.disconnect();
+        chargerCarte();
+      }
+    },
+    { rootMargin: '400px' }
+  );
+  obs.observe(carteEl);
+}

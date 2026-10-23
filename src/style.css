@@ -1095,30 +1095,42 @@ details p:last-child {
   border: 1px solid var(--border);
 }
 
-.carte iframe {
-  display: block;
-  width: 100%;
-  height: 320px;
-  border: 0;
+#carte-quartier {
+  height: 340px;
+  z-index: 0;
 }
 
-.carte-ouvrir {
+/* Icônes de la carte : pastilles vertes, l'appartement en plus grand */
+.carte-pin {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  width: 100%;
-  min-height: 120px;
-  appearance: none;
-  border: none;
-  background:
-    repeating-linear-gradient(0deg, transparent 0 23px, #e8ede8 23px 24px),
-    repeating-linear-gradient(90deg, transparent 0 23px, #e8ede8 23px 24px),
-    #f7faf7;
+  border-radius: 50%;
+  background: #fff;
   color: var(--green);
-  font: inherit;
-  font-weight: 700;
-  cursor: pointer;
+  border: 2px solid var(--green);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+.carte-pin .ico {
+  width: 18px;
+  height: 18px;
+}
+
+.carte-pin-maison {
+  background: var(--green);
+  color: #fff;
+  border-color: #fff;
+}
+
+.carte-pin-maison .ico {
+  width: 22px;
+  height: 22px;
+}
+
+.carte .leaflet-popup-content {
+  margin: 0.6rem 0.8rem;
+  font: 0.85rem/1.4 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 }
 
 .proxi-details {
@@ -1913,24 +1925,15 @@ html {
   stroke-linejoin: round;
 }
 
+/* Sur téléphone aussi : un bouton flottant en bas à droite, pas une barre */
 @media (max-width: 700px) {
   .contact-bar {
-    left: 0;
-    right: 0;
-    bottom: 0;
-    display: grid;
-    grid-template-columns: 1fr;
-    padding: 0.6rem 0.75rem calc(0.6rem + var(--safe-bottom));
-    background: var(--bg);
-    border-top: 1px solid var(--border);
-    box-shadow: 0 -6px 18px rgba(0, 0, 0, 0.06);
+    right: 0.9rem;
+    bottom: calc(0.9rem + var(--safe-bottom));
   }
 
   .cb-btn {
-    justify-content: center;
-    min-width: 0;
-    padding: 0.5rem 0.6rem;
-    box-shadow: none;
+    padding: 0.6rem 1.1rem 0.6rem 0.9rem;
   }
 
   .cb-btn:hover {
@@ -1947,7 +1950,7 @@ html {
   }
 
   body {
-    padding-bottom: calc(4.6rem + var(--safe-bottom));
+    padding-bottom: calc(5rem + var(--safe-bottom));
   }
 }
 
