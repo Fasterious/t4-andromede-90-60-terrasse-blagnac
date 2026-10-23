@@ -362,3 +362,45 @@ function fitTitle() {
 fitTitle();
 document.fonts?.ready.then(fitTitle);
 window.addEventListener('resize', fitTitle);
+
+// Sommaire collé en haut : ombre une fois collé, section en cours surlignée,
+// pastille active ramenée dans la partie visible de la ligne
+function initSommaire() {
+  const bar = document.querySelector('.sommaire-bar');
+  const nav = bar?.querySelector('.sommaire');
+  if (!nav) return;
+  const links = [...nav.querySelectorAll('a[href^="#"]')];
+  const targets = links.map((a) => document.getElementById(a.getAttribute('href').slice(1)));
+  let current = null;
+  let queued = false;
+
+  const update = () => {
+    queued = false;
+    const barBottom = bar.getBoundingClientRect().bottom;
+    bar.classList.toggle('is-stuck', bar.getBoundingClientRect().top <= 0 && window.scrollY > 0);
+    let active = null;
+    targets.forEach((t, i) => {
+      if (t && t.getBoundingClientRect().top <= barBottom + 24) active = links[i];
+    });
+    // Tout en bas de la page, la dernière section l'emporte
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) active = links.at(-1);
+    if (active === current) return;
+    current?.classList.remove('is-active');
+    current?.removeAttribute('aria-current');
+    current = active;
+    if (!active) return;
+    active.classList.add('is-active');
+    active.setAttribute('aria-current', 'true');
+    const left = active.offsetLeft - nav.offsetLeft;
+    if (left < nav.scrollLeft || left + active.offsetWidth > nav.scrollLeft + nav.clientWidth) {
+      nav.scrollTo({ left: left - 20, behavior: 'smooth' });
+    }
+  };
+  const schedule = () => {
+    if (!queued) (queued = true), requestAnimationFrame(update);
+  };
+  window.addEventListener('scroll', schedule, { passive: true });
+  window.addEventListener('resize', schedule);
+  update();
+}
+initSommaire();
