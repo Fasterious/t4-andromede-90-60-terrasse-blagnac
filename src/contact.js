@@ -1,5 +1,5 @@
-// Contact WhatsApp. Au premier clic, une courte fenêtre propose d'abord
-// l'assistant (réponse immédiate), puis « Continuer sur WhatsApp ».
+// Contact WhatsApp. Au premier clic, une courte fenêtre invite à lire la page
+// (ou à demander à l'assistant), puis « Écrire sur WhatsApp ».
 // Elle n'apparaît plus ensuite, ni pour qui a déjà posé une question à
 // l'assistant. Aucune donnée personnelle n'est stockée par le site.
 
@@ -35,13 +35,12 @@ function buildDialog() {
   dialog.innerHTML = `
     <div class="modal-inner">
       <button type="button" class="modal-close" aria-label="Fermer" data-close>×</button>
-      <h2 id="wa-gate-title">Avant d’ouvrir WhatsApp</h2>
-      <p><strong>Une question sur l’appartement, le quartier ou les charges ?</strong> L’assistant vous répond tout de suite, à partir de tout ce que nous avons mis sur le site.</p>
-      <p><strong>Vous voulez organiser une visite</strong>, ou vous n’avez pas trouvé votre réponse ? Écrivez-nous : c’est nous qui vous répondons.</p>
-      <p class="visit-avant">Avant de venir, prenez 2 minutes pour lire <a href="#transparence">Ce qu’il faut savoir</a> (vis-à-vis, parkings en enfilade, agencement du séjour).</p>
+      <h2 id="wa-gate-title">Avant de nous écrire</h2>
+      <p>Prenez le temps de bien lire la page : beaucoup de réponses y sont déjà (plan, quartier, charges, <a href="#transparence">ce qu’il faut savoir</a>). L’assistant peut aussi vous aider à trouver une information.</p>
+      <p><strong>Vous avez tout lu et l’appartement vous plaît toujours ?</strong> Écrivez-nous, nous serons ravis d’échanger avec vous.</p>
       <div class="wa-gate-actions">
-        <a class="cb-btn cb-wa" href="${waHref()}" target="_blank" rel="noopener noreferrer" data-track="wa_gate_continue" data-continue>Continuer sur WhatsApp</a>
-        <button type="button" class="cb-btn cb-ask" data-track="wa_gate_assistant" data-open-chat>Demander d’abord à l’assistant</button>
+        <a class="cb-btn cb-wa" href="${waHref()}" target="_blank" rel="noopener noreferrer" data-track="wa_gate_continue" data-continue>Écrire sur WhatsApp</a>
+        <button type="button" class="cb-btn cb-ask" data-track="wa_gate_assistant" data-open-chat>Poser une question à l’assistant</button>
       </div>
       <p class="muted small">Pas WhatsApp ? Appelez ou envoyez un SMS au <a href="tel:${annonce.contact.telephoneIntl}">${annonce.contact.telephone}</a>.</p>
     </div>`;
