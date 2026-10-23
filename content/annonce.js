@@ -92,7 +92,7 @@ export const annonce = {
     {
       icone: 'Zap',
       titre: 'Charges : environ 235 € par mois',
-      texte: 'Chauffage collectif au gaz et eau compris (appel de fonds de 707 € par trimestre). En plus, l’électricité : environ 45 € par mois pour notre famille de quatre.',
+      texte: '707 € par trimestre : chauffage et eau chaude (gaz collectif), entretien, ascenseur, parking, fonds de travaux. Électricité à part : environ 45 € par mois à quatre.',
     },
     {
       icone: 'Car',
@@ -166,7 +166,7 @@ export const annonce = {
       icone: 'Euro',
       sujet: 'Les charges de copropriété',
       constat: 'Environ 235 € par mois : 707 € par trimestre, dont 34,50 € de fonds de travaux (loi ALUR). La quote-part du budget courant est de 2 691 € par an.',
-      experience: 'Elles comprennent le chauffage et l’eau chaude (chaudière collective au gaz, à condensation), l’eau et l’entretien des parties communes. Après la hausse du gaz, le budget de la copropriété a été ramené de 215 000 € à 200 000 € en 2025 grâce à un nouveau contrat. De notre côté, l’électricité revient à environ 45 à 47 € par mois à quatre.',
+      experience: 'Elles comprennent le chauffage et l’eau chaude (chaudière gaz collective), l’entretien, l’ascenseur, le parking et le fonds de travaux. Après la hausse du gaz, le budget de la copropriété a été ramené de 215 000 € à 200 000 € en 2025 grâce à un nouveau contrat. De notre côté, l’électricité revient à environ 45 à 47 € par mois à quatre.',
       solutions: 'Nous transmettons les appels de fonds, le budget et les procès-verbaux d’assemblée générale à toute personne intéressée.',
     },
   ],
@@ -194,7 +194,7 @@ export const annonce = {
     },
     {
       q: 'Et le DPE ?',
-      r: 'Le diagnostic de performance énergétique est à jour : classe énergie C, classe climat C, dépenses d’énergie estimées entre 603 € et 815 € par an (prix de l’énergie 2021 à 2023). Établi le 03/08/2026, valable jusqu’en 2036. Le chauffage collectif au gaz (chaudière à condensation) est inclus dans les charges. Le rapport complet est transmis aux acquéreurs qui le demandent.',
+      r: 'Le diagnostic de performance énergétique est à jour : classe énergie C, classe climat C, dépenses d’énergie estimées entre 603 € et 815 € par an (prix de l’énergie 2021 à 2023). Établi le 03/08/2026, valable jusqu’en 2036. Ce montant théorique comprend le chauffage et l’eau chaude (chaudière collective au gaz, à condensation), déjà payés dans les charges ; l’électricité est à part, environ 45 € par mois pour notre famille de quatre. Le rapport complet est transmis aux acquéreurs qui le demandent.',
     },
     {
       q: 'Et la taxe foncière ?',
@@ -215,10 +215,11 @@ export const annonce = {
   reglementaire: {
     dpeEnergie: 'C',
     dpeClimat: 'C',
-    depensesEnergie: 'entre 603 € et 815 € par an',
+    depensesEnergie: 'entre 603 € et 815 € par an (prix 2021 à 2023)',
+    depensesEnergieNote: 'Ce montant théorique comprend le chauffage et l’eau chaude, déjà payés dans les charges.',
     copropriete: true,
     lots: 259,
-    chargesAnnuelles: '2 691 €',
+    chargesAnnuelles: '2 691 € (charges courantes, hors fonds de travaux)',
     // Procédures de copropriété en difficulté (art. 29-1 A et 29-1 de la loi du 10/07/1965)
     procedures: 'Aucune (art. 29-1 A et 29-1 de la loi de 1965)',
   },

@@ -209,7 +209,7 @@ function renderReglementaire() {
     `<ul class="reg-list">
        <li><span>Classe énergie (DPE)</span><span>${val(r.dpeEnergie)}</span></li>
        <li><span>Classe climat (GES)</span><span>${val(r.dpeClimat)}</span></li>
-       <li><span>Montant estimé des dépenses annuelles d’énergie pour un usage standard</span><span>${val(r.depensesEnergie)}</span></li>
+       <li><span>Montant estimé des dépenses annuelles d’énergie pour un usage standard${r.depensesEnergieNote ? `<br><small class="muted">${esc(r.depensesEnergieNote)}</small>` : ''}</span><span>${val(r.depensesEnergie)}</span></li>
        <li><span>Copropriété</span><span>${r.copropriete ? `oui, ${esc(r.lots)} lots` : 'non'}</span></li>
        <li><span>Quote-part annuelle moyenne du budget prévisionnel</span><span>${val(r.chargesAnnuelles)}</span></li>
        <li><span>Procédure en cours</span><span>${val(r.procedures)}</span></li>
