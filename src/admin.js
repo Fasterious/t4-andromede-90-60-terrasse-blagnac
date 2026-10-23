@@ -13,7 +13,6 @@ const EVENTS = {
   wa_gate_assistant: 'Fenêtre : assistant d’abord',
   chat_whatsapp_click: 'WhatsApp depuis l’assistant',
   tel_click: 'Clics téléphone',
-  share_click: 'Partages',
 };
 
 const esc = (s) =>
