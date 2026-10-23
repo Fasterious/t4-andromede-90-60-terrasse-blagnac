@@ -14,15 +14,10 @@ export const annonce = {
   adresse: '1 rue Jacqueline Auriol, 31700 Blagnac',
 
   prix: {
-    montant: 249000,
-    affiche: '249 000 €',
+    montant: 239000,
+    affiche: '239 000 €',
     note: 'Prix net vendeur : vente directe entre particuliers, aucune commission d’agence',
   },
-
-  // Vente à durée limitée : formulation validée, à ne pas enrichir.
-  venteJusquau: '31 janvier 2027',
-  messageDuree:
-    'Vente à durée limitée : nous emménageons dans une maison. Si l’appartement n’a pas trouvé preneur au 31 janvier 2027, nous le mettrons en location. Nous préférons vous le dire dès maintenant.',
 
   // Badge mis en avant près du prix
   enDirect: 'Vente en direct · 0 € de frais d’agence',
@@ -176,7 +171,7 @@ export const annonce = {
     },
     {
       q: 'Jusqu’à quand est-il en vente ?',
-      r: 'Jusqu’au 31 janvier 2027. Ensuite, s’il n’est pas vendu, nous le mettrons en location.',
+      r: 'Nous aimerions le vendre cet hiver. Sinon, nous le mettrons en location, ce qui nous convient aussi.',
     },
     {
       q: 'Le prix est-il négociable ?',

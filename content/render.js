@@ -27,14 +27,6 @@ function section(id, titre, inner, extraClass = '') {
     </section>`;
 }
 
-function renderDuree() {
-  return `
-    <aside class="banner-duree" role="note">
-      <strong>En vente jusqu’au ${esc(annonce.venteJusquau)}</strong>
-      <span>${esc(annonce.messageDuree)}</span>
-    </aside>`;
-}
-
 function renderVideo() {
   if (!annonce.video.youtubeId) return '';
   const id = esc(annonce.video.youtubeId);
@@ -219,7 +211,7 @@ export function renderEnDirect() {
 }
 
 export function renderHeaderExtras() {
-  return renderChiffresCles() + renderDuree();
+  return renderChiffresCles();
 }
 
 export function htmlVars() {
@@ -228,7 +220,6 @@ export function htmlVars() {
     quartier: annonce.quartier,
     prix: annonce.prix.affiche,
     prixNote: annonce.prix.note,
-    venteJusquau: annonce.venteJusquau,
     noms: annonce.contact.noms,
     telephone: annonce.contact.telephone,
     telephoneIntl: annonce.contact.telephoneIntl,

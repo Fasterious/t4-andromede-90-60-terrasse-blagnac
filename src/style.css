@@ -676,22 +676,6 @@ a:hover {
   color: var(--muted);
 }
 
-.banner-duree {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  margin: 0.75rem 0 0;
-  padding: 0.9rem 1rem;
-  background: var(--amber-soft);
-  border-radius: 10px;
-  color: var(--amber);
-  font-size: 0.9rem;
-}
-
-.banner-duree strong {
-  font-size: 1rem;
-}
-
 .cards {
   list-style: none;
   margin: 0;
