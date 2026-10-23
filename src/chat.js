@@ -338,7 +338,7 @@ export function initChat() {
       `AVERTISSEMENT. ${NOTICE} Seuls les documents officiels (diagnostics, procès-verbaux, compromis) et les réponses écrites des propriétaires font foi.`,
       '',
       ...history.map((m) => `${m.role === 'user' ? 'Vous' : 'Assistant (IA)'} : ${m.content}\n`),
-      `Contact : ${annonce.contact.noms}, WhatsApp ${annonce.contact.whatsappAffiche}, appel ou SMS ${annonce.contact.telephone}`,
+      `Contact : ${annonce.contact.noms}, WhatsApp avec le bouton « Écrire sur WhatsApp » de l’annonce, appel ou SMS ${annonce.contact.telephone}`,
       `Annonce : ${window.location.origin}`,
     ];
     const name = `conversation-T4-Andromede-${date.toISOString().slice(0, 10)}.txt`;

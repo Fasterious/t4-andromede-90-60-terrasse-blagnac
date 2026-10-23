@@ -504,9 +504,13 @@ async function chargerCarte() {
       .bindPopup(`<strong>${p.nom}</strong><br>${p.detail}`)
       .addTo(carte)
   );
+  // Vue de départ : l'appartement et ses commerces (moins de 250 m) ; on dézoome pour le reste
+  const proches = marqueurs.filter((m, i) => carte.distance(points[0].gps, points[i].gps) < 250);
+  carte.fitBounds(L.featureGroup(proches).getBounds(), { paddingTopLeft: [40, 70], paddingBottomRight: [40, 30], maxZoom: 17 });
+
   // Commerces d'un même pied d'immeuble (moins de 60 m entre voisins) : éventail fixe,
-  // calculé une fois sur les distances réelles. Le zoom ne change rien : chaque pointe
-  // reste sur sa coordonnée ; tiges courtes et longues en alternance pour aérer les têtes.
+  // calculé une fois sur la vue de départ. Le zoom ne change rien : chaque pointe reste
+  // sur sa coordonnée ; tiges courtes et longues en alternance pour aérer les têtes.
   const EVENTAIL = {
     2: [-22, 22],
     3: [-40, 0, 40],
@@ -514,8 +518,11 @@ async function chargerCarte() {
     5: [-64, -32, 0, 32, 64],
     6: [-70, -42, -14, 14, 42, 70],
     7: [-72, -48, -24, 0, 24, 48, 72],
+    8: [-76, -54, -32, -11, 11, 32, 54, 76],
   };
+  const reglage = points.map(() => ({ a: 0, r: 0 }));
   const vus = new Set();
+  const groupes = [];
   points.forEach((p, i) => {
     if (vus.has(i) || p.maison) return;
     const g = [i];
@@ -527,13 +534,34 @@ async function chargerCarte() {
     if (g.length < 2) return;
     // De l'ouest à l'est, pour que les tiges ne se croisent pas
     g.sort((u, v) => points[u].gps[1] - points[v].gps[1]);
-    const angles = EVENTAIL[Math.min(g.length, 7)];
-    g.forEach((j, k) => marqueurs[j].setIcon(goutte(points[j], angles[k] ?? 0, g.length > 3 && k % 2 ? 52 : 24)));
+    const angles = EVENTAIL[Math.min(g.length, 8)];
+    g.forEach((j, k) => (reglage[j] = { a: angles[k] ?? 0, r: g.length > 3 && k % 2 ? 52 : 24 }));
+    groupes.push(g);
   });
-
-  // Vue de départ : l'appartement et ses commerces (moins de 250 m) ; on dézoome pour le reste
-  const proches = marqueurs.filter((m, i) => carte.distance(points[0].gps, points[i].gps) < 250);
-  carte.fitBounds(L.featureGroup(proches).getBounds(), { paddingTopLeft: [40, 70], paddingBottomRight: [40, 30], maxZoom: 17 });
+  // Têtes encore collées sur la vue de départ (commerces très serrés) : on allonge la tige
+  // de la goutte la plus à l'est, quelques passes au plus (calcul au zoom 17 au plus,
+  // pour que la vue de départ d'un grand écran reste propre un cran plus loin)
+  const zCalcul = Math.min(carte.getZoom(), 17);
+  const tete = (i) => {
+    const { a, r } = reglage[i];
+    const pt = carte.project(points[i].gps, zCalcul);
+    const d = (points[i].maison ? 37 : 30) + r - 13;
+    const rad = (a * Math.PI) / 180;
+    return [pt.x + d * Math.sin(rad), pt.y - d * Math.cos(rad)];
+  };
+  for (let passe = 0; passe < 4; passe++) {
+    let bouge = false;
+    groupes.flat().forEach((j) =>
+      points.forEach((q, i) => {
+        if (i === j || (points[i].gps[1] > points[j].gps[1] && groupes.flat().includes(i))) return;
+        const [x1, y1] = tete(i);
+        const [x2, y2] = tete(j);
+        if (Math.hypot(x1 - x2, y1 - y2) < 28) (reglage[j].r += 22), (bouge = true);
+      })
+    );
+    if (!bouge) break;
+  }
+  groupes.flat().forEach((j) => marqueurs[j].setIcon(goutte(points[j], reglage[j].a, reglage[j].r)));
   track('carte_open');
 }
 if (carteEl) {

@@ -13,7 +13,7 @@ function knowledge() {
     `${a.titre}. ${a.sousTitre}.`,
     `Adresse : ${a.adresse} (quartier ${a.quartier}).`,
     `Prix : ${a.prix.affiche}. ${a.prix.note}.`,
-    `Vendeurs : ${a.contact.noms}, propriétaires occupants. WhatsApp : ${a.contact.whatsappAffiche} (le bouton WhatsApp sous tes réponses ouvre directement la conversation). Pour qui n'a pas WhatsApp seulement : appel ou SMS à Corinne au ${a.contact.telephone}.`,
+    `Vendeurs : ${a.contact.noms}, propriétaires occupants. WhatsApp : uniquement par le bouton WhatsApp sous tes réponses ou en bas de l'écran, qui ouvre directement la conversation (tu ne connais pas ce numéro et tu n'écris jamais de numéro WhatsApp). Pour qui n'a pas WhatsApp seulement : appel ou SMS à Corinne au ${a.contact.telephone}.`,
     '',
     `# Leur histoire`,
     ...a.histoire,

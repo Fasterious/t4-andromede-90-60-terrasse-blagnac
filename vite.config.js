@@ -29,7 +29,9 @@ async function geolocaliser() {
     }
     return null;
   };
-  const lieux = [annonce, ...annonce.proximites].filter((p) => p.geo);
+  // Les positions relevées à la main sur Google Maps (`gpsVerifie`) priment : la BAN
+  // ne donne que l'entrée de l'adresse, pas la boutique
+  const lieux = [annonce, ...annonce.proximites].filter((p) => p.geo && !p.gpsVerifie);
   const trouves = await Promise.all(lieux.map((p) => situer(p.geo)));
   lieux.forEach((p, i) => {
     if (trouves[i]) p.gps = trouves[i].gps;
