@@ -111,8 +111,8 @@ export const annonce = {
   proximites: [
     { categorie: 'Enfants', icone: 'ToyBrick', lieu: 'Aire de jeux pour les petits, au pied de l’immeuble', distance: 'en bas de chez vous' },
     { categorie: 'Enfants', icone: 'Baby', lieu: 'Crèche municipale Cassiopée', distance: '≈ 1 min à pied', gps: [43.653525, 1.369001], gpsVerifie: true, geo: '50 rue George Sand, 31700 Blagnac' },
-    { categorie: 'Enfants', icone: 'GraduationCap', lieu: 'Groupe scolaire Les Perséides (maternelle et élémentaire)', distance: '≈ 13 min à pied', gps: [43.656987, 1.380421], gpsVerifie: true },
-    { categorie: 'Enfants', icone: 'GraduationCap', lieu: 'Le Ferradou (établissement privé : élémentaire, collège, lycée)', distance: '≈ 15 min à pied' },
+    { categorie: 'Enfants', icone: 'Ecoliers', lieu: 'Groupe scolaire Les Perséides (maternelle et élémentaire)', distance: '≈ 13 min à pied', gps: [43.656987, 1.380421], gpsVerifie: true },
+    { categorie: 'Enfants', icone: 'Ecoliers', lieu: 'Le Ferradou (établissement privé : élémentaire, collège, lycée)', distance: '≈ 15 min à pied' },
     { categorie: 'Enfants', icone: 'GraduationCap', lieu: 'Lycée Saint-Exupéry', distance: '≈ 7 min à pied', gps: [43.653763, 1.374846], gpsVerifie: true, geo: '1 place Alain Savary, 31700 Blagnac' },
     { categorie: 'Enfants', icone: 'Music', lieu: 'Conservatoire Résonance (musique et danse)', distance: '≈ 6 min à pied', gps: [43.65468, 1.374281], gpsVerifie: true, geo: '45 boulevard Alain Savary, 31700 Blagnac' },
     // Commerces de l'avenue d'Andromède : même rangée, positions espacées de quelques mètres pour la carte
