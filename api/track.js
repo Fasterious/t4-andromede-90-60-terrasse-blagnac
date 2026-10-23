@@ -13,6 +13,7 @@ const EVENTS = new Set([
   'whatsapp_click',
   'bar_whatsapp_click',
   'wa_gate_open',
+  'carte_open',
   'wa_gate_continue',
   'wa_gate_assistant',
   'tel_click',

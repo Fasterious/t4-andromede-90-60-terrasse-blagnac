@@ -46,13 +46,13 @@ export const annonce = {
     { icone: 'Ruler', valeur: '90,5 m²', label: 'Loi Carrez' },
     { icone: 'Sun', valeur: '63 m²', label: 'de terrasse' },
     { icone: 'BedDouble', valeur: '3 chambres', label: 'dont une suite' },
-    { icone: 'SquareParking', valeur: '2 parkings', label: 'en sous-sol' },
+    { icone: 'SquareParking', valeur: '2 parkings', label: 'en sous-sol, en enfilade' },
     { icone: 'Building2', valeur: '1er étage', label: 'avec ascenseur' },
     { icone: 'TramFront', valeur: 'Tram T1', label: '≈ 5 min à pied' },
   ],
 
   histoire: [
-    'Arnaud est Blagnacais depuis longtemps et a habité plusieurs quartiers de la ville. Ses deux préférés : le centre-ville, pour son charme, quand on en a les moyens… et Andromède.',
+    'Arnaud est Blagnacais depuis longtemps et a habité plusieurs quartiers de la ville. Celui qu’il préfère : Andromède.',
     'Quartier jeune aux équipements modernes, Andromède a tout pour une vie de famille à pied : crèche, écoles, lycée, commerces, restaurants. Et la rocade à deux minutes en voiture, sans en entendre le bruit.',
     'Nous ne vendons pas parce que nous n’y sommes pas bien : nous restons d’ailleurs dans le quartier. Nous télétravaillons tous les deux, Arnaud fait de la musique et notre famille s’est agrandie : il nous manque simplement une pièce.',
   ],
@@ -85,18 +85,18 @@ export const annonce = {
     },
     {
       icone: 'Zap',
-      titre: 'Chauffage et eau dans les charges',
-      texte: 'Résultat : une facture d’électricité d’environ 45 à 47 € par mois pour notre famille de quatre.',
+      titre: 'Charges : environ 230 € par mois',
+      texte: 'Chauffage et eau compris, en moyenne pour notre famille de quatre (avec des régularisations selon les budgets votés). En plus, l’électricité : environ 45 € par mois.',
     },
     {
       icone: 'Car',
       titre: '2 places de parking en sous-sol',
-      texte: 'Parking fermé et sécurisé, ascenseur, fibre optique.',
+      texte: 'En enfilade, dans un parking fermé et sécurisé. Ascenseur, fibre optique.',
     },
     {
       icone: 'Building2',
-      titre: 'Une résidence récente et calme',
-      texte: 'Immeuble de 2012. Voisinage agréable et varié : beaucoup de jeunes couples, avec ou sans enfants, et d’autres profils.',
+      titre: 'Une résidence récente, calme et bien gérée',
+      texte: 'Immeuble de 2012. Un syndic actif et réactif (Domitia), d’une vraie aide au quotidien. Voisinage agréable et varié : beaucoup de jeunes couples, avec ou sans enfants, et d’autres profils.',
     },
   ],
 
@@ -208,11 +208,12 @@ export const annonce = {
   },
 
   // Parcours de visite affiché sur le site.
+  // **gras** : mots clés de chaque étape (rendus en gras sur le site)
   parcoursVisite: [
-    'Prenez le temps de parcourir le site : photos, plan, quartier et points d’attention. La visite sert alors à confirmer, pas à découvrir.',
-    'Toujours intéressés ? Écrivez-nous sur WhatsApp : c’est le plus simple pour garder le fil de nos échanges et vous envoyer photos, plan ou documents. Quelques questions rapides sur votre projet, et nous fixons un créneau.',
-    'Première visite avec nous, environ 30 minutes : séjour, terrasse, chambres, suite parentale, puis un temps libre pour revoir ce que vous voulez, et le parking.',
-    'Avant une seconde visite ou une offre, nous demandons une attestation de financement (banque ou courtier) ou, en cas d’achat comptant, un justificatif des fonds. Nous vous transmettons alors le dossier complet : diagnostics, procès-verbaux d’assemblée générale, charges.',
-    'Offre écrite, réponse de notre part sous 48 h, puis compromis de vente chez le notaire.',
+    '**Parcourez le site** : photos, plan, quartier et points d’attention. La visite sert alors à confirmer, pas à découvrir.',
+    'Toujours intéressés ? **Écrivez-nous sur WhatsApp** : c’est le plus simple pour garder le fil de nos échanges et vous envoyer photos, plan ou documents. Quelques questions rapides sur votre projet, et nous fixons un créneau.',
+    '**Première visite** avec nous, environ 30 minutes : séjour, terrasse, chambres, suite parentale, puis un temps libre pour revoir ce que vous voulez, et le parking.',
+    'Avant une seconde visite ou une offre, **une attestation de financement** (banque ou courtier) ou, en cas d’achat comptant, un justificatif des fonds. Nous vous transmettons alors le dossier complet : diagnostics, procès-verbaux d’assemblée générale, charges.',
+    '**Offre écrite**, réponse de notre part sous 48 h, puis compromis de vente chez le notaire.',
   ],
 };

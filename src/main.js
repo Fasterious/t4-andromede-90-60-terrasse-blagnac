@@ -86,7 +86,11 @@ function scrollCarousel(i) {
 }
 
 function initCarousel() {
-  galleryDots.innerHTML = photos.map(() => '<span></span>').join('');
+  galleryDots.innerHTML = photos.map((p, i) => `<button type="button" aria-label="Photo ${i + 1}" data-i="${i}"></button>`).join('');
+  galleryDots.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-i]');
+    if (b) scrollCarousel(Number(b.dataset.i));
+  });
   let queued = false;
   galleryEl.addEventListener(
     'scroll',
@@ -465,4 +469,12 @@ document.addEventListener('click', (e) => {
   const open = btn.getAttribute('aria-expanded') !== 'true';
   btn.setAttribute('aria-expanded', String(open));
   if (panel) panel.hidden = !open;
+});
+
+// Carte du quartier : chargée seulement au clic (pas de cookies tiers avant)
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('[data-carte]');
+  if (!btn) return;
+  const q = encodeURIComponent(btn.dataset.carte);
+  btn.parentElement.innerHTML = `<iframe title="Carte du quartier Andromède" src="https://maps.google.com/maps?q=${q}&z=15&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>`;
 });

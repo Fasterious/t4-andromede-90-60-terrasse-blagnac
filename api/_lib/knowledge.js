@@ -40,7 +40,7 @@ function knowledge() {
     JSON.stringify(a.reglementaire),
     '',
     `# Comment les propriétaires proposent d'avancer, du site à la signature`,
-    ...a.parcoursVisite.map((e, i) => `${i + 1}. ${e}`),
+    ...a.parcoursVisite.map((e, i) => `${i + 1}. ${e.replace(/\*\*/g, '')}`),
   ].join('\n');
 }
 

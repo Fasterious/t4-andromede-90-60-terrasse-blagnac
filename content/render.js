@@ -30,7 +30,12 @@ const BANDES = {
 // Information secondaire repliée derrière un petit bouton « i » à droite du titre
 const INFOS = {
   plan: () => annonce.plan.mention,
+  reglementaire: () =>
+    'Les dépenses d’énergie ci-dessous sont une estimation réglementaire du diagnostic (DPE), pour un usage standard. Dans la réalité, le chauffage et l’eau sont compris dans les charges (environ 230 € par mois en moyenne), et notre facture d’électricité est d’environ 45 € par mois.',
 };
+
+// **gras** dans les textes simples (après échappement)
+const gras = (s) => esc(s).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
 
 function section(id, titre, inner, extraClass = '') {
   const info = INFOS[id]?.();
@@ -109,6 +114,11 @@ function renderQuartier() {
     'quartier',
     'Le quartier Andromède',
     `<p class="adresse">${icon('MapPin', 'ico ico-sm')} ${esc(annonce.adresse)} <span class="sep">·</span> <a href="${mapsUrl}" target="_blank" rel="noopener noreferrer" data-track="maps_click">calculer mes trajets</a></p>
+     <div class="carte" id="carte-quartier">
+       <button type="button" class="carte-ouvrir" data-carte="${esc(annonce.adresse)}" data-track="carte_open">${icon('Map', 'ico')}<span>Voir le quartier sur la carte</span></button>
+     </div>
+     <details class="proxi-details">
+       <summary><span>Temps de trajet depuis l’appartement · ${annonce.proximites.length} lieux</span></summary>
      <div class="proxi">
       ${Object.entries(groupes)
         .map(
@@ -126,7 +136,8 @@ function renderQuartier() {
         </div>`
         )
         .join('')}
-     </div>`
+     </div>
+     </details>`
   );
 }
 
@@ -159,7 +170,8 @@ function renderFaq() {
       ${annonce.faq
         .map((f) => `<details class="faq"><summary>${esc(f.q)}</summary><p>${esc(f.r)}</p></details>`)
         .join('')}
-     </div>`
+     </div>
+     <p class="faq-plus">Une autre question ? <button type="button" class="lien" data-open-chat>Posez-la à notre assistant</button>, qui connaît tout le contenu de cette page, ou écrivez-nous sur WhatsApp.</p>`
   );
 }
 
@@ -167,7 +179,7 @@ function renderVisite() {
   return section(
     'visite',
     'Comment nous vous proposons d’avancer',
-    `<ol class="steps">${annonce.parcoursVisite.map((e) => `<li>${esc(e)}</li>`).join('')}</ol>`
+    `<ol class="steps">${annonce.parcoursVisite.map((e) => `<li>${gras(e)}</li>`).join('')}</ol>`
   );
 }
 
@@ -221,7 +233,7 @@ const SEP = '<span class="sep" aria-hidden="true">·</span>';
 
 // Surtitre du bandeau : type de bien et quartier (le détail est dans les chiffres clés)
 export function renderSurtitre() {
-  return `T4 à vendre ${SEP} ${esc(annonce.quartier)}`;
+  return `<span class="hs-type">T4 à vendre</span> ${SEP} ${esc(annonce.quartier)}`;
 }
 
 export function renderEnDirect() {
