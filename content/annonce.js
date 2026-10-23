@@ -106,7 +106,7 @@ export const annonce = {
     { categorie: 'Enfants', icone: 'ToyBrick', lieu: 'Aire de jeux pour les petits, au pied de l’immeuble', distance: 'en bas de chez vous' },
     { categorie: 'Enfants', icone: 'Baby', lieu: 'Crèche municipale Cassiopée', distance: '≈ 1 min à pied' },
     { categorie: 'Enfants', icone: 'School', lieu: 'Groupe scolaire Les Perséides (maternelle et élémentaire)', distance: '≈ 13 min à pied' },
-    { categorie: 'Enfants', icone: 'School', lieu: 'Le Ferradou (établissement privé : élémentaire, collège, lycée)', distance: '≈ 15 min à pied', aConfirmer: true },
+    { categorie: 'Enfants', icone: 'School', lieu: 'Le Ferradou (établissement privé : élémentaire, collège, lycée)', distance: '≈ 15 min à pied' },
     { categorie: 'Enfants', icone: 'GraduationCap', lieu: 'Lycée Saint-Exupéry', distance: '≈ 7 min à pied' },
     { categorie: 'Enfants', icone: 'Music', lieu: 'Conservatoire Résonance (musique et danse)', distance: '≈ 6 min à pied' },
     { categorie: 'Quotidien', icone: 'Croissant', lieu: 'Boulangerie et fleuriste, avenue d’Andromède', distance: '≈ 3 min à pied' },
