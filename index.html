@@ -67,12 +67,15 @@
 
     <section class="gallery-section" id="photos" aria-label="Photos du bien">
       <div class="gallery-toolbar">
-        <h2>Photos</h2>
-        <button type="button" class="btn-fullscreen" id="open-gallery">
-          Plein écran
-        </button>
+        <h2>Photos <span class="gallery-count" id="gallery-count" aria-live="polite"></span></h2>
+        <div class="gallery-actions">
+          <button type="button" class="gallery-arrow" id="gallery-prev" aria-label="Photo précédente">‹</button>
+          <button type="button" class="gallery-arrow" id="gallery-next" aria-label="Photo suivante">›</button>
+          <button type="button" class="btn-fullscreen" id="open-gallery">Plein écran</button>
+        </div>
       </div>
       <div class="gallery" id="gallery"></div>
+      <div class="gallery-dots" id="gallery-dots" aria-hidden="true"></div>
     </section>
 
     <main class="content">

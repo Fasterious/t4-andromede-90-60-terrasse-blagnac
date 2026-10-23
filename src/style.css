@@ -223,21 +223,103 @@ a:hover {
   outline: none;
 }
 
+/* Galerie en bandeau horizontal (façon Netflix) : la photo suivante dépasse
+   sur le bord droit, défilement au doigt ou aux flèches, avec un début et une fin.
+   Ancienne grille : commit 6d531b9. */
 .gallery {
-  display: grid;
-  gap: 0.5rem;
+  display: flex;
+  gap: 0.6rem;
+  margin: 0 -1.25rem;
+  padding: 0 1.25rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 1.25rem;
+  scroll-behavior: smooth;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+}
+
+.gallery::-webkit-scrollbar {
+  display: none;
+}
+
+.gallery-count {
+  margin-left: 0.35rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.gallery-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.gallery-arrow {
+  display: none;
+  width: 36px;
+  height: 36px;
+  align-items: center;
+  justify-content: center;
+  appearance: none;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--bg);
+  color: var(--green);
+  font: inherit;
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.gallery-arrow:hover:not(:disabled) {
+  background: var(--green-soft);
+}
+
+.gallery-arrow:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+/* Flèches seulement avec une souris ; au doigt, on fait glisser */
+@media (hover: hover) and (pointer: fine) {
+  .gallery-arrow {
+    display: inline-flex;
+  }
+}
+
+.gallery-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.35rem;
+  margin-top: 0.75rem;
+}
+
+.gallery-dots span {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: #d4d4d4;
+  transition: width 0.25s, background 0.25s;
+}
+
+.gallery-dots span.on {
+  width: 18px;
+  background: var(--green);
 }
 
 .gallery-item {
   position: relative;
+  flex: 0 0 86%;
+  scroll-snap-align: start;
   border: none;
   padding: 0;
   background: #f4f4f4;
-  border-radius: 8px;
+  border-radius: 12px;
   overflow: hidden;
   cursor: pointer;
   aspect-ratio: 4 / 3;
-  width: 100%;
 }
 
 .gallery-item img {
@@ -490,17 +572,16 @@ a:hover {
 }
 
 @media (min-width: 640px) {
-  .gallery {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .gallery-item:first-child {
-    grid-column: 1 / -1;
-    aspect-ratio: 16 / 9;
+  .gallery-item {
+    flex-basis: 80%;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .gallery {
+    scroll-behavior: auto;
+  }
+
   .gallery-item img {
     transition: none;
   }

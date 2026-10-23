@@ -56,6 +56,56 @@ function renderGallery() {
   galleryEl.querySelectorAll('.gallery-item').forEach((btn) => {
     btn.addEventListener('click', () => openLightbox(Number(btn.dataset.index)));
   });
+  initCarousel();
+}
+
+// Bandeau horizontal : compteur « 3 / 9 », points de progression, flèches
+// (souris) et retour sur la dernière photo vue en refermant le plein écran
+const galleryCount = document.getElementById('gallery-count');
+const galleryDots = document.getElementById('gallery-dots');
+const galleryPrev = document.getElementById('gallery-prev');
+const galleryNext = document.getElementById('gallery-next');
+let carouselIndex = 0;
+
+function carouselStep() {
+  const items = galleryEl.children;
+  return items.length > 1 ? items[1].offsetLeft - items[0].offsetLeft : galleryEl.clientWidth;
+}
+
+function showCarousel(i) {
+  carouselIndex = Math.max(0, Math.min(photos.length - 1, i));
+  galleryCount.textContent = `${carouselIndex + 1} / ${photos.length}`;
+  [...galleryDots.children].forEach((d, k) => d.classList.toggle('on', k === carouselIndex));
+  galleryPrev.disabled = carouselIndex === 0;
+  galleryNext.disabled = carouselIndex === photos.length - 1;
+}
+
+function scrollCarousel(i) {
+  const target = Math.max(0, Math.min(photos.length - 1, i));
+  galleryEl.scrollTo({ left: target * carouselStep() });
+}
+
+function initCarousel() {
+  galleryDots.innerHTML = photos.map(() => '<span></span>').join('');
+  let queued = false;
+  galleryEl.addEventListener(
+    'scroll',
+    () => {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(() => {
+        queued = false;
+        const max = galleryEl.scrollWidth - galleryEl.clientWidth;
+        // En butée à droite, la dernière photo est la courante
+        const i = galleryEl.scrollLeft >= max - 2 ? photos.length - 1 : Math.round(galleryEl.scrollLeft / carouselStep());
+        if (i !== carouselIndex) showCarousel(i);
+      });
+    },
+    { passive: true }
+  );
+  galleryPrev.addEventListener('click', () => scrollCarousel(carouselIndex - 1));
+  galleryNext.addEventListener('click', () => scrollCarousel(carouselIndex + 1));
+  showCarousel(0);
 }
 
 function renderThumbs() {
@@ -169,6 +219,7 @@ async function closeLightbox() {
   lightbox.hidden = true;
   lightbox.setAttribute('aria-hidden', 'true');
   document.body.style.overflow = '';
+  scrollCarousel(currentIndex);
 }
 
 // Fait glisser tout le bandeau d'un cran (direction +1 = suivante, -1 = précédente),
