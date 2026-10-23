@@ -1699,12 +1699,12 @@ html.chat-open body {
 .sommaire a {
   display: inline-flex;
   align-items: center;
-  min-height: 30px;
-  padding: 0.2rem 0.7rem;
+  min-height: 32px;
+  padding: 0.25rem 0.75rem;
   border: 1px solid var(--border);
   border-radius: 999px;
   color: var(--green);
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   font-weight: 600;
   text-decoration: none;
   background: var(--bg);
