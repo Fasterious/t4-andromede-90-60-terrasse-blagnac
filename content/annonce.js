@@ -202,7 +202,7 @@ export const annonce = {
     },
     {
       q: 'Qu’est-ce qui reste dans l’appartement ?',
-      r: 'La cuisine équipée : plaque induction, lave-vaisselle, four et micro-ondes intégrés. Seul le réfrigérateur est à prévoir.',
+      r: 'La cuisine équipée : plaque induction, lave-vaisselle, four et micro-ondes intégrés. Et le meuble télé du salon : il est fixé, moderne et bien intégré, ce qui évite un meuble trop massif. Si vous préférez, nous le retirons. Seul le réfrigérateur est à prévoir.',
     },
     {
       q: 'Comment se passe une visite ?',
