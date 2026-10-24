@@ -58,7 +58,7 @@ export const annonce = {
   ],
 
   histoire: [
-    'Arnaud est Blagnacais depuis longtemps et a habité plusieurs quartiers de la ville. Celui qu’il préfère : Andromède.',
+    'Arnaud est né à Blagnac et y a toujours vécu. Il connaît la ville comme sa poche et en a habité plusieurs quartiers : de tous, celui qu’il préfère aujourd’hui, c’est Andromède.',
     'Quartier jeune aux équipements modernes, Andromède a tout pour une vie de famille à pied : crèche, écoles, lycée, commerces, restaurants. Et la rocade à deux minutes en voiture, sans en entendre le bruit.',
     'Nous ne vendons pas parce que nous n’y sommes pas bien : nous restons d’ailleurs dans le quartier. Nous télétravaillons tous les deux, Arnaud fait de la musique et notre famille s’est agrandie : il nous manque simplement une pièce.',
   ],
