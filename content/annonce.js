@@ -91,8 +91,8 @@ export const annonce = {
     },
     {
       icone: 'Zap',
-      titre: 'Charges : environ 235 € par mois pour 4 personnes',
-      texte: '707 € par trimestre : chauffage et eau chaude (gaz collectif), entretien, ascenseur, parking, fonds de travaux. Électricité à part : environ 45 € par mois.',
+      titre: 'Chauffage et eau chaude compris',
+      texte: 'Charges : environ 235 € par mois pour 4 personnes (gaz collectif), avec aussi l’entretien, l’ascenseur, le parking et le fonds de travaux. Électricité à part : environ 45 € par mois.',
     },
     {
       icone: 'Car',
